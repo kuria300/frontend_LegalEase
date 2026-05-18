@@ -1,5 +1,120 @@
 @import "tailwindcss";
 
 @theme {
-    --color-primary:#fff
+  --color-surface: #f9f9ff;
+  --color-surface-dim: #cfdaf1;
+  --color-surface-bright: #f9f9ff;
+
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f0f3ff;
+  --color-surface-container: #e7eeff;
+  --color-surface-container-high: #dee8ff;
+  --color-surface-container-highest: #d8e3fa;
+
+  --color-on-surface: #111c2c;
+  --color-on-surface-variant: #44474f;
+
+  --color-inverse-surface: #263142;
+  --color-inverse-on-surface: #ebf1ff;
+
+  --color-outline: #747780;
+  --color-outline-variant: #c4c6d0;
+
+  --color-surface-tint: #445f8c;
+
+  --color-primary: #000e27;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #00234e;
+  --color-on-primary-container: #728bbc;
+  --color-inverse-primary: #adc7fb;
+
+  --color-secondary: #735c00;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #fed65b;
+  --color-on-secondary-container: #745c00;
+
+  --color-tertiary: #0c0f10;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #212425;
+  --color-on-tertiary-container: #898b8c;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  --color-primary-fixed: #d7e3ff;
+  --color-primary-fixed-dim: #adc7fb;
+  --color-on-primary-fixed: #001b3e;
+  --color-on-primary-fixed-variant: #2c4773;
+
+  --color-secondary-fixed: #ffe088;
+  --color-secondary-fixed-dim: #e9c349;
+  --color-on-secondary-fixed: #241a00;
+  --color-on-secondary-fixed-variant: #574500;
+
+  --color-tertiary-fixed: #e1e3e4;
+  --color-tertiary-fixed-dim: #c5c7c8;
+  --color-on-tertiary-fixed: #191c1d;
+  --color-on-tertiary-fixed-variant: #454748;
+
+  --color-background: #f9f9ff;
+  --color-on-background: #111c2c;
+
+  --color-surface-variant: #d8e3fa;
+}
+
+@layer base{
+  /* homepage navbar */
+  .home-navbar {
+    @apply fixed bg-surface-dim w-full h-20 px-6 flex items-center
+  }
+  .btn-sign{
+    @apply bg-primary-container rounded-lg text-on-primary px-4 py-2 hover:bg-primary-container transition-all
+  }
+  .btn-login{
+    @apply hover:text-secondary transition-colors px-2 font-semibold
+  }
+  /* footer page */
+  .footer-container{
+    @apply bg-primary text-on-primary py-24 border-t border-on-primary/10
+  }
+  .footer-position{
+    @apply max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-6
+  }
+  .footer-year_section{
+    @apply max-w-7xl mx-auto px-3 mt-4 pt-4 border-t border-on-primary/20 flex flex-col md:flex-row justify-center items-center gap-7
+  }
+  .footer-links{
+    @apply hover:text-secondary transition-colors
+  }
+  
+}
+
+@layer components{
+  /* homepage hero section */
+  .Hero-container{
+    @apply max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center pt-24 gap-12 px-16 py-20
+  }
+  /* left */
+  .left-hero_section{
+    @apply flex flex-col gap-4 mt-12
+  }
+  .home-btn_collection{
+    @apply flex flex-row max-sm:flex-col gap-2 flex-wrap max-sm:w-72
+  }
+  .btn-AI{
+    @apply bg-primary px-8 py-4 rounded-xl text-on-primary hover:bg-primary-container transition-all
+  }
+  .btn-lawyers{
+    @apply border-2 border-primary rounded-xl px-8 py-4 hover:bg-primary hover:text-on-primary
+  }
+   /* right */
+  .right-hero_section{
+    @apply relative w-full max-w-2xl mx-auto pt-24 mt-12
+  }
+  .chatbot-section{
+    @apply bg-surface-container-lowest rounded-2xl shadow-lg border border-outline-variant flex flex-col h-[400px]
+  }
+
 }
