@@ -5,7 +5,7 @@ const Button = ({children, type="button", className="", ...props}) => {
    <>
    <button 
    type={type}
-   className={`bg-primary text-white w-full px-6 py-3 rounded-lg hover:bg-primary-container ${className}`}
+   className={`bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-container transition-all cursor-pointer ${className}`}
    {...props}
    >
     {children}
