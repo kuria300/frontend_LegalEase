@@ -1,5 +1,6 @@
 import Footer from "../../components/layout/Footer"
 import HomeNavbar from "../../components/layout/HomeNavbar"
+import ChatBox from "../../components/chat/Chatbot"
 
 function HomePage(){
 
@@ -32,7 +33,7 @@ function HomePage(){
                  {/* right side information */}
                  <div className="right-hero_section">
                    <div className="chatbot-section">
-
+                     <ChatBox />
                    </div>
                  </div>
 
