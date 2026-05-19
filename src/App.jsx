@@ -8,6 +8,8 @@ import LoginPage from "./pages/login/LoginPage"
 //import CategorySelection from "./components/chat/CategorySelection"
 //import SubcategorySelection from "./components/chat/SubcategorySelection"
 import { Icon } from "lucide-react"
+import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
+import LawyerCard from "./components/LawyerCard"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
 function App() {
 

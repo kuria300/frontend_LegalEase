@@ -11,7 +11,7 @@ const HomeNavbar = () => {
 
       <nav className="hidden sm:flex flex-1 justify-center">
         <ul className="flex flex-row gap-8 items-center">
-        <Link to="/find-lawyer">
+        <Link to="/find-lawyers">
            <button className="btn-login">Find Lawyers</button>
         </Link>
           <Link to="/about">
