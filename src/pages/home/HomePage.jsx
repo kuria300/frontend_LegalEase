@@ -1,6 +1,7 @@
 import Footer from "../../components/layout/Footer"
 import HomeNavbar from "../../components/layout/HomeNavbar"
-//import ChatBox from "../../components/chat/Chatbot"
+import ChatBox from "../../components/chat/SubcategorySelection"
+import { Verified, Clock, Banknote, Zap } from "lucide-react";
 
 function HomePage(){
     return(
@@ -52,28 +53,28 @@ function HomePage(){
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-                    <div class="box-card_section">
+                    <div className="box-card_section">
                       <Verified className="text-secondary mb-2"/>
-                      <h4 class="text-primary mb-2 font-medium">Verified Lawyers</h4>
-                      <p class="text-[14px] text-on-surface-variant">All our advocates are LSK-certified and thoroughly vetted.</p>
+                      <h4 className="text-primary mb-2 font-medium">Verified Lawyers</h4>
+                      <p className="text-[14px] text-on-surface-variant">All our advocates are LSK-certified and thoroughly vetted.</p>
                     </div>
 
-                     <div class="box-card_section">
+                     <div className="box-card_section">
                       <Clock className="text-secondary mb-2"/>
-                      <h4 class="text-primary mb-2 font-medium">24/7 Availability</h4>
-                      <p class="text-[14px] text-on-surface-variant">Our AI assistant is ready to help any time of day or night.</p>
+                      <h4 className="text-primary mb-2 font-medium">24/7 Availability</h4>
+                      <p className="text-[14px] text-on-surface-variant">Our AI assistant is ready to help any time of day or night.</p>
                     </div>
 
-                     <div class="box-card_section">
+                     <div className="box-card_section">
                       <Banknote className="text-secondary mb-2"/>
-                      <h4 class="text-primary mb-2 font-medium">Transparent Pricing</h4>
-                      <p class="text-[14px] text-on-surface-variant">Upfront costs with no hidden fees. Pay easily through mobile money.</p>
+                      <h4 className="text-primary mb-2 font-medium">Transparent Pricing</h4>
+                      <p className="text-[14px] text-on-surface-variant">Upfront costs with no hidden fees. Pay easily through mobile money.</p>
                     </div>
 
-                     <div class="box-card_section">
+                     <div className="box-card_section">
                       <Zap className="text-secondary mb-2"/>
-                      <h4 class="text-primary mb-2 font-medium">Instant Responses</h4>
-                      <p class="text-[14px] text-on-surface-variant">AI-powered preliminary research gives you answers in seconds.</p>
+                      <h4 className="text-primary mb-2 font-medium">Instant Responses</h4>
+                      <p className="text-[14px] text-on-surface-variant">AI-powered preliminary research gives you answers in seconds.</p>
                     </div>
                   </div>
                 </div>
