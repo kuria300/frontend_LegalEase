@@ -1,6 +1,6 @@
 import Footer from "../../components/layout/Footer"
 import HomeNavbar from "../../components/layout/HomeNavbar"
-import ChatBox from "../../components/chat/Chatbot"
+//import ChatBox from "../../components/chat/Chatbot"
 
 function HomePage(){
     return(
@@ -37,7 +37,7 @@ function HomePage(){
                    </div>
 
                  </div>
-                </div>
+                
               </section>
               {/* section 3 */}
               <section className="bg-background py-8">
