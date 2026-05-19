@@ -48,7 +48,7 @@ const LoginPage = () => {
              <a class="text-secondary font-medium hover:underline transition-all" href="#">Forgot Password?</a>
           </div>
            {/* login button */}
-          <Button>
+          <Button className='w-full'>
             Login
           </Button>
         

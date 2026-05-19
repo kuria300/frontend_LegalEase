@@ -179,6 +179,10 @@
    .client-btn{
     @apply flex-1 py-2 rounded-lg bg-primary-container text-on-primary shadow-sm transition-all duration-300
    }
+   /* otp input */
+   .otp-input{
+    @apply w-10 h-14 sm:w-14 sm:h-16 text-center font-bold border-2 border-outline-variant bg-surface-container-lowest rounded-lg
+   }
    
 
   .chatbot-section {

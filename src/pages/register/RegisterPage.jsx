@@ -74,7 +74,7 @@ const RegisterPage = () => {
             icon={<Shield />}
           />
           {/* create button */}
-          <Button>
+          <Button className='w-full'>
             Create Account
           </Button>
 
