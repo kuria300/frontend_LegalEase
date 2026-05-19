@@ -36,8 +36,8 @@ function HomePage(){
                      <ChatBox />
                    </div>
 
-                 
-                </div>
+                 </div>
+                
               </section>
               {/* section 3 */}
               <section className="bg-background py-8">
