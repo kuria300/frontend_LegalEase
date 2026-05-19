@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { X, CalendarCheck, Loader2, AlertCircle } from "lucide-react";
 import DatePicker from "./DatePicker";
 import TimeSlotPicker from "./TimeSlotPicker";
-import { getAvailableSlots, createBooking } from "../../api/bookingApi";
-import { formatCurrency } from "../../utils/formatCurrency";
-import { toDateString, createParsedDate } from "../../utils/date.utils";
+import { getAvailableSlots, createBooking } from "../../../api/booking/bookingApi";
+import { formatCurrency } from "../../../utils/formatCurrency";
+import { toDateString, createParsedDate } from "../../../utils/date.utils";
 
 const MEETING_TYPES = ["Video Call (Google Meet)", "Phone Call", "In-Person"];
 

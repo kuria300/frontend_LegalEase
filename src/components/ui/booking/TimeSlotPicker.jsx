@@ -1,5 +1,5 @@
 import { Clock } from "lucide-react";
-import { formatTime } from "../../utils/formatTime";
+import { formatTime } from "../../../utils/formatTime";
 
 const TimeSlotPicker = ({ slots, selectedTime, onTimeSelect, loading }) => {
 
