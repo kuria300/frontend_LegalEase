@@ -67,7 +67,7 @@
 @layer base{
   /* homepage navbar */
   .home-navbar {
-    @apply fixed bg-surface-dim w-full h-20 px-6 flex items-center
+    @apply bg-white w-full h-20 px-6 flex items-center
   }
   .btn-sign{
     @apply bg-primary-container rounded-lg text-on-primary px-4 py-2 hover:bg-primary-container transition-all
@@ -94,11 +94,11 @@
 @layer components{
   /* homepage hero section */
   .Hero-container{
-    @apply max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center pt-24 gap-12 px-16 py-20
+    @apply max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 px-12 py-14 lg:py-16
   }
   /* left */
   .left-hero_section{
-    @apply flex flex-col gap-4 mt-12
+    @apply flex flex-col gap-5
   }
   .home-btn_collection{
     @apply flex flex-row max-sm:flex-col gap-2 flex-wrap max-sm:w-72
@@ -111,10 +111,54 @@
   }
    /* right */
   .right-hero_section{
-    @apply relative w-full max-w-2xl mx-auto pt-24 mt-12
+    @apply relative w-full max-w-2xl mx-auto
   }
   .chatbot-section{
-    @apply bg-surface-container-lowest rounded-2xl shadow-lg border border-outline-variant flex flex-col h-[400px]
+    @apply bg-surface-container-lowest rounded-2xl shadow-lg shadow-primary-fixed-dim/80 border border-outline-variant flex flex-col h-[400px]
   }
+  .input-chatbot{
+    @apply flex-1 bg-surface-container-low border-none rounded-lg px-4 py-2 focus:ring-1 focus:ring-primary placeholder:text-outline
+  }
+  .btn-chatbot{
+    @apply bg-primary text-on-primary w-10 h-10 rounded-lg flex items-center justify-center hover:bg-primary-container transition-colors
+  }
+
+  /* section 2 */
+  .legal-container{
+    @apply min-h-[65vh] bg-surface-container text-center;
+  }
+  .legal-container_section{
+    @apply flex gap-2 flex-col text-center mb-12;
+  }
+  .box-card{
+    @apply bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all border 
+           border-outline-variant flex flex-col items-start gap-2 text-left
+  }
+  .box-content{
+    @apply w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center mb-6 transition-transform duration-300
+  }
+  /* section 3 */
+  .box-card_section{
+    @apply p-4 rounded-xl border border-outline-variant hover:border-primary transition-all hover:-translate-y-1 shadow-xl
+  }
+
+
+  /* Login page */
+  .login-container{
+    @apply flex flex-col items-center justify-center min-h-screen bg-white p-8 md:p-12
+  }
+   .input{
+    @apply w-full pl-10 pr-4 py-3 bg-white border-[1.5px] border-outline-variant/60 rounded-xl text-on-surface
+          placeholder:text-outline/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200
+   }
+
+   /* register page */
+   .lawyer-btn{
+    @apply flex-1 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all duration-300 active:bg-primary-container
+   }
+   .client-btn{
+    @apply flex-1 py-2 rounded-lg bg-primary-container text-on-primary shadow-sm transition-all duration-300
+   }
+   
 
 }
