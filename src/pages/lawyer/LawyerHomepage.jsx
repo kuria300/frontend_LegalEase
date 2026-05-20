@@ -1,4 +1,3 @@
-// src/pages/lawyer/LawyerHomepage.jsx
 import { useState } from "react";
 import { Users, Clock, TrendingUp, Wallet, CalendarDays, ChevronRight, Circle } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";

@@ -52,7 +52,7 @@ body { font-family: var(--font); background: var(--color-bg); color: var(--color
   min-height: 60px;
 }
 .ld-logo-img {
-  height: 48px;
+  height: 72px;
   width: auto;
   object-fit: contain;
 }

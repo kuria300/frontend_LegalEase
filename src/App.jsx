@@ -15,7 +15,7 @@ import Verifyotp from "./pages/verifyotp/Verifyotp"
 // Lawyer Dashboard
 import LawyerDashboardLayout from "./components/layout/LawyerDashboardLayout"
 import LawyerHomepage from "./pages/lawyer/LawyerHomepage"
-
+import ConsultationList from "./pages/lawyer/ConsultationList"
 const Placeholder = ({ title }) => (
   <div style={{ padding: 20 }}>
     <h2 style={{ fontFamily: "sans-serif", color: "#101828" }}>{title}</h2>
@@ -45,7 +45,7 @@ function App() {
         {/*Lawyer dashboard routes*/}
         <Route path="/lawyer" element={<LawyerDashboardLayout />}>
           <Route index element={<LawyerHomepage />} />
-          <Route path="consultations" element={<Placeholder title="Bookings Page" />} />
+          <Route path="consultations" element={<ConsultationList />} />
           <Route path="profile" element={<Placeholder title="Profile Page" />} />
           <Route path="calendar"      element={<Placeholder title="Calendar" />} />
           <Route path="settings" element={<Placeholder title="Settings Page" />} />
