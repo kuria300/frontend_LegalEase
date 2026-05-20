@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Search, Calendar, Clock, MoreHorizontal, Eye, X } from "lucide-react";
-import "../../assets/styles/consultationList.css";
+
 
 const MOCK_CONSULTATIONS = [
   { id: 1,  client: "Nick Lemeria",   initials: "NL", date: "2025-05-20", time: "10:00 AM", type: "Contract Review",      status: "upcoming",   duration: 60  },
