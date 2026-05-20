@@ -36,25 +36,30 @@ const LawyerMarketplace = () => {
 
     fetchData();
   }, []);
+// FILTER LOGIC (Updated to match Prisma first_name & second_name)
+useEffect(() => {
+  let result = [...lawyers];
 
-  // FILTER LOGIC (safe + null-proof)
-  useEffect(() => {
-    let result = [...lawyers];
+  // 1. Category Filter
+  if (selectedCategory !== "All") {
+    result = result.filter(
+      (lawyer) => lawyer?.category === selectedCategory
+    );
+  }
 
-    if (selectedCategory !== "All") {
-      result = result.filter(
-        (lawyer) => lawyer?.category === selectedCategory
-      );
-    }
+  // 2. Search Filter (Combines split database names)
+  if (search.trim() !== "") {
+    result = result.filter((lawyer) => {
+      const firstName = lawyer?.lawyer_applications?.users?.first_name || "";
+      const secondName = lawyer?.lawyer_applications?.users?.second_name || "";
+      const fullName = `${firstName} ${secondName}`.toLowerCase();
+      
+      return fullName.includes(search.toLowerCase());
+    });
+  }
 
-    if (search.trim() !== "") {
-      result = result.filter((lawyer) =>
-        lawyer?.name?.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
-    setFilteredLawyers(result);
-  }, [search, selectedCategory, lawyers]);
+  setFilteredLawyers(result);
+}, [search, selectedCategory, lawyers]);
 
   return (
     <section className="min-h-screen bg-gray-50 px-6 py-12">
@@ -67,7 +72,7 @@ const LawyerMarketplace = () => {
   <img
     src={Legalease}
     alt="LegalEase Logo"
-className="w-24 h-24 object-contain mb-4"  />
+className="w-40 h-40 object-contain mb-4"  />
 
           <h1 className="text-primary text-4xl font-bold">
             Find Verified Lawyers
