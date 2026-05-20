@@ -1,6 +1,7 @@
 import Footer from "../../components/layout/Footer"
 import HomeNavbar from "../../components/layout/HomeNavbar"
 import { Bot, SendHorizonal, MessageSquare, CalendarCheck, UserRoundSearch, Verified, Clock, Banknote, Zap } from "lucide-react"
+import { Verified, Clock, Banknote, Zap } from "lucide-react";
 
 function HomePage(){
     return(
@@ -111,7 +112,7 @@ function HomePage(){
                    </div>
 
                  </div>
-                </div>
+                
               </section>
               {/* section 3 */}
               <section className="bg-background py-8">

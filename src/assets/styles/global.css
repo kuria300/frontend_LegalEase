@@ -183,4 +183,100 @@
     @apply w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low hover:border-primary text-on-surface transition-all duration-200
   }
 
+
+/* Booking Modal */ 
+  .booking-modal-overlay {
+    @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4;
+  }
+  .booking-modal-card {
+    @apply bg-surface-container-lowest rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-xl;
+  }
+  .booking-modal-header {
+    @apply bg-primary rounded-t-2xl px-6 py-5 text-center relative;
+  }
+  .booking-modal-body {
+    @apply p-6 space-y-6;
+  }
+  .booking-section-label {
+    @apply block text-sm font-medium text-on-surface mb-3;
+  }
+  .booking-close-btn {
+    @apply absolute top-4 right-4 bg-on-primary/10 hover:bg-on-primary/20
+           text-on-primary rounded-full p-1 transition-colors cursor-pointer;
+  }
+
+  /* Date Picker */
+  .datepicker-nav-btn {
+    @apply p-1.5 rounded-lg hover:bg-surface-container transition-colors
+           disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer;
+  }
+  .datepicker-month-label {
+    @apply text-sm font-medium text-on-surface;
+  }
+  .datepicker-day-header {
+    @apply text-center text-xs font-medium text-on-surface-variant py-1;
+  }
+  .datepicker-day-btn {
+    @apply h-9 w-full rounded-lg text-xs font-medium transition-colors;
+  }
+  .datepicker-day-selected {
+    @apply bg-secondary-container text-on-secondary-container font-semibold;
+  }
+  .datepicker-day-today {
+    @apply bg-surface-container text-on-surface;
+  }
+  .datepicker-day-default {
+    @apply text-on-surface hover:bg-surface-container cursor-pointer;
+  }
+  .datepicker-day-weekend {
+    @apply text-outline-variant opacity-40 cursor-not-allowed;
+  }
+  .datepicker-day-disabled {
+    @apply text-outline-variant opacity-30 cursor-not-allowed;
+  }
+
+  /* Time Slot Picker */
+  .timeslot-btn {
+    @apply h-11 rounded-lg text-sm transition-all;
+  }
+  .timeslot-selected {
+    @apply border-2 border-secondary bg-surface-container-lowest
+           text-secondary font-medium;
+  }
+  .timeslot-unavailable {
+    @apply border border-outline-variant bg-surface-container
+           text-outline cursor-not-allowed;
+  }
+  .timeslot-default {
+    @apply border border-outline-variant bg-surface-container-lowest
+           text-on-surface hover:border-secondary hover:text-secondary
+           cursor-pointer;
+  }
+
+  /* Meeting Type Select */
+  .booking-select {
+    @apply w-full px-3 py-2.5 rounded-lg border border-outline-variant
+           bg-surface-container-lowest text-on-surface text-sm
+           focus:outline-none focus:ring-2 focus:ring-secondary/30
+           focus:border-secondary cursor-pointer;
+  }
+
+  /* Book Button */
+  .booking-submit-btn {
+    @apply w-full py-3.5 rounded-xl text-sm font-medium flex items-center
+           justify-center gap-2 transition-all bg-secondary text-on-secondary
+           hover:opacity-90 active:scale-[0.98] cursor-pointer;
+  }
+  .booking-submit-btn-disabled {
+    @apply w-full py-3.5 rounded-xl text-sm font-medium flex items-center
+           justify-center gap-2 bg-surface-container text-outline
+           cursor-not-allowed;
+  }
+
+  /* Error Banner */
+  .booking-error {
+    @apply flex items-start gap-2 bg-error-container border border-error/20
+           rounded-lg px-3 py-2.5 text-sm text-on-error-container;
+  }
+
 }
