@@ -10,6 +10,8 @@ import LawyerCard from "./components/LawyerCard"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
 import Dashboard from "./pages/dashboard/Dashboard"
 
+import Emailotp from "./pages/forgot-password/Emailotp"
+
 function App() {
 
   return (
@@ -22,6 +24,7 @@ function App() {
         <Route path='/verifyOtp' element={<Verifyotp />} />
         <Route path="/find-lawyers" element = {<LawyerMarketplace/>}/>
         <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/email-otp" element={<Emailotp />} />
 
         {/* Chat routes temporarily disabled */}
 

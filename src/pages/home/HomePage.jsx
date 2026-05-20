@@ -1,7 +1,6 @@
 import Footer from "../../components/layout/Footer"
 import HomeNavbar from "../../components/layout/HomeNavbar"
 import { Bot, SendHorizonal, MessageSquare, CalendarCheck, UserRoundSearch, Verified, Clock, Banknote, Zap } from "lucide-react"
-import { Verified, Clock, Banknote, Zap } from "lucide-react";
 
 function HomePage(){
     return(
@@ -111,6 +110,7 @@ function HomePage(){
                       </p>
                    </div>
 
+                 </div>
                  </div>
                 
               </section>
