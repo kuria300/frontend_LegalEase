@@ -55,14 +55,14 @@ const SubcategorySelection = ({ category, onSelectSubcategory }) => {
   const options = subcategories[category] || [];
 
   return (
-    <div className="my-6 flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       {options.map((option, idx) => (
         <button
           key={idx}
           onClick={() => onSelectSubcategory(option)}
-          className="subcategory-btn"
+          className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition border border-gray-100"
         >
-          <span className="text-sm text-on-surface">{option}</span>
+          {option}
         </button>
       ))}
     </div>
