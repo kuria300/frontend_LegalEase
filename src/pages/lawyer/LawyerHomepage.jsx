@@ -7,7 +7,7 @@ const MOCK_STATS = {
   totalClients: 142,
   pendingRequests: 8,
   activeConsult: 3,
-  earnings: 450000,
+  earnings: 256000,
 };
 
 const MOCK_BOOKINGS = [
@@ -28,9 +28,9 @@ const MOCK_BOOKINGS = [
 ];
 
 const MOCK_NEW_CLIENTS = [
-  { id: 1, name: "Grace Wanjiku", initials: "GW", date: "Today, 9:00 AM"  },
-  { id: 2, name: "Peter Otieno",  initials: "PO", date: "Today, 11:30 AM" },
-  { id: 3, name: "Mary Kamau",    initials: "MK", date: "Yesterday"        },
+  { id: 1, name: "Pato Mutua", initials: "PM", date: "Today, 9:00 AM"  },
+  { id: 2, name: "Eugine Maina",  initials: "EM", date: "Today, 11:30 AM" },
+  { id: 3, name: "Samuel Kibet",    initials: "SK", date: "Yesterday"        },
 ];
 
 const MOCK_REQUESTS = [
@@ -55,7 +55,8 @@ export default function LawyerHomepage() {
   const [clients]  = useState(MOCK_NEW_CLIENTS);
   const [requests] = useState(MOCK_REQUESTS);
 
-  const advocateName = user?.name || "Advocate Maina";
+  const advocateName = user?.name || "Advocate Maina"; 
+  
 
   return (
     <div className="lh-page">
@@ -63,7 +64,7 @@ export default function LawyerHomepage() {
       {/* Welcome */}
       <div className="lh-welcome">
         <h1 className="lh-welcome-title">Welcome back, {advocateName}</h1>
-        <p className="lh-welcome-sub">Here is an overview of your practice today</p>
+        <p className="lh-welcome-sub">Here is an overview of your work today</p>
       </div>
 
       {/* Top row: 3 mini stats + earnings card */}

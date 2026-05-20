@@ -3,7 +3,7 @@ import { Search, Calendar, Clock, MoreHorizontal, Eye, X } from "lucide-react";
 import "../../assets/styles/consultationList.css";
 
 const MOCK_CONSULTATIONS = [
-  { id: 1,  client: "Alice Wanjiku",   initials: "AW", date: "2025-05-20", time: "10:00 AM", type: "Contract Review",      status: "upcoming",   duration: 60  },
+  { id: 1,  client: "Nick Lemeria",   initials: "NL", date: "2025-05-20", time: "10:00 AM", type: "Contract Review",      status: "upcoming",   duration: 60  },
   { id: 2,  client: "Brian Omondi",    initials: "BO", date: "2025-05-20", time: "01:30 PM", type: "Employment Dispute",   status: "upcoming",   duration: 45  },
   { id: 3,  client: "Carol Muthoni",   initials: "CM", date: "2025-05-21", time: "04:00 PM", type: "Family Law",           status: "upcoming",   duration: 60  },
   { id: 4,  client: "David Kamau",     initials: "DK", date: "2025-05-15", time: "11:00 AM", type: "Property Dispute",     status: "completed",  duration: 90  },
@@ -11,7 +11,7 @@ const MOCK_CONSULTATIONS = [
   { id: 6,  client: "Frank Kipchoge",  initials: "FK", date: "2025-05-13", time: "09:00 AM", type: "Criminal Defense",     status: "cancelled",  duration: 45  },
   { id: 7,  client: "Grace Achieng",   initials: "GA", date: "2025-05-22", time: "03:00 PM", type: "Contract Review",      status: "upcoming",   duration: 30  },
   { id: 8,  client: "Henry Mwangi",    initials: "HM", date: "2025-05-12", time: "10:30 AM", type: "Land Dispute",         status: "completed",  duration: 60  },
-  { id: 9,  client: "Irene Wambua",    initials: "IW", date: "2025-05-23", time: "11:00 AM", type: "Family Law",           status: "upcoming",   duration: 45  },
+  { id: 9,  client: "Halima Abdullahi", initials: "HA", date: "2025-05-23", time: "11:00 AM", type: "Family Law",           status: "upcoming",   duration: 45  },
   { id: 10, client: "James Otieno",    initials: "JO", date: "2025-05-11", time: "08:00 AM", type: "Employment Dispute",   status: "cancelled",  duration: 60  },
 ];
 
