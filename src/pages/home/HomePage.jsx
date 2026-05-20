@@ -33,7 +33,7 @@ function HomePage(){
                  {/* right side information */}
                  <div className="right-hero_section">
                    <div className="chatbot-section">
-                     <ChatBox />
+                     {/* <ChatBox /> */}
                    </div>
 
                  

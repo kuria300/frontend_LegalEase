@@ -11,6 +11,18 @@ import { Icon } from "lucide-react"
 import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import LawyerCard from "./components/LawyerCard"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
+
+// Lawyer Dashboard
+import LawyerDashboardLayout from "./components/layout/LawyerDashboardLayout"
+import LawyerHomepage from "./pages/lawyer/LawyerHomepage"
+
+const Placeholder = ({ title }) => (
+  <div style={{ padding: 20 }}>
+    <h2 style={{ fontFamily: "sans-serif", color: "#101828" }}>{title}</h2>
+    <p style={{ color: "#667085", marginTop: 8 }}>Coming soon in the next branch.</p>
+  </div>
+)
+
 function App() {
 
   return (
@@ -29,6 +41,16 @@ function App() {
         {/* <Route path="/category" element={<CategorySelection />} /> */}
         {/* <Route path="/subcategory" element={<SubcategorySelection />} /> */}
         {/* <Route path="/chatbot" element={<Chatbot />} /> */}
+        
+        {/*Lawyer dashboard routes*/}
+        <Route path="/lawyer" element={<LawyerDashboardLayout />}>
+          <Route index element={<LawyerHomepage />} />
+          <Route path="consultations" element={<Placeholder title="Bookings Page" />} />
+          <Route path="profile" element={<Placeholder title="Profile Page" />} />
+          <Route path="calendar"      element={<Placeholder title="Calendar" />} />
+          <Route path="settings" element={<Placeholder title="Settings Page" />} />
+          <Route path="support" element={<Placeholder title="Support Page" />} />
+        </Route>
 
       </Routes>
     </>
