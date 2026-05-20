@@ -22,10 +22,6 @@ function App() {
         <Route path="/email-otp" element={<Emailotp />} />
 
         {/* Chat routes temporarily disabled */}
-
-        
-        <Route path="/subcategory" element={<SubcategorySelection />} />
-
       </Routes>
       <FloatingChatButton />
     </>
