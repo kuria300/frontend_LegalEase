@@ -2,14 +2,59 @@ import React, { useState } from 'react'
 import { Mail, LoaderCircle, LockKeyhole } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Legalease from '../../assets/images/Legalease.png'
-import Button from '../../components/ui/Button'
-import LoginInput from '../../components/ui/LoginInput'
+import Button from '../../components/ui/auth/Button'
+import LoginInput from '../../components/ui/auth/LoginInput'
+import { useAuth } from '../../hooks/useAuth'
 
 const LoginPage = () => {
-  const [email, setEmail]=useState('')
-  const [password, setPassword]=useState('')
-  const [loading, setLoading]=useState(false)
+
+  const[email, setEmail]=useState("")
+  const [password, setPassword]=useState("")
   const [errors, setErrors]=useState('')
+  const [loading, setLaoding]=useState(false)
+
+  const { Login }= useAuth()
+
+  const handleLogin = async(e)=>{
+    e.preventDefault()
+
+    setErrors('')
+
+    function validateEmail(email){
+        let regex= /^[a-zA-Z0-9.+_%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        return regex.test(email)
+      }
+
+    if(email.trim() === '' || password.trim() === ''){
+      setErrors('All fields are required!')
+      return
+    }
+
+    if(!validateEmail(email)){
+      setErrors('Invalid email credential!')
+      return
+    }
+
+    if(password.length < 2){
+      setErrors('Password must be atleast 2 characters long!')
+      return
+    }
+
+    try{
+      setLaoding(true)
+
+      await Login(email, password)
+
+      console.log('Success')
+    }catch(error){
+     console.error('Login Error', error)
+     setErrors(error.response?.data?.message || "something went Wrong.please try again")
+    }finally{
+      setLaoding(false)
+    }
+
+  }
+
 
   return (
     <>
@@ -25,7 +70,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <form className="bg-background p-8 rounded-xl shadow-2xl space-y-4 w-full max-w-md">
+      <form onSubmit={handleLogin} className="bg-background p-8 rounded-xl shadow-2xl space-y-4 w-full max-w-md">
          {/* email */}
          <LoginInput 
           placeholder="example@gmail.com"
@@ -33,6 +78,8 @@ const LoginPage = () => {
           id="email"
           type='email'
           icon={<Mail />}
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
          />
         {/* password */}
          <LoginInput 
@@ -41,15 +88,19 @@ const LoginPage = () => {
           id="password"
           type='password'
           icon={<LockKeyhole />}
+          value={password}
+          onChange={(e)=>setPassword(e.target.value)}
          />
-         
+
+          {errors && (<p className="text-on-error-container text-sm">{errors}</p>)}
+            
           {/* forgot password */}
-          <div class="flex justify-end">
-             <a class="text-secondary font-medium hover:underline transition-all" href="#">Forgot Password?</a>
+          <div className="flex justify-end">
+             <a className="text-secondary font-medium hover:underline transition-all" href="#">Forgot Password?</a>
           </div>
            {/* login button */}
-          <Button className='w-full'>
-            Login
+          <Button type="submit" disabled={loading} className='w-full'>
+            {loading ? <LoaderCircle className='animate-spin mx-auto' />: "Login"}
           </Button>
         
         
