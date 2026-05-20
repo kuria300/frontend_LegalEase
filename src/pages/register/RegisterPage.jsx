@@ -1,11 +1,97 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Legalease from '../../assets/images/Legalease.png'
-import { Mail, LockKeyhole, User2Icon, Shield } from 'lucide-react'
+import { Mail, LockKeyhole, User2Icon, UserIcon, Shield, Calendar,LoaderCircle} from 'lucide-react'
 import { Link } from 'react-router-dom'
-import Button from '../../components/ui/Button'
-import RegisterInput from '../../components/ui/RegisterInput'
+import Button from '../../components/layout/auth/Button'
+import RegisterInput from '../../components/layout/auth/RegisterInput'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const RegisterPage = () => {
+  const [email, setEmail]=useState("")
+  const [password, setPassword]=useState("")
+  const [confirmPassword, setConfirmPassword]=useState("")
+  const [firstName, setFirstName]=useState("")
+  const [secondName, setSecondName]=useState("")
+  const [dob ,setDob]=useState("")
+  const [errors, setErrors]=useState('')
+  const [role, setRole]=useState("CLIENT")
+  const [loading, setLaoding]=useState(false)
+
+  const url=import.meta.env.VITE_SERVER_URL
+
+  const navigate= useNavigate()
+
+  const handleRegister = async(e)=>{
+    e.preventDefault()
+
+    setErrors('')
+
+    try{
+      setLaoding(true)
+
+       function validateEmail(email){
+        let regex= /^[a-zA-Z0-9.+_%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        return regex.test(email)
+      }
+
+      if(firstName.trim() === '' || secondName.trim() === '' || email.trim() === '' 
+         || password.trim() === '' || confirmPassword.trim() === '' || dob.trim() === ''){
+        setErrors('All fields are required!')
+        return
+      }
+
+      if(!validateEmail(email)){
+        setErrors('Invalid email credential!')
+        return
+      }
+
+      if(password.length < 2){
+        setErrors('Password must be atleast 2 characters long!')
+        return
+      }
+
+      if(password !== confirmPassword){
+        setErrors('Passwords do not match!')
+        return
+      }
+
+      const response= await axios.post(`${url}/auth/register`,
+        {
+          first_name: firstName,
+          second_name: secondName,
+          email,
+          password,
+          dob,
+          role
+        }
+    )
+     console.log(response)
+     setEmail('')
+     setPassword('')
+     setConfirmPassword('')
+     setFirstName('')
+     setSecondName('')
+     setDob('')
+
+     if(role === 'CLIENT') {
+       navigate('/login')
+       toast.success(response.data.message || 'Registration successful! Please login.')
+       
+     } else {
+       navigate('/dashboard')
+       toast.success('Registration successful! Please complete your lawyer application.')
+     }
+
+    }catch(error){
+     console.error('Register Error', error)
+     setErrors(error.response?.data?.message || "something went Wrong.please try again")
+    }finally{
+      setLaoding(false)
+    }
+  }
+
   return (
     <>
     <div className='w-full max-w-md mx-auto m-20'>
@@ -22,26 +108,51 @@ const RegisterPage = () => {
         </div>
       {/* role selection */}
         <div className='px-3'>
-          <div className="flex p-1 bg-surface-container rounded-xl" id="role-selector">
-             <button className="client-btn">
-                Client
-            </button>
-            <button className="lawyer-btn">
-                Lawyer
-            </button>
+          <div className="flex p-1 bg-surface-container rounded-xl">
+            {/* CLIENT BUTTON */}
+             <button
+              type="button"
+              onClick={() => setRole("CLIENT")}
+              className={`flex-1 py-2 rounded-lg transition-all ${
+                  role === "CLIENT"
+                    ? "bg-primary text-white"
+                    : "bg-transparent text-on-surface" }`}> Client </button>
+
+            {/* LAWYER BUTTON */}
+            <button
+              type="button"
+              onClick={() => setRole("LAWYER")}
+              className={`flex-1 py-2 rounded-lg transition-all ${
+                  role === "LAWYER"
+                    ? "bg-primary text-white"
+                    : "bg-transparent text-on-surface"}`}>Lawyer </button>
           </div>
         </div>
  
-       <form className="bg-background p-6 rounded-xl shadow-2xl space-y-4 w-full max-w-md">
+       <form onSubmit={handleRegister} className="bg-background p-6 rounded-xl shadow-2xl space-y-4 w-full max-w-md">
+         {errors && <div className='text-on-error-container'>{errors}</div>}
          {/* username field */}
           <RegisterInput
             type="text"
-            id="username"
-            name="username"
-            label="Username"
+            id="first_name"
+            name="first_name"
+            label="First Name"
             className='mt-2'
-            placeholder="Enter username"
+            placeholder="Enter first name"
             icon={<User2Icon />}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+           <RegisterInput
+            type="text"
+            id="second_name"
+            name="second_name"
+            label="second_name"
+            className='mt-2'
+            placeholder="Enter second_name"
+            icon={<UserIcon />}
+            value={secondName}
+            onChange={(e) => setSecondName(e.target.value)}
           />
           {/* email field */}
           <RegisterInput
@@ -52,6 +163,8 @@ const RegisterPage = () => {
              className='mt-2'
             placeholder="Enter email"
             icon={<Mail />}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
          {/* password field */}
         <RegisterInput
@@ -62,6 +175,8 @@ const RegisterPage = () => {
           className='mt-2'
           placeholder="Create password"
           icon={<LockKeyhole />}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
          {/* confirm pasword field */}
          <RegisterInput
@@ -72,10 +187,24 @@ const RegisterPage = () => {
             className='mt-2'
             placeholder="Confirm password"
             icon={<Shield />}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          <RegisterInput
+            type="date"
+            id="date-of-birth"
+            name="date-of-birth"
+            label="Date of Birth"
+            className='mt-2'
+            placeholder="Enter date of birth"
+            icon={<Calendar />}
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+          />
+          
           {/* create button */}
-          <Button className='w-full'>
-            Create Account
+          <Button type="submit" className='w-full'>
+            {loading ? <LoaderCircle className='animate-spin mx-auto'/> : "Create Account"}
           </Button>
 
 
