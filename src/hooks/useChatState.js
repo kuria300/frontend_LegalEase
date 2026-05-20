@@ -81,20 +81,17 @@ export const useChatState = () => {
     setIsLoading(true);
     
     try {
-      // Send message with file if present
       const response = await ChatService.sendMessage(
         message, 
         selectedCategory, 
         selectedSubcategory,
-        file  // ← Pass the file
+        file
       );
       
       const aiReply = response.reply || response.message || response.analysis || 'No response from AI';
       setMessages(prev => [...prev, { text: aiReply, isUser: false }]);
     } catch (err) {
       console.error('Error:', err);
-      
-      // Handle rate limiting or message limit errors
       if (err.message === 'You have reached your message limit. Please register.') {
         setError('You have reached the message limit. Please register to continue.');
       } else if (err.message === 'Too many requests. Please try again later.') {
