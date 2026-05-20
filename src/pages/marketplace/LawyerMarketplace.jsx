@@ -62,14 +62,13 @@ const LawyerMarketplace = () => {
 
       <div className="max-w-6xl mx-auto">
 
-        {/* HEADER */}
-        <div className="mb-10 flex flex-col items-center text-center">
-
-          <img
-            src={Legalease}
-            alt="LegalEase Logo"
-            className="w-24 h-24 object-contain mb-4"
-          />
+        
+<div className="mb-10 flex flex-col items-center text-center">
+  
+  <img
+    src={Legalease}
+    alt="LegalEase Logo"
+className="w-40 h-40 object-contain mb-4"  />
 
           <h1 className="text-primary text-4xl font-bold">
             Find Verified Lawyers
