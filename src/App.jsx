@@ -3,7 +3,10 @@ import HomePage from "./pages/home/HomePage"
 import RegisterPage from "./pages/register/RegisterPage"
 import LoginPage from "./pages/login/LoginPage"
 import { Icon } from "lucide-react"
-import LawyerForm from "./pages/LawyerApplicationForm/LawyerForm"
+import LawyerApplication from "./pages/lawyerForm/LawyerApplication"
+import ApplicationPending from "./pages/application/ApplicationPending"
+import AdminDashboard from "./pages/admin/AdminDashboard"
+
 function App() {
 
   return (
@@ -13,8 +16,9 @@ function App() {
        <Route path="/" element={<HomePage />}/>
        <Route path='/signup' element={<RegisterPage />}/>
        <Route path='/login' element={<LoginPage />}/>
-        <Route path='/lawyerForm' element={<LawyerForm />}/>
-       
+       <Route path='/apply' element={<LawyerApplication />}/>
+       <Route path='/application-pending' element={<ApplicationPending />}/>
+       <Route path='/admin' element={<AdminDashboard />}/>
      </Routes>
     </>
   )
