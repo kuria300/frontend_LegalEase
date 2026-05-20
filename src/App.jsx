@@ -8,6 +8,7 @@ import { Icon } from "lucide-react"
 import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import LawyerCard from "./components/LawyerCard"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
+import Dashboard from "./pages/dashboard/Dashboard"
 
 function App() {
 
@@ -20,10 +21,11 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/verifyOtp' element={<Verifyotp />} />
         <Route path="/find-lawyers" element = {<LawyerMarketplace/>}/>
+        <Route path="/dashboard" element={<Dashboard />}/>
 
         {/* Chat routes temporarily disabled */}
 
-       
+        
         <Route path="/subcategory" element={<SubcategorySelection />} />
 
       </Routes>
