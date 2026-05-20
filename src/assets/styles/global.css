@@ -186,7 +186,7 @@
 
 /* Booking Modal */ 
   .booking-modal-card {
-    @apply bg-surface-container-lowest rounded-2xl w-full max-w-xl shadow-xl mx-auto;
+    @apply bg-surface-container-lowest rounded-2xl w-full max-w-2xl shadow-xl mx-auto;
   }
   .booking-modal-header {
     @apply bg-primary rounded-t-2xl px-6 py-5 text-center relative;
@@ -252,6 +252,14 @@
            bg-surface-container-lowest text-on-surface text-sm
            focus:outline-none focus:ring-2 focus:ring-secondary/30
            focus:border-secondary cursor-pointer;
+  }
+  /* Notes textarea — Branch 1 */
+  .booking-notes-input {
+    @apply w-full px-3 py-2.5 rounded-lg border border-outline-variant
+          bg-surface-container-lowest text-on-surface text-sm
+          placeholder:text-outline resize-none
+          focus:outline-none focus:ring-2 focus:ring-secondary/30
+          focus:border-secondary transition-all;
   }
 
   /* Book Button */

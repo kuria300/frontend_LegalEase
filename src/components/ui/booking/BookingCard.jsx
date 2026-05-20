@@ -29,6 +29,8 @@ const BookingCard = ({ lawyer }) => {
 
   // meeting type -> defaults to Google meet
   const [meetingType, setMeetingType] = useState(MEETING_TYPES[0]);
+  // Notes -> optional details the client wants the lawyer to know before the session
+  const [notes, setNotes] = useState("");
 
   // slots fetched from backend after a date is picked
   // GET api/bookings/slots
@@ -40,8 +42,10 @@ const BookingCard = ({ lawyer }) => {
 
   // Fetch available slots whenever the selected date changes
   useEffect(() => {
-    if (!selectedDate || !lawyer?.id) return;
-
+    if (!selectedDate || !lawyer?.id){
+      return;
+    } 
+      
     const fetchSlots = async () => {
       setSlotsLoading(true);
       setSelectedTime(null);
@@ -69,17 +73,19 @@ const BookingCard = ({ lawyer }) => {
 
   // function to handle click on "Book Consultation"
   const handleBooking = async () => {
-    if (!selectedDate || !selectedTime) return;
+    if (!selectedDate || !selectedTime){
+      toast.warn("Please select both a date and a time slot.");
+      return;
+    }
 
     setBookingLoading(true);
-
     try {
       const booking = await createBooking({
         lawyerId: lawyer.id,
         bookingDate: toDateString(selectedDate),
         bookingTime: selectedTime,
         meetingType: MEETING_TYPE_MAP[meetingType],
-        notes: "",
+        notes: notes.trim(),
         parsedDate: createParsedDate(selectedDate, selectedTime),
       });
 
@@ -103,6 +109,7 @@ const BookingCard = ({ lawyer }) => {
       setSelectedTime(null);
       setSlots([]);
       setMeetingType(MEETING_TYPES[0]);
+      setNotes("");
 
     } catch (err) {
       toast.error(
@@ -179,6 +186,25 @@ const BookingCard = ({ lawyer }) => {
               ))}
             </select>
           </div>
+          {/* Notes, optional details for the lawyer before the session */}
+          <div>
+            <label className="booking-section-label">
+              Additional Notes
+              <span className="text-outline font-normal ml-1">(optional)</span>
+            </label>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Briefly describe your legal issue or any details the lawyer should know before your consultation..."
+              rows={3}
+              maxLength={500}
+              className="booking-notes-input"
+            />
+            {/* Character counter to help user stay within the 500 char limit */}
+            <p className="text-xs text-outline text-right mt-1">
+              {notes.length}/500
+            </p>
+          </div>
 
           {/* Book Button */}
           <button
@@ -202,7 +228,7 @@ const BookingCard = ({ lawyer }) => {
           </button>
 
           <p className="text-center text-xs text-outline">
-            Secure payment via M-Pesa or Card required to confirm.
+            Secure payment via M-Pesa required to confirm.
           </p>
         </div>
       </div>
