@@ -16,6 +16,7 @@ import Verifyotp from "./pages/verifyotp/Verifyotp"
 import LawyerDashboardLayout from "./components/layout/LawyerDashboardLayout"
 import LawyerHomepage from "./pages/lawyer/LawyerHomepage"
 import ConsultationList from "./pages/lawyer/ConsultationList"
+import LawyerProfile from "./pages/lawyer/LawyerProfile"
 const Placeholder = ({ title }) => (
   <div style={{ padding: 20 }}>
     <h2 style={{ fontFamily: "sans-serif", color: "#101828" }}>{title}</h2>
@@ -46,7 +47,7 @@ function App() {
         <Route path="/lawyer" element={<LawyerDashboardLayout />}>
           <Route index element={<LawyerHomepage />} />
           <Route path="consultations" element={<ConsultationList />} />
-          <Route path="profile" element={<Placeholder title="Profile Page" />} />
+          <Route path="profile" element={<LawyerProfile />} />
           <Route path="calendar"      element={<Placeholder title="Calendar" />} />
           <Route path="settings" element={<Placeholder title="Settings Page" />} />
           <Route path="support" element={<Placeholder title="Support Page" />} />
