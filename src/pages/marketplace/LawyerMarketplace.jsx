@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import LawyerCard from "../../components/LawyerCard";
 import { getLawyers } from "../../services/lawyerService";
-import HomeNavbar from "../../components/layout/HomeNavbar";
-import Legalease from '../../assets/images/Legalease.png'
-
+import Legalease from "../../assets/images/Legalease.png";
+import LawyerProfileModal from "../marketplace/LawyerProfileModal";
 
 const LawyerMarketplace = () => {
   const [lawyers, setLawyers] = useState([]);
@@ -11,33 +10,35 @@ const LawyerMarketplace = () => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
+  const [selectedLawyer, setSelectedLawyer] = useState(null);
 
-  // FETCH LAWYERS (backend OR fallback handled inside service)
+  // FETCH LAWYERS
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-
+    const fetchLawyers = async () => {
       try {
+        setLoading(true);
+
         const data = await getLawyers();
 
-        // safety check (prevents blank page)
         const safeData = Array.isArray(data) ? data : [];
 
         setLawyers(safeData);
         setFilteredLawyers(safeData);
+
       } catch (error) {
         console.error("Failed to load lawyers:", error);
+
         setLawyers([]);
         setFilteredLawyers([]);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
-    fetchData();
+    fetchLawyers();
   }, []);
 
-  // FILTER LOGIC (safe + null-proof)
+  // FILTER LOGIC
   useEffect(() => {
     let result = [...lawyers];
 
@@ -67,7 +68,7 @@ const LawyerMarketplace = () => {
   <img
     src={Legalease}
     alt="LegalEase Logo"
-className="w-24 h-24 object-contain mb-4"  />
+className="w-40 h-40 object-contain mb-4"  />
 
           <h1 className="text-primary text-4xl font-bold">
             Find Verified Lawyers
@@ -76,6 +77,7 @@ className="w-24 h-24 object-contain mb-4"  />
           <p className="text-on-surface-variant mt-2 text-lg">
             Browse trusted legal professionals across Kenya
           </p>
+
         </div>
 
         {/* FILTERS */}
@@ -102,12 +104,12 @@ className="w-24 h-24 object-contain mb-4"  />
 
         </div>
 
-        {/* LOADING STATE */}
+        {/* LOADING */}
         {loading && (
           <p className="text-gray-500">Loading lawyers...</p>
         )}
 
-        {/* EMPTY STATE (prevents blank screen confusion) */}
+        {/* EMPTY STATE */}
         {!loading && filteredLawyers.length === 0 && (
           <p className="text-gray-500">
             No lawyers found.
@@ -122,11 +124,19 @@ className="w-24 h-24 object-contain mb-4"  />
               <LawyerCard
                 key={lawyer.id}
                 lawyer={lawyer}
-                onView={() => console.log("Selected lawyer:", lawyer)}
+                onView={() => setSelectedLawyer(lawyer)}
               />
             ))}
 
           </div>
+        )}
+
+        {/* MODAL */}
+        {selectedLawyer && (
+          <LawyerProfileModal
+            lawyer={selectedLawyer}
+            onClose={() => setSelectedLawyer(null)}
+          />
         )}
 
       </div>
