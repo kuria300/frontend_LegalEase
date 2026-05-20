@@ -185,11 +185,8 @@
 
 
 /* Booking Modal */ 
-  .booking-modal-overlay {
-    @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4;
-  }
   .booking-modal-card {
-    @apply bg-surface-container-lowest rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-xl;
+    @apply bg-surface-container-lowest rounded-2xl w-full max-w-xl shadow-xl mx-auto;
   }
   .booking-modal-header {
     @apply bg-primary rounded-t-2xl px-6 py-5 text-center relative;
@@ -199,10 +196,6 @@
   }
   .booking-section-label {
     @apply block text-sm font-medium text-on-surface mb-3;
-  }
-  .booking-close-btn {
-    @apply absolute top-4 right-4 bg-on-primary/10 hover:bg-on-primary/20
-           text-on-primary rounded-full p-1 transition-colors cursor-pointer;
   }
 
   /* Date Picker */
