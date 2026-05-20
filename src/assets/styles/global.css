@@ -479,5 +479,196 @@
     @apply flex items-start gap-2 bg-error-container border border-error/20
            rounded-lg px-3 py-2.5 text-sm text-on-error-container;
   }
+    /* ChatBox Container */
+  .chatbox-container {
+    @apply flex flex-col h-[600px] w-[400px] bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden;
+  }
+
+  .chatbox-header {
+    @apply px-4 py-3 border-b border-gray-100;
+  }
+
+  .chatbox-title {
+    @apply font-medium text-gray-900;
+  }
+
+  .chatbox-free-count {
+    @apply text-xs text-gray-400 mt-0.5;
+  }
+
+  .chatbox-context {
+    @apply text-xs text-gray-400 mt-1;
+  }
+
+  .chatbox-content {
+    @apply flex-1 overflow-y-auto px-4 py-3 bg-white;
+  }
+
+  .chatbox-section-title {
+    @apply text-sm text-gray-600 mb-3;
+  }
+
+  .chatbox-back-header {
+    @apply flex items-center gap-2 mb-3;
+  }
+
+  .chatbox-back-btn {
+    @apply text-gray-500 hover:text-gray-700 cursor-pointer;
+  }
+
+  .chatbox-disclaimer {
+    @apply text-xs text-gray-400 text-center mb-4 pb-2 border-b border-gray-50;
+  }
+
+  .chatbox-messages {
+    @apply flex flex-col gap-2;
+  }
+
+  .chatbox-empty-state {
+    @apply text-center text-gray-300 text-sm mt-32;
+  }
+
+  .chatbox-message {
+    @apply flex mb-3;
+  }
+
+  .chatbox-message.user {
+    @apply justify-end;
+  }
+
+  .chatbox-message.ai {
+    @apply justify-start;
+  }
+
+  .chatbox-bubble {
+    @apply max-w-[85%] px-3 py-2;
+  }
+
+  .user-bubble {
+    @apply bg-gray-800 text-white rounded-2xl rounded-br-md;
+  }
+
+  .ai-bubble {
+    @apply bg-gray-100 text-gray-800 rounded-2xl rounded-bl-md border border-gray-200;
+  }
+
+  .chatbox-message-text {
+    @apply whitespace-pre-wrap text-sm;
+  }
+
+  .chatbox-markdown {
+    @apply text-sm;
+  }
+
+  .chatbox-markdown p {
+    @apply mb-2 last:mb-0;
+  }
+
+  .chatbox-markdown ul {
+    @apply list-disc pl-4 mb-2;
+  }
+
+  .chatbox-markdown ol {
+    @apply list-decimal pl-4 mb-2;
+  }
+
+  .chatbox-markdown li {
+    @apply mb-1;
+  }
+
+  .chatbox-markdown strong {
+    @apply font-bold;
+  }
+
+  .chatbox-lawyer-btn-container {
+    @apply mt-4 text-center;
+  }
+
+  .chatbox-lawyer-btn {
+    @apply text-sm text-gray-600 underline hover:text-gray-900 transition cursor-pointer;
+  }
+
+  .chatbox-input-area {
+    @apply border-t border-gray-100 p-3 bg-white;
+  }
+
+  .chatbox-register-btn {
+    @apply w-full text-sm text-gray-600 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer;
+  }
+
+  .chatbox-input-wrapper {
+    @apply flex flex-col gap-2;
+  }
+
+  .chatbox-file-preview {
+    @apply flex items-center justify-between bg-gray-50 rounded-lg px-3 py-2 text-sm;
+  }
+
+  .chatbox-file-name {
+    @apply text-gray-600 truncate;
+  }
+
+  .chatbox-file-remove {
+    @apply text-gray-400 hover:text-red-500 cursor-pointer;
+  }
+
+  .chatbox-input-row {
+    @apply flex gap-2;
+  }
+
+  .chatbox-file-input {
+    @apply hidden;
+  }
+
+  .chatbox-attach-btn {
+    @apply cursor-pointer text-gray-400 hover:text-gray-600 transition p-2 rounded-lg border border-gray-200;
+  }
+
+  .chatbox-attach-btn-login {
+    @apply cursor-pointer text-gray-400 hover:text-blue-500 transition p-2 rounded-lg border border-gray-200 hover:border-blue-300;
+  }
+
+  .chatbox-text-input {
+    @apply flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400;
+  }
+
+  .chatbox-send-btn {
+    @apply text-gray-400 hover:text-gray-900 transition disabled:opacity-50 cursor-pointer;
+  }
+
+  .chatbox-prompt-hint {
+    @apply text-center text-xs text-gray-400 py-2;
+  }
+
+  .chatbox-limit-options {
+    @apply text-center;
+  }
+
+  .chatbox-limit-message {
+    @apply text-sm text-gray-600 mb-3;
+  }
+
+  .chatbox-login-btn {
+    @apply w-full text-sm text-blue-600 py-2 border border-blue-200 rounded-lg hover:bg-blue-50 transition mt-2 cursor-pointer;
+  }
+
+  .chatbox-error {
+    @apply text-xs text-red-600 bg-red-50 p-2 rounded-lg mb-2;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
 
 }

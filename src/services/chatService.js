@@ -4,15 +4,15 @@ class ChatService {
   async sendMessage(message, category, subcategory, file = null) {
     const token = localStorage.getItem('token');
     
-    // If there's a file, use FormData
+    // If there's a file, use FormData to upload endpoint (requires auth)
     if (file) {
       const formData = new FormData();
-      formData.append('message', message);
+      formData.append('message', message || '');
       formData.append('category', category);
       formData.append('subcategory', subcategory);
       formData.append('document', file);
-
-      const response = await fetch(`${API_BASE_URL}/chat/message/public`, {
+      
+      const response = await fetch(`${API_BASE_URL}/chat/upload-document`, {
         method: 'POST',
         headers: {
           ...(token && { 'Authorization': `Bearer ${token}` }),
@@ -22,14 +22,14 @@ class ChatService {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Failed to send message');
+        throw new Error(error.message || 'Failed to upload document');
       }
 
       const data = await response.json();
       return data;
     }
     
-    // No file - use JSON
+    // No file - use JSON to public endpoint
     const response = await fetch(`${API_BASE_URL}/chat/message/public`, {
       method: 'POST',
       headers: {
@@ -65,30 +65,6 @@ class ChatService {
 
     if (!response.ok) {
       throw new Error('Failed to fetch chat history');
-    }
-
-    const data = await response.json();
-    return data;
-  }
-
-  async uploadDocument(file, category, subcategory) {
-    const formData = new FormData();
-    formData.append('document', file);
-    formData.append('category', category);
-    formData.append('subcategory', subcategory);
-
-    const token = localStorage.getItem('token');
-    
-    const response = await fetch(`${API_BASE_URL}/chat/upload-document`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to upload document');
     }
 
     const data = await response.json();

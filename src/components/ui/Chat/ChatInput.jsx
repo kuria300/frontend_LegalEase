@@ -11,7 +11,8 @@ const ChatInput = ({
   isLoading,
   fileInputRef,
   isAuthenticated,
-  selectedSubcategory
+  selectedSubcategory,
+  redirectToLogin
 }) => {
   return (
     <div className="chatbox-input-wrapper">
@@ -25,17 +26,29 @@ const ChatInput = ({
       )}
       
       <div className="chatbox-input-row">
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileSelect}
-          accept=".pdf,.doc,.docx,.txt,image/jpeg,image/png"
-          className="chatbox-file-input"
-          id="file-upload"
-        />
-        <label htmlFor="file-upload" className="chatbox-attach-btn">
-          <Paperclip size={18} />
-        </label>
+        {isAuthenticated ? (
+          <>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileSelect}
+              accept=".pdf,.doc,.docx,.txt,image/jpeg,image/png"
+              className="chatbox-file-input"
+              id="file-upload"
+            />
+            <label htmlFor="file-upload" className="chatbox-attach-btn">
+              <Paperclip size={18} />
+            </label>
+          </>
+        ) : (
+          <button
+            onClick={redirectToLogin}
+            className="chatbox-attach-btn-login"
+            title="Login to upload documents"
+          >
+            <Paperclip size={18} />
+          </button>
+        )}
         
         <input
           type="text"
@@ -54,10 +67,12 @@ const ChatInput = ({
         </button>
       </div>
       
-      {!isAuthenticated && selectedFile && (
-        <p className="text-xs text-green-600 text-center mt-2">
-          Document will be saved locally until you login
-        </p>
+      {!isAuthenticated && (
+        <div className="text-center mt-2">
+          <p className="text-xs text-gray-400">
+            <button onClick={redirectToLogin} className="text-blue-500 hover:underline">Login</button> to upload documents and get AI analysis
+          </p>
+        </div>
       )}
     </div>
   );

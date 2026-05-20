@@ -1,7 +1,7 @@
 import Footer from "../../components/layout/Footer"
 import HomeNavbar from "../../components/layout/HomeNavbar"
-import ChatBox from "../../components/chat/SubcategorySelection"
-import { Verified, Clock, Banknote, Zap } from "lucide-react";
+import ChatBox from "../../components/ui/Chat/ChatBox"
+import { Bot, SendHorizonal, MessageSquare, CalendarCheck, UserRoundSearch, Verified, Clock, Banknote, Zap } from "lucide-react"
 
 function HomePage(){
     return(
@@ -31,15 +31,58 @@ function HomePage(){
                     </div>
                 </div>
                  
-                 {/* right side information */}
-                 <div className="right-hero_section">
-                   <div className="chatbot-section">
-                     <ChatBox />
-                   </div>
+                {/* right side information - ChatBox */}
+                <div className="right-hero_section">
+                  <ChatBox />
+                </div>
+              </section>   
+              
+              {/* section 2 */}
+              <section className='legal-container py-6 max-sm:py-10'>
+                <div className="max-w-7xl mx-auto px-12">
+                  <div className='legal-container_section'>
+                    <h2 className='text-3xl font-semibold tracking-tight text-primary mt-4 mb-1'>
+                      How LegalEase Works.
+                    </h2>
+                    <p className='text-on-surface-variant'>
+                      Simple, fast and Reliable Legal Assistance
+                    </p>
+                  </div>
 
-                 </div>
-                
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div className="box-card group">
+                      <div className="box-content group-hover:scale-110 mb-3">
+                        <MessageSquare className="text-secondary" />
+                      </div>
+                      <h3 className="font-medium text-primary mb-2 text-[20px]">Ask Your Question</h3>
+                      <p className="text-on-surface-variant">
+                        Start a conversation with our AI legal assistant. Get instant answers to your legal questions based on Kenyan law.
+                      </p>
+                    </div>
+
+                    <div className="box-card group">
+                      <div className="box-content group-hover:scale-110 mb-3">
+                        <UserRoundSearch className="text-secondary" />
+                      </div>
+                      <h3 className="font-medium text-primary mb-2 text-[20px]">Find a lawyer</h3>
+                      <p className="text-on-surface-variant">
+                        Browse our network of verified lawyers. Filter by specialty, location, and price to find the perfect match.
+                      </p>
+                    </div>
+
+                    <div className="box-card group">
+                      <div className="box-content group-hover:scale-110 mb-3">
+                        <CalendarCheck className="text-secondary" />
+                      </div>
+                      <h3 className="font-medium text-primary mb-2 text-[20px]">Book & Consult</h3>
+                      <p className="text-on-surface-variant">
+                        Schedule a consultation at your convenience. Pay securely via M-Pesa and get expert legal advice.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </section>
+
               {/* section 3 */}
               <section className="bg-background py-8">
                 <div className="max-w-7xl mx-auto px-12">
@@ -59,19 +102,19 @@ function HomePage(){
                       <p className="text-[14px] text-on-surface-variant">All our advocates are LSK-certified and thoroughly vetted.</p>
                     </div>
 
-                     <div className="box-card_section">
+                    <div className="box-card_section">
                       <Clock className="text-secondary mb-2"/>
                       <h4 className="text-primary mb-2 font-medium">24/7 Availability</h4>
                       <p className="text-[14px] text-on-surface-variant">Our AI assistant is ready to help any time of day or night.</p>
                     </div>
 
-                     <div className="box-card_section">
+                    <div className="box-card_section">
                       <Banknote className="text-secondary mb-2"/>
                       <h4 className="text-primary mb-2 font-medium">Transparent Pricing</h4>
                       <p className="text-[14px] text-on-surface-variant">Upfront costs with no hidden fees. Pay easily through mobile money.</p>
                     </div>
 
-                     <div className="box-card_section">
+                    <div className="box-card_section">
                       <Zap className="text-secondary mb-2"/>
                       <h4 className="text-primary mb-2 font-medium">Instant Responses</h4>
                       <p className="text-[14px] text-on-surface-variant">AI-powered preliminary research gives you answers in seconds.</p>
@@ -90,12 +133,10 @@ function HomePage(){
                     Join thousands of Kenyans who have found legal clarity with LegalEase. Your first AI consultation is free.
                   </p>
 
-                  <button className="bg-secondary text-on-secondary-fixed rounded-xl px-10 py-4 font-bold hover:bg-secondary-container">
+                  <button className="bg-secondary-container text-on-background rounded-xl px-10 py-4 font-bold hover:bg-secondary-container transition-all">
                     Create Free Account
                   </button>
-
                 </div>
-
               </section>
            </main>
 
@@ -105,4 +146,4 @@ function HomePage(){
     )
 }
 
-export default HomePage;
+export default HomePage

@@ -2,10 +2,8 @@ import { Route, Routes } from "react-router-dom"
 import HomePage from "./pages/home/HomePage"
 import RegisterPage from "./pages/register/RegisterPage"
 import LoginPage from "./pages/login/LoginPage"
-
-import SubcategorySelection from "./components/chat/SubcategorySelection"
 import { Icon } from "lucide-react"
-import FloatingChatButton from "./components/ui/FloatingChatButton"; 
+import FloatingChatButton from "./components/ui/Chat/FloatingChatButton";
 import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import LawyerCard from "./components/LawyerCard"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
@@ -21,13 +19,9 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/verifyOtp' element={<Verifyotp />} />
         <Route path="/find-lawyers" element = {<LawyerMarketplace/>}/>
-
-        {/* Chat routes temporarily disabled */}
-
-       
-        <Route path="/subcategory" element={<SubcategorySelection />} />
-
       </Routes>
+
+      <FloatingChatButton />
     </>
   )
 }
