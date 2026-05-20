@@ -15,7 +15,7 @@ api.interceptors.request.use((config)=>{
 
 // GET /api/bookings/slots?lawyer_id=&booking_date=
 export const getAvailableSlots = async (lawyerId, bookingDate) => {
-    const { data } = await api.get("/booking/slots", {
+    const { data } = await api.get("/bookings/slots", {
         params: { lawyer_id: lawyerId, booking_date: bookingDate },
     });
     return data.data
