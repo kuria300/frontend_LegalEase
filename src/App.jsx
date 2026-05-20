@@ -16,11 +16,12 @@ function App() {
   return (
     <>
     {/* routes */}
-    <Routes>
+     <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path='/signup' element={<RegisterPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/verifyOtp' element={<Verifyotp />} />
+        <Route path="/find-lawyers" element={<LawyerMarketplace/>}/>
 
         {/* Chat routes temporarily disabled */}
 
@@ -34,5 +35,6 @@ function App() {
     </>
   )
 }
+
 
 export default App
