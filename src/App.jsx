@@ -9,6 +9,7 @@ import LawyerDashboardLayout from "./components/layout/LawyerDashboardLayout"
 import LawyerHomepage from "./pages/lawyer/LawyerHomepage"
 import ConsultationList from "./pages/lawyer/ConsultationList"
 import LawyerProfile from "./pages/lawyer/LawyerProfile"
+import LawyerCalendarPage from "./pages/lawyer/LawyerCalendarPage"
 
 const Placeholder = ({ title }) => (
   <div style={{ padding: 20 }}>
@@ -31,7 +32,7 @@ function App() {
           <Route index                element={<LawyerHomepage />} />
           <Route path="consultations" element={<ConsultationList />} />
           <Route path="profile"       element={<LawyerProfile />} />
-          <Route path="calendar"      element={<Placeholder title="Calendar" />} />
+          <Route path="calendar"      element={<LawyerCalendarPage />} />
           <Route path="settings"      element={<Placeholder title="Settings" />} />
           <Route path="support"       element={<Placeholder title="Support" />} />
         </Route>

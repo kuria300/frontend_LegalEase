@@ -4,6 +4,7 @@ import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   CalendarDays,
+  Calendar,
   User,
   Settings,
   HelpCircle,
@@ -13,6 +14,7 @@ import {
 const TOP_NAV = [
   { to: "/lawyer",               icon: LayoutDashboard, label: "Dashboard", end: true },
   { to: "/lawyer/consultations", icon: CalendarDays,    label: "Bookings"             },
+  { to: "/lawyer/calendar",      icon: Calendar,        label: "Calendar"             },
   { to: "/lawyer/profile",       icon: User,            label: "Profile"              },
 ];
 
