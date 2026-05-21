@@ -6,6 +6,8 @@ import MpesaCheckout from "../../components/ui/booking/MpesaCheckout";
 // declare valid step constants
 const VALID_STEPS = {
   CHECKOUT: "CHECKOUT",
+  POLLING: "POLLING",
+  SUCCESS: "SUCCESS",
   FAILED: "FAILED",
 };
 
@@ -31,6 +33,14 @@ const BookingPage = () => {
   // set active step -> to control which branch component renders
   const [step, setStep] = useState(VALID_STEPS.CHECKOUT);
 
+  // checkuot_req_id returned by STK push
+  const [checkoutReqId, setCheckoutReqId] = useState(null);
+
+  // Callback by MpesaCheckout after initiateStkPush succeeds
+  const handleStkSuccess = (redId)=>{
+    setCheckoutReqId(reqId);
+    setStep(VALID_STEPS.POLLING)
+  }
   return (
     <div className="booking-page-wrapper">
 
