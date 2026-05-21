@@ -1,3 +1,4 @@
+//This files ensures 
 import { useNavigate } from 'react-router-dom';
 
 export const useChatRedirects = () => {
