@@ -18,7 +18,7 @@ import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
 import Dashboard from "./pages/dashboard/Dashboard"
 import BookingPage from "./pages/booking/BookingPage"
-
+import LawyerProfileModal from "./pages/marketplace/LawyerProfileModal"
 import Emailotp from "./pages/forgot-password/Emailotp"
 
 
@@ -38,8 +38,8 @@ function App() {
         <Route path='/apply' element={<LawyerApplication />}/>
         <Route path='/application-pending' element={<ApplicationPending />}/>
         <Route path='/admin' element={<AdminDashboard />}/>
-        <Route path="/lawyer" element={<LawyerDashboardLayout />}>
-          <Route index element={<LawyerHomepage />} />
+        <Route path="/lawyer" element={<LawyerDashboardLayout />} />
+          <Route path="/lawyer-dashboard" element={<LawyerHomepage />} />
           <Route path="consultations" element={<ConsultationList />} />
           <Route path="profile" element={<LawyerProfile />} />
           <Route path="calendar" element={<LawyerCalendarPage />} />
@@ -47,9 +47,9 @@ function App() {
           <Route path="support" element={<LawyerSupportPage />} />
           <Route path="/booking/checkout" element={<BookingPage />} />
 
-        {/* Chat routes temporarily disabled */}
+  
       </Routes>
-      <FloatingChatButton />
+      {/* <FloatingChatButton /> */}
     </>
   )
 }

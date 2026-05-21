@@ -149,8 +149,8 @@ export default function LawyerCalendarPage() {
 
       {/* Event detail modal */}
       {selected && (
-        <div className="fixed inset-0 bg-black/35 z-[200] flex items-center justify-center p-4" onClick={() => setSelected(null)}>
-          <div className="bg-white rounded-[16px] w-full max-w-md shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/35 z-200 flex items-center justify-center p-4" onClick={() => setSelected(null)}>
+          <div className="bg-white rounded-md w-full max-w-md shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#e4e7ec]">
               <h3 className="text-base font-bold text-[#101828]">Consultation Details</h3>
               <button onClick={() => setSelected(null)} className="w-8 h-8 rounded-md flex items-center justify-center text-[#667085] hover:bg-[#f0f2f5] transition-colors border-none bg-transparent cursor-pointer">
