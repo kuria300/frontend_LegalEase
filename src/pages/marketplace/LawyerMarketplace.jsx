@@ -5,6 +5,8 @@ import Legalease from "../../assets/images/Legalease.png";
 import LawyerProfileModal from "../../pages/marketplace/LawyerProfileModal";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import Footer from "../../components/layout/Footer";
+import { User } from "lucide-react"
 
 const LawyerMarketplace = () => {
   const [lawyers, setLawyers] = useState([]);
@@ -94,10 +96,55 @@ const LawyerMarketplace = () => {
   }
   if (!user) return
 
+  const isActive = (path) => location.pathname === path;
+
 
   // 5. RENDER MAIN UI (Only runs if user is validated AND data is ready)
   return (
-    <section className="min-h-screen bg-gray-50 px-6 py-12">
+    <>
+    <nav className="w-full bg-white h-20 border-b border-gray-200 shadow-sm z-10 sticky top-0 flex justify-center">
+        {/* Inner container to keep nav items aligned with the dashboard content */}
+        <div className="w-full max-w-[1300px] px-8 flex items-center justify-between h-full">
+          
+          {/* Logo Section */}
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/client-dashboard')}>
+            <img src={Legalease} alt='Logo' className='w-28 h-28 object-contain' />
+          </div>
+
+          {/* Nav Links */}
+          <div className="hidden md:flex gap-8 items-center h-full">
+            {[
+              { name: 'Home', path: '/client-dashboard' },
+              { name: 'Chat', path: '/ask-legal-questions' },
+              { name: 'Lawyers', path: '/find-lawyers' }, 
+              { name: 'Profile', path: '/profile' }
+            ].map((tab) => (
+              <button
+                key={tab.name}
+                onClick={() => navigate(tab.path)}
+                className={`h-full px-2 text-sm font-medium transition-colors relative flex items-center ${
+                  isActive(tab.path) ? 'text-[#111c2c]' : 'text-[#44474f] hover:text-[#111c2c]'
+                }`}
+              >
+                {tab.name}
+                {isActive(tab.path) && (
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-[#fed65b] rounded-t-md" />
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* User Profile */}
+          <div 
+            onClick={() => navigate('/profile')}
+            className="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 bg-gray-50 text-gray-600 cursor-pointer hover:bg-gray-100"
+          >
+            <User size={18} />
+          </div>
+
+        </div>
+      </nav>
+          <section className="min-h-screen bg-gray-50 px-6 py-12">
       <div className="max-w-6xl mx-auto">
         
         <div className="mb-10 flex flex-col items-center text-center">
@@ -156,6 +203,9 @@ const LawyerMarketplace = () => {
 
       </div>
     </section>
+    <Footer />
+    </>
+
   );
 };
 
