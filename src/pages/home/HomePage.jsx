@@ -14,32 +14,27 @@ function HomePage(){
         <HomeNavbar />
         <div className="border-t border-outline-variant w-full"/>
         <main className="flex-1">
-          {/* section 1 - Hero */}
-          <section className="Hero-container">
-            {/* left side information */}
-            <div className="left-hero_section">
-              <h1 className="text-primary text-6xl font-bold tracking-tight leading-[1.2]"> 
+          {/* section 1 - Hero - Full width centered */}
+          <section className="Hero-container-single">
+            <div className="hero-centered-content">
+              <h1 className="text-primary text-5xl md:text-7xl font-bold tracking-tight leading-[1.2] text-center"> 
                 Understand Your Rights. 
                 <br/> 
-                <span className="text-secondary text-6xl">Get Legal Help Instantly. </span>
+                <span className="text-secondary">Get Legal Help Instantly.</span>
               </h1>
 
-              <p className="opacity-80 text-on-surface-variant text-xl">
+              <p className="opacity-80 text-on-surface-variant text-lg md:text-xl text-center max-w-3xl mx-auto mt-6 mb-8">
                 Navigating the Kenyan legal system shouldn't be confusing. 
                 LegalEase provides accessible, professional guidance—starting 
                 with our intelligent AI assistant and connecting you to verified advocates when you need them.
               </p>
-              <div className="home-btn_collection">
+              
+              <div className="home-btn_collection justify-center">
                 <button onClick={openFloatingChat} className="btn-AI">
                   Start AI consultation
                 </button>
                 <button className="btn-lawyers">Browse Lawyers</button>
               </div>
-            </div>
-             
-            {/* right side - REMOVED ChatBox */}
-            <div className="right-hero_section">
-              {/* ChatBox removed - only floating button remains */}
             </div>
           </section>   
           
