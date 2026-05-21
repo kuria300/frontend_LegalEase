@@ -62,32 +62,50 @@ export const useChatState = () => {
   const sendMessage = async (message, file = null) => {
     if (!message.trim() && !file) return;
     if (hasReachedLimit) return;
-    
+
     const msgToSend = message || (file ? `Uploaded document: ${file.name}` : '');
-    
+
     setInputMessage('');
     setError(null);
-    
+
+    // If file is attached and user is not logged in, just store it and show message
+    if (file && !isAuthenticated) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        localStorage.setItem('pending_document', JSON.stringify({
+          name: file.name,
+          type: file.type,
+          data: reader.result
+        }));
+      };
+      setMessages(prev => [...prev, {
+        text: `📎 ${file.name} saved. It will be analyzed after you login.`,
+        isUser: false
+      }]);
+      return; // stop here, don't send to API
+    }
+
     if (!isAuthenticated) {
       const newCount = freePromptCount + 1;
       setFreePromptCount(newCount);
       localStorage.setItem('freePromptCount', newCount.toString());
     }
-    
-    setMessages(prev => [...prev, { 
-      text: msgToSend, 
-      isUser: true 
+
+    setMessages(prev => [...prev, {
+      text: msgToSend,
+      isUser: true
     }]);
     setIsLoading(true);
-    
+
     try {
       const response = await ChatService.sendMessage(
-        message, 
-        selectedCategory, 
+        message,
+        selectedCategory,
         selectedSubcategory,
         file
       );
-      
+
       const aiReply = response.reply || response.message || response.analysis || 'No response from AI';
       setMessages(prev => [...prev, { text: aiReply, isUser: false }]);
     } catch (err) {

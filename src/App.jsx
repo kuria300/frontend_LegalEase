@@ -18,6 +18,7 @@ import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
 import Dashboard from "./pages/dashboard/Dashboard"
 import BookingPage from "./pages/booking/BookingPage"
+import ClientDashboard from "./pages/client/ClientDashboard"
 import LawyerProfileModal from "./pages/marketplace/LawyerProfileModal"
 import Emailotp from "./pages/forgot-password/Emailotp"
 
@@ -36,16 +37,17 @@ function App() {
         <Route path="/marketplace" element={<LawyerMarketplace/>}/>
         <Route path='/lawyer-modal/:id' element={<LawyerProfileModal/>}/>
         <Route path='/apply' element={<LawyerApplication />}/>
+        <Route path='/client-dashboard' element={<ClientDashboard />}/>
         <Route path='/application-pending' element={<ApplicationPending />}/>
         <Route path='/admin' element={<AdminDashboard />}/>
-        <Route path="/lawyer" element={<LawyerDashboardLayout />} />
-          <Route path="/lawyer-dashboard" element={<LawyerHomepage />} />
-          <Route path="consultations" element={<ConsultationList />} />
-          <Route path="profile" element={<LawyerProfile />} />
-          <Route path="calendar" element={<LawyerCalendarPage />} />
-          <Route path="settings" element={<LawyerSettingsPage />} />
-          <Route path="support" element={<LawyerSupportPage />} />
-          <Route path="/booking/checkout" element={<BookingPage />} />
+        <Route path="/lawyer" element={<LawyerDashboardLayout />}/>
+        <Route path="lawyer/dashboard"element={<LawyerHomepage />} />
+        <Route path="consultations" element={<ConsultationList />} />
+        <Route path="profile" element={<LawyerProfile />} />
+        <Route path="calendar" element={<LawyerCalendarPage />} />
+        <Route path="settings" element={<LawyerSettingsPage />} />
+        <Route path="support" element={<LawyerSupportPage />} />
+        <Route path="/booking/checkout" element={<BookingPage />} />
 
   
       </Routes>
