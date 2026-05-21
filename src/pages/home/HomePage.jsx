@@ -1,9 +1,11 @@
 import Footer from "../../components/layout/Footer"
 import HomeNavbar from "../../components/layout/HomeNavbar"
 import { Bot, SendHorizonal, MessageSquare, CalendarCheck, UserRoundSearch, Verified, Clock, Banknote,Zap} from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 
 function HomePage(){
+  const navigate = useNavigate()
     return(
         <>
          <section className="home-container flex flex-col min-h-screen">
@@ -25,10 +27,26 @@ function HomePage(){
                     LegalEase provides accessible, professional guidance—starting 
                     with our intelligent AI assistant and connecting you to verified advocates when you need them.
                    </p>
-                    <div className="home-btn_collection">
-                        <button className="btn-AI">Start AI consultation</button>
-                        <button className="btn-lawyers">Browse Lawyers</button>
-                    </div>
+                   <div className="home-btn_collection">
+    <button className="btn-AI">
+      Start AI consultation
+    </button>
+
+    <button
+      className="btn-lawyers"
+      onClick={() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+          navigate('/marketplace')
+        } else {
+          navigate('/login')
+        }
+      }}
+    >
+      Browse Lawyers
+    </button>
+</div>
                 </div>
                  
                  {/* right side information */}

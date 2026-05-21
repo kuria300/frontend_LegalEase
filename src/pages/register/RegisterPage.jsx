@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Legalease from '../../assets/images/Legalease.png'
-import { Mail, LockKeyhole, User2Icon, UserIcon, Shield, Calendar,LoaderCircle} from 'lucide-react'
+import { Mail, LockKeyhole, User2Icon, UserIcon, Shield, Calendar, LoaderCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Button from '../../components/layout/auth/Button'
 import RegisterInput from '../../components/layout/auth/RegisterInput'
@@ -17,7 +17,7 @@ const RegisterPage = () => {
   const [dob ,setDob]=useState("")
   const [errors, setErrors]=useState('')
   const [role, setRole]=useState("CLIENT")
-  const [loading, setLaoding]=useState(false)
+  const [loading, setLoading]=useState(false)
 
   const url=import.meta.env.VITE_SERVER_URL
 
@@ -29,7 +29,7 @@ const RegisterPage = () => {
     setErrors('')
 
     try{
-      setLaoding(true)
+      setLoading(true)
 
        function validateEmail(email){
         let regex= /^[a-zA-Z0-9.+_%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -85,10 +85,21 @@ const RegisterPage = () => {
      }
 
     }catch(error){
-     console.error('Register Error', error)
-     setErrors(error.response?.data?.message || "something went Wrong.please try again")
+     if(error.response){
+    if(error.response.status === 409){
+      setErrors('An account with this email already exists.')
+    } 
+    else if(error.response.status === 400){
+      setErrors('Invalid registration data.')
+    } 
+    else {
+      setErrors(error.response.data?.message || 'Something went wrong.')
+    }
+  } else {
+    setErrors('Server unreachable. Please try again.')
+  }
     }finally{
-      setLaoding(false)
+      setLoading(false)
     }
   }
 
@@ -203,12 +214,12 @@ const RegisterPage = () => {
           />
           
           {/* create button */}
-          <Button type="submit" className='w-full'>
+          <Button type="submit" className='w-full rounded-lg ' disabled={loading}>
             {loading ? <LoaderCircle className='animate-spin mx-auto'/> : "Create Account"}
           </Button>
 
 
-          <div className='mt-2 flex items-center justify-center'>Already have an account? <Link to='/login' className='text-secondary hover:underline transition-all'>Login</Link></div>
+          <div className='mt-2 flex items-center justify-center'>Already have an account? <Link to='/login' className='text-secondary hover:underline transition-all ml-1'>Login</Link></div>
         </form>
 
       </div>

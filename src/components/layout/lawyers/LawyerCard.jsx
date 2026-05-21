@@ -1,60 +1,76 @@
-import React from 'react';
+import React from "react";
 import { Verified } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-export const LawyerCard = ({ lawyer, onViewProfile }) => {
-  // Safe extraction matching your exact Prisma schema relations
-  const firstName = lawyer.lawyer_applications?.users?.first_name || '';
-  const secondName = lawyer.lawyer_applications?.users?.second_name || '';
-  const category = lawyer.category || 'Legal Practitioner';
-  const experience = lawyer.experience || 0;
-  const isVerified = lawyer.is_active;
+export const LawyerCard = ({lawyer}) => {
+  const firstName =
+    lawyer.lawyer_applications?.users?.first_name || "";
+
+  const secondName =
+    lawyer.lawyer_applications?.users?.second_name || "";
+    const navigate = useNavigate()
+    
+  const onViewProfile =()=>{
+      if (lawyer?.id) {
+      // Navigate using only the clean URL path param
+      navigate(`/lawyer-modal/${lawyer.id}`);
+    } else {
+      console.error("Lawyer profile missing a valid ID string.");
+    }
+  };
+
 
   return (
-    <div className="border border-outline-variant rounded-2xl p-6 bg-surface flex flex-col justify-between min-h-100 w-full max-w-85 shadow-sm">
-      <div>
-        {/* Top Header & Avatar Wrapper - Uses surface container matching home chatbot style */}
-        <div className="relative flex justify-center mb-5 bg-surface-container-low rounded-xl p-6 h-36 items-center border border-outline-variant/30">
-          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
-            <span className="text-primary text-xl font-bold">
-              {firstName[0]}{secondName[0]}
-            </span>
+    <div className="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+      <div className="p-6">
+
+        {/* IMAGE / AVATAR */}
+        <div className="relative flex justify-center bg-gray-100 rounded-2xl p-8 mb-5">
+
+          <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center text-2xl font-bold text-blue-700">
+            {firstName[0]}
+            {secondName[0]}
           </div>
-          
-          {/* Gold Verified Star Badge using your home page icon */}
-          {isVerified && (
-            <span className="absolute top-3 right-3 bg-secondary/10 text-secondary text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
-              <Verified className="w-3.5 h-3.5 fill-secondary text-white" />
+
+          {lawyer.is_active && (
+            <span className="absolute top-4 right-4 bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full flex items-center gap-1 font-semibold">
+              <Verified className="w-4 h-4" />
               Verified
             </span>
           )}
         </div>
 
-        {/* Lawyer Names & Specialty */}
-        <h3 className="text-xl font-bold text-primary tracking-tight">
+        {/* LAWYER INFO */}
+        <h2 className="text-xl font-bold text-gray-900">
           Adv. {firstName} {secondName}
-        </h3>
-        <p className="text-sm text-on-surface-variant font-medium mt-1 mb-4">
-          {category}
+        </h2>
+
+        <p className="text-gray-500 mt-1">
+          {lawyer.category}
         </p>
 
-        {/* Dynamic Detail Pills */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          <span className="bg-surface-container-low border border-outline-variant text-primary text-xs px-2.5 py-1.5 rounded-xl font-medium">
-            💼 {experience} Years Exp.
+        {/* BADGES */}
+        <div className="flex flex-wrap gap-2 mt-5 mb-6">
+
+          <span className="bg-gray-100 px-3 py-2 rounded-xl text-sm">
+            💼 {lawyer.experience} Years Experience
           </span>
-          <span className="bg-surface-container-low border border-outline-variant text-primary text-xs px-2.5 py-1.5 rounded-xl font-medium">
+
+          <span className="bg-gray-100 px-3 py-2 rounded-xl text-sm">
             📍 Nairobi, Kenya
           </span>
-        </div>
-      </div>
 
-      {/* Dark Action Button matching the system typography styles */}
-      <button 
-        onClick={() => onViewProfile(lawyer.id)}
-        className="w-full bg-[#2A3439] hover:bg-primary text-white text-sm font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-sm"
-      >
-        View Profile
-      </button>
+        </div>
+
+        {/* BUTTON */}
+        <button
+          onClick={onViewProfile}
+          className="w-full bg-gray-900 hover:bg-black text-white py-3 rounded-2xl font-semibold transition-all"
+        >
+          View Profile
+        </button>
+
+      </div>
     </div>
   );
 };

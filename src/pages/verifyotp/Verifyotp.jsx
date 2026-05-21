@@ -30,14 +30,19 @@ const Verifyotp = () => {
         {
          email: emailData,
          otp: otpString
-        },
-        {withCredentials: true}
+        }
+      
       )
 
       const data = response.data
 
       navigate('/dashboard') 
       localStorage.removeItem('pendingUser')
+
+
+localStorage.setItem("token", data.token)
+
+
       toast.success('Login successful')
       
     } catch (err) {
@@ -63,8 +68,7 @@ const Verifyotp = () => {
       const response=await axios.post(`${url}/auth/send-otp`, 
         {
          email: emailData,
-        },
-        {withCredentials: true}
+        }
       )
       toast.success(response.data.message || 'Verification code resent successfully. Kindly check your email')
     } catch (err) {

@@ -35,7 +35,7 @@ const LoginPage = () => {
       return
     }
 
-    if(password.length < 2){
+    if(password.length < 8){
       setErrors('Password must be atleast 2 characters long!')
       return
     }
@@ -44,6 +44,9 @@ const LoginPage = () => {
       setLaoding(true)
 
       await Login(email, password)
+
+      setEmail('')
+      setPassword('') 
 
       console.log('Success')
     }catch(error){
@@ -96,10 +99,10 @@ const LoginPage = () => {
             
           {/* forgot password */}
           <div className="flex justify-end">
-             <a className="text-secondary font-medium hover:underline transition-all" href="#">Forgot Password?</a>
+             <Link to="/email-otp" className="text-secondary font-medium hover:underline transition-all">Forgot Password?</Link>
           </div>
            {/* login button */}
-          <Button type="submit" disabled={loading} className='w-full'>
+          <Button type="submit" disabled={loading} className='w-full rounded-lg'>
             {loading ? <LoaderCircle className='animate-spin mx-auto' />: "Login"}
           </Button>
         
