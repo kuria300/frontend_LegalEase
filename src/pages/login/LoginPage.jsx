@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Mail, LoaderCircle, LockKeyhole } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Legalease from '../../assets/images/Legalease.png'
-import Button from '../../components/ui/auth/Button'
-import LoginInput from '../../components/ui/auth/LoginInput'
+import Button from '../../components/layout/auth/Button'
+import LoginInput from '../../components/layout/auth/LoginInput'
 import { useAuth } from '../../hooks/useAuth'
 
 const LoginPage = () => {
@@ -51,7 +51,7 @@ const LoginPage = () => {
       console.log('Success')
     }catch(error){
      console.error('Login Error', error)
-     setErrors(error.response?.data?.message || "something went Wrong.please try again")
+     setErrors(error.response?.data?.message || "Something went Wrong. Please try again")
     }finally{
       setLaoding(false)
     }

@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import Legalease from '../../assets/images/Legalease.png'
 import { Mail, LockKeyhole, User2Icon, UserIcon, Shield, Calendar, LoaderCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import Button from '../../components/ui/auth/Button'
-import RegisterInput from '../../components/ui/auth/RegisterInput'
+import Button from '../../components/layout/auth/Button'
+import RegisterInput from '../../components/layout/auth/RegisterInput'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
@@ -68,6 +68,7 @@ const RegisterPage = () => {
         }
     )
      console.log(response)
+     localStorage.setItem('pendingUser', JSON.stringify(response.data.userId))
      setEmail('')
      setPassword('')
      setConfirmPassword('')
@@ -75,29 +76,20 @@ const RegisterPage = () => {
      setSecondName('')
      setDob('')
 
-     if(role === 'CLIENT') {
+     if(role === 'CLIENT'){
        navigate('/login')
        toast.success(response.data.message || 'Registration successful! Please login.')
        
      } else {
-       navigate('/application-form')
+       navigate('/apply')
        toast.success('Registration successful! Please complete your lawyer application.')
      }
 
     }catch(error){
      if(error.response){
-    if(error.response.status === 409){
-      setErrors('An account with this email already exists.')
-    } 
-    else if(error.response.status === 400){
-      setErrors('Invalid registration data.')
-    } 
-    else {
-      setErrors(error.response.data?.message || 'Something went wrong.')
-    }
-  } else {
-    setErrors('Server unreachable. Please try again.')
-  }
+      console.error('Registration Error', error.response.data)
+      setErrors(error.response.data.error || "Registration failed. Please try again.")
+     }
     }finally{
       setLoading(false)
     }

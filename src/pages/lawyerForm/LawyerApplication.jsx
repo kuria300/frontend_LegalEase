@@ -7,13 +7,15 @@ import StepIndicator from "../../components/steps/StepIndicator"
 
 export default function RegisterPage() {
   const navigate = useNavigate()
-  const form = useForm({ mode: "onTouched" })
+  const form = useForm({ mode: "onTouched" , shouldUnregister: false})
 
   const [step, setStep] = useState(1)
   const [files, setFiles] = useState({ certificate: null })
   const [fileErrors, setFileErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [apiError, setApiError] = useState(null)
+
+  const url=import.meta.env.VITE_SERVER_URL
 
   const next = async () => {
     const isValid = await form.trigger(STEP_FIELDS[step])
@@ -35,11 +37,24 @@ export default function RegisterPage() {
     try {
       let profile_picture_url = null
       const picData = new FormData()
+       const profilePhotoFile = data.profilePhoto && data.profilePhoto.length > 0 
+        ? data.profilePhoto[0] 
+        : null;
+
+      if (!profilePhotoFile) {
+        throw new Error("Please select a profile photo.");
+      }
       picData.append("document", data.profilePhoto)
       const picRes = await fetch("/api/documents/upload-file", { method: "POST", body: picData })
+   
       const picResult = await picRes.json()
-      if (!picRes.ok) throw new Error(picResult.error || "Failed to upload profile photo")
+      if (!picRes.ok) throw new Error("Failed to upload profile photo")
         profile_picture_url = picResult.fileUrl
+
+      console.log("Original value:", data.profilePhoto);
+console.log("Is it a File instance?:", data.profilePhoto instanceof File);
+console.log("Is it a FileList instance?:", data.profilePhoto instanceof FileList);
+
 
 
 
@@ -48,7 +63,7 @@ export default function RegisterPage() {
       certData.append("document", files.certificate)
       const certRes = await fetch("/api/documents/upload-file", { method: "POST", body: certData })
       const certResult = await certRes.json()
-      if (!certRes.ok) throw new Error(certResult.error || "Failed to upload certificate")
+      if (!certRes.ok) throw new Error("Failed to upload certificate")
 
       // submit application
       const appRes = await fetch("/api/lawyer", {
@@ -63,11 +78,14 @@ export default function RegisterPage() {
           phone_number: data.phone_number,
           profile_picture_url,
           file_url: certResult.fileUrl,
+          user_id: localStorage.getItem("pendingUser"),
         }),
       })
 
+      localStorage.removeItem("pendingUser")
+
       const appResult = await appRes.json()
-      if (!appRes.ok) throw new Error(appResult.error || appResult.message || "Failed to submit application")
+      if (!appRes.ok) throw new Error("Failed to submit application")
 
       navigate("/application-pending")
     } catch (err) {

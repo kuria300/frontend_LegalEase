@@ -29,13 +29,27 @@ function HomePage(){
                 with our intelligent AI assistant and connecting you to verified advocates when you need them.
               </p>
               
-              <div className="home-btn_collection justify-center">
-                <button onClick={openFloatingChat} className="btn-AI">
-                  Start AI consultation
-                </button>
-                <button className="btn-lawyers">Browse Lawyers</button>
-              </div>
-            </div>
+                  <div className="home-btn_collection">
+                      <button className="btn-AI">
+                        Start AI consultation
+                      </button>
+
+                      <button
+                        className="btn-lawyers"
+                        onClick={() => {
+                          const token = localStorage.getItem("token");
+
+                          if (token) {
+                            navigate('/marketplace')
+                          } else {
+                            navigate('/login')
+                          }
+                        }}
+                      >
+                        Browse Lawyers
+                      </button>
+                  </div>
+                  </div>
           </section>   
           
           {/* section 2 - How LegalEase Works */}
