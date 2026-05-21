@@ -117,11 +117,11 @@
     display: flex;
     justify-content: flex-end;
   }
-  .input-chatbot {
-    @apply flex-1 bg-surface-container-low border-none rounded-lg px-4 py-2 focus:ring-1 focus:ring-primary placeholder:text-outline;
+  .input-chatbot{
+    @apply flex-1 bg-white border-2 border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-outline
   }
-  .btn-chatbot {
-    @apply bg-primary text-on-primary w-10 h-10 rounded-lg flex items-center justify-center hover:bg-primary-container transition-colors;
+  .btn-chatbot{
+    @apply bg-primary text-on-primary w-10 h-10 rounded-lg flex items-center justify-center hover:bg-primary-container transition-colors shadow-md
   }
 
   /* section 2 */
@@ -165,44 +165,56 @@
   }
 
   .chatbot-section {
-    @apply bg-surface-container-lowest rounded-2xl shadow-lg border border-outline-variant flex flex-col h-[400px];
+    @apply bg-white rounded-2xl flex flex-col h-[400px];
     margin-left: auto;
     margin-right: 0;
+    box-shadow: 0 10px 40px rgba(0, 14, 39, 0.15), 0 0 0 2px rgba(0, 14, 39, 0.1);
+    border: 2px solid rgba(0, 14, 39, 0.15);
   }
 
   /* ============================================
-     CHATBOX COMPONENT STYLES
+     CHATBOX COMPONENT STYLES — Legalease Brand
+     Navy (#000e27) + Gold (#fed65b / #735c00)
      ============================================ */
 
   /* Container */
   .chatbox-container {
-    @apply flex flex-col h-[600px] w-[400px] bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden;
+    @apply flex flex-col h-[600px] w-[400px] rounded-xl overflow-hidden;
+    background: #ffffff;
+    border: 1.5px solid #d8e3fa;
+    box-shadow: 0 4px 24px rgba(0, 14, 39, 0.10);
   }
 
-  /* Header */
+  /* Header — navy background */
   .chatbox-header {
-    @apply px-4 py-3 border-b border-gray-100;
+    background: #000e27;
+    @apply px-4 py-3 flex items-center gap-3;
   }
 
   .chatbox-title {
-    @apply font-medium text-gray-900;
+    @apply font-semibold text-sm;
+    color: #ffffff;
   }
 
   .chatbox-free-count {
-    @apply text-xs text-gray-400 mt-0.5;
+    @apply text-xs mt-0.5;
+    color: rgba(255, 255, 255, 0.5);
   }
 
   .chatbox-context {
-    @apply text-xs text-gray-400 mt-1;
+    @apply text-xs mt-1;
+    color: rgba(255, 255, 255, 0.45);
   }
 
   /* Content Area */
   .chatbox-content {
-    @apply flex-1 overflow-y-auto px-4 py-3 bg-white;
+    @apply flex-1 overflow-y-auto px-4 py-3;
+    background: #f0f3ff;
   }
 
   .chatbox-section-title {
-    @apply text-sm text-gray-600 mb-3;
+    @apply text-sm mb-3;
+    color: #44474f;
   }
 
   /* Back Button */
@@ -211,12 +223,17 @@
   }
 
   .chatbox-back-btn {
-    @apply text-gray-500 hover:text-gray-700;
+    @apply cursor-pointer;
+    color: #44474f;
+    transition: color 0.2s;
   }
+  .chatbox-back-btn:hover { color: #000e27; }
 
   /* Disclaimer */
   .chatbox-disclaimer {
-    @apply text-xs text-gray-400 text-center mb-4 pb-2 border-b border-gray-50;
+    @apply text-xs text-center mb-4 pb-2;
+    color: #747780;
+    border-bottom: 1px solid #d8e3fa;
   }
 
   /* Messages */
@@ -225,7 +242,8 @@
   }
 
   .chatbox-empty-state {
-    @apply text-center text-gray-300 text-sm mt-32;
+    @apply text-center text-sm mt-32;
+    color: #c4c6d0;
   }
 
   .chatbox-message {
@@ -244,19 +262,26 @@
     @apply max-w-[85%] px-3 py-2;
   }
 
+  /* User bubble — navy */
   .user-bubble {
-    @apply bg-gray-800 text-white rounded-2xl rounded-br-md;
+    background: #000e27;
+    color: #ffffff;
+    @apply rounded-2xl rounded-br-md;
   }
 
+  /* AI bubble — white with navy border tint */
   .ai-bubble {
-    @apply bg-gray-100 text-gray-800 rounded-2xl rounded-bl-md border border-gray-200;
+    background: #ffffff;
+    color: #111c2c;
+    border: 1.5px solid #d8e3fa;
+    @apply rounded-2xl rounded-bl-md;
   }
 
   .chatbox-message-text {
     @apply whitespace-pre-wrap text-sm;
   }
 
-  /* Markdown styles - without prose */
+  /* Markdown styles */
   .chatbox-markdown {
     @apply text-sm;
   }
@@ -299,75 +324,139 @@
     @apply text-sm;
   }
 
-  /* Lawyer Button */
+  /* Lawyer Button — gold accent */
   .chatbox-lawyer-btn-container {
     @apply mt-4 text-center;
   }
 
   .chatbox-lawyer-btn {
-    @apply text-sm text-gray-600 underline hover:text-gray-900 transition;
+    @apply text-sm font-medium underline transition cursor-pointer;
+    color: #735c00;
+    background: none;
+    border: none;
   }
+  .chatbox-lawyer-btn:hover { color: #000e27; }
 
   /* Input Area */
   .chatbox-input-area {
-    @apply border-t border-gray-100 p-3 bg-white;
+    @apply p-3;
+    border-top: 1.5px solid #d8e3fa;
+    background: #ffffff;
   }
 
+  /* Register / Login prompt buttons */
   .chatbox-register-btn {
-    @apply w-full text-sm text-gray-600 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition;
+    @apply w-full text-sm py-2 rounded-lg transition cursor-pointer;
+    color: #44474f;
+    border: 1.5px solid #d8e3fa;
+    background: #ffffff;
   }
+  .chatbox-register-btn:hover { background: #f0f3ff; }
 
   .chatbox-input-wrapper {
     @apply flex flex-col gap-2;
   }
 
   .chatbox-file-preview {
-    @apply flex items-center justify-between bg-gray-50 rounded-lg px-3 py-2 text-sm;
+    @apply flex items-center justify-between rounded-lg px-3 py-2 text-sm;
+    background: #f0f3ff;
   }
 
   .chatbox-file-name {
-    @apply text-gray-600 truncate;
+    @apply text-sm truncate;
+    color: #44474f;
   }
 
   .chatbox-file-remove {
-    @apply text-gray-400 hover:text-red-500;
+    @apply cursor-pointer transition;
+    color: #747780;
   }
+  .chatbox-file-remove:hover { color: #ba1a1a; }
 
   .chatbox-input-row {
-    @apply flex gap-2;
+    @apply flex gap-2 items-center;
   }
 
   .chatbox-file-input {
     @apply hidden;
   }
 
+  /* Attach button — subtle navy-toned */
   .chatbox-attach-btn {
-    @apply cursor-pointer text-gray-400 hover:text-gray-600 transition p-2 rounded-lg border border-gray-200;
+    @apply cursor-pointer transition p-2 rounded-lg flex-shrink-0;
+    color: #44474f;
+    border: 1.5px solid #d8e3fa;
+    background: #f0f3ff;
+  }
+  .chatbox-attach-btn:hover {
+    color: #000e27;
+    border-color: #000e27;
   }
 
+  /* Attach button (logged-in variant) */
+  .chatbox-attach-btn-login {
+    @apply cursor-pointer transition p-2 rounded-lg flex-shrink-0;
+    color: #44474f;
+    border: 1.5px solid #d8e3fa;
+    background: #f0f3ff;
+  }
+  .chatbox-attach-btn-login:hover {
+    color: #735c00;
+    border-color: #fed65b;
+  }
+
+  /* Text input */
   .chatbox-text-input {
-    @apply flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400;
+    @apply flex-1 rounded-lg px-3 py-2 text-sm;
+    border: 1.5px solid #d8e3fa;
+    background: #f0f3ff;
+    color: #111c2c;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
   }
+  .chatbox-text-input:focus {
+    border-color: #000e27;
+    background: #ffffff;
+  }
+  .chatbox-text-input::placeholder { color: #9aa3b2; }
 
+  /* Send button — navy */
   .chatbox-send-btn {
-    @apply text-gray-400 hover:text-gray-900 transition disabled:opacity-50;
+    @apply rounded-lg p-2 flex items-center justify-center flex-shrink-0 transition cursor-pointer;
+    background: #000e27;
+    color: #ffffff;
+    border: none;
   }
+  .chatbox-send-btn:hover { background: #00234e; }
+  .chatbox-send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .chatbox-prompt-hint {
-    @apply text-center text-xs text-gray-400 py-2;
+    @apply text-center text-xs py-2;
+    color: #747780;
   }
 
-  /* ChatBox Limit Options - Both Register & Login */
+  /* Limit / auth options */
   .chatbox-limit-options {
     @apply text-center;
   }
 
   .chatbox-limit-message {
-    @apply text-sm text-gray-600 mb-3;
+    @apply text-sm mb-3;
+    color: #44474f;
   }
 
   .chatbox-login-btn {
-    @apply w-full text-sm text-blue-600 py-2 border border-blue-200 rounded-lg hover:bg-blue-50 transition mt-2;
+    @apply w-full text-sm py-2 rounded-lg transition mt-2 cursor-pointer;
+    color: #735c00;
+    border: 1.5px solid #fed65b;
+    background: #ffffff;
+  }
+  .chatbox-login-btn:hover { background: #fff8e1; }
+
+  .chatbox-error {
+    @apply text-xs p-2 rounded-lg mb-2;
+    color: #ba1a1a;
+    background: #ffdad6;
   }
 
   /* Floating Chat Button Animation */
@@ -674,192 +763,6 @@
     @apply flex flex-col h-[600px] w-[400px] bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden;
   }
 
-  .chatbox-header {
-    @apply px-4 py-3 border-b border-gray-100;
-  }
-
-  .chatbox-title {
-    @apply font-medium text-gray-900;
-  }
-
-  .chatbox-free-count {
-    @apply text-xs text-gray-400 mt-0.5;
-  }
-
-  .chatbox-context {
-    @apply text-xs text-gray-400 mt-1;
-  }
-
-  .chatbox-content {
-    @apply flex-1 overflow-y-auto px-4 py-3 bg-white;
-  }
-
-  .chatbox-section-title {
-    @apply text-sm text-gray-600 mb-3;
-  }
-
-  .chatbox-back-header {
-    @apply flex items-center gap-2 mb-3;
-  }
-
-  .chatbox-back-btn {
-    @apply text-gray-500 hover:text-gray-700 cursor-pointer;
-  }
-
-  .chatbox-disclaimer {
-    @apply text-xs text-gray-400 text-center mb-4 pb-2 border-b border-gray-50;
-  }
-
-  .chatbox-messages {
-    @apply flex flex-col gap-2;
-  }
-
-  .chatbox-empty-state {
-    @apply text-center text-gray-300 text-sm mt-32;
-  }
-
-  .chatbox-message {
-    @apply flex mb-3;
-  }
-
-  .chatbox-message.user {
-    @apply justify-end;
-  }
-
-  .chatbox-message.ai {
-    @apply justify-start;
-  }
-
-  .chatbox-bubble {
-    @apply max-w-[85%] px-3 py-2;
-  }
-
-  .user-bubble {
-    @apply bg-gray-800 text-white rounded-2xl rounded-br-md;
-  }
-
-  .ai-bubble {
-    @apply bg-gray-100 text-gray-800 rounded-2xl rounded-bl-md border border-gray-200;
-  }
-
-  .chatbox-message-text {
-    @apply whitespace-pre-wrap text-sm;
-  }
-
-  .chatbox-markdown {
-    @apply text-sm;
-  }
-
-  .chatbox-markdown p {
-    @apply mb-2 last:mb-0;
-  }
-
-  .chatbox-markdown ul {
-    @apply list-disc pl-4 mb-2;
-  }
-
-  .chatbox-markdown ol {
-    @apply list-decimal pl-4 mb-2;
-  }
-
-  .chatbox-markdown li {
-    @apply mb-1;
-  }
-
-  .chatbox-markdown strong {
-    @apply font-bold;
-  }
-
-  .chatbox-lawyer-btn-container {
-    @apply mt-4 text-center;
-  }
-
-  .chatbox-lawyer-btn {
-    @apply text-sm text-gray-600 underline hover:text-gray-900 transition cursor-pointer;
-  }
-
-  .chatbox-input-area {
-    @apply border-t border-gray-100 p-3 bg-white;
-  }
-
-  .chatbox-register-btn {
-    @apply w-full text-sm text-gray-600 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition cursor-pointer;
-  }
-
-  .chatbox-input-wrapper {
-    @apply flex flex-col gap-2;
-  }
-
-  .chatbox-file-preview {
-    @apply flex items-center justify-between bg-gray-50 rounded-lg px-3 py-2 text-sm;
-  }
-
-  .chatbox-file-name {
-    @apply text-gray-600 truncate;
-  }
-
-  .chatbox-file-remove {
-    @apply text-gray-400 hover:text-red-500 cursor-pointer;
-  }
-
-  .chatbox-input-row {
-    @apply flex gap-2;
-  }
-
-  .chatbox-file-input {
-    @apply hidden;
-  }
-
-  .chatbox-attach-btn {
-    @apply cursor-pointer text-gray-400 hover:text-gray-600 transition p-2 rounded-lg border border-gray-200;
-  }
-
-  .chatbox-attach-btn-login {
-    @apply cursor-pointer text-gray-400 hover:text-blue-500 transition p-2 rounded-lg border border-gray-200 hover:border-blue-300;
-  }
-
-  .chatbox-text-input {
-    @apply flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400;
-  }
-
-  .chatbox-send-btn {
-    @apply text-gray-400 hover:text-gray-900 transition disabled:opacity-50 cursor-pointer;
-  }
-
-  .chatbox-prompt-hint {
-    @apply text-center text-xs text-gray-400 py-2;
-  }
-
-  .chatbox-limit-options {
-    @apply text-center;
-  }
-
-  .chatbox-limit-message {
-    @apply text-sm text-gray-600 mb-3;
-  }
-
-  .chatbox-login-btn {
-    @apply w-full text-sm text-blue-600 py-2 border border-blue-200 rounded-lg hover:bg-blue-50 transition mt-2 cursor-pointer;
-  }
-
-  .chatbox-error {
-    @apply text-xs text-red-600 bg-red-50 p-2 rounded-lg mb-2;
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.3s ease-out;
-  }
 }
 @layer utilities {
   .animate-fadeIn {
