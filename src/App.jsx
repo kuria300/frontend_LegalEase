@@ -26,6 +26,8 @@ function App() {
         <Route path="/find-lawyers" element = {<LawyerMarketplace/>}/>
         <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/email-otp" element={<Emailotp />} />
+        <Route path="/marketplace" element={<LawyerMarketplace/>}/>
+        <Route path='/lawyer-modal/:id' element={<LawyerProfileModal/>}/>
         <Route path='/apply' element={<LawyerApplication />}/>
         <Route path='/application-pending' element={<ApplicationPending />}/>
         <Route path='/admin' element={<AdminDashboard />}/>

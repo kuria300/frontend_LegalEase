@@ -45,6 +45,34 @@ const Dashboard = () => {
     )
   }
 
+  // ==========================================
+  //  HALIMA'S PART (Lawyer Role Routing)
+  // ==========================================
+  if (user.role === 'LAWYER') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-green-50">
+        <div className="p-8 bg-white rounded-xl shadow-lg border-2 border-green-400 text-center max-w-md">
+          <h1 className="text-2xl font-bold text-green-600 mb-2">⚖️ Lawyer Workspace</h1>
+          <p className="text-gray-600 mb-4">Logged in as: <span className="font-semibold">{user.email}</span></p>
+          
+          <div className="p-3 bg-green-100 text-green-800 text-sm rounded-lg font-medium mb-4">
+            Verification Successful! Your practitioner account status is currently pending administrative vetting.
+          </div>
+
+          <button 
+            onClick={() => navigate('/marketplace')}
+            className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition-colors"
+          >
+            Go to Marketplace View
+          </button>
+        </div>
+      </div>
+    )
+  }
+  // ==========================================
+  // END: HALIMA'S PART
+  // ==========================================
+
   // 3. Admin Layout View
   if (user.role === 'LAWYER') {
     return (

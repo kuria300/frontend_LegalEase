@@ -1,44 +1,59 @@
 import { useEffect, useState } from "react";
-import LawyerCard from "../../components/LawyerCard";
+import { LawyerCard } from "../../../src/components/layout/lawyers/LawyerCard";
 import { getLawyers } from "../../services/lawyerService";
 import Legalease from "../../assets/images/Legalease.png";
-import LawyerProfileModal from "../marketplace/LawyerProfileModal";
+import LawyerProfileModal from "../../pages/marketplace/LawyerProfileModal";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const LawyerMarketplace = () => {
   const [lawyers, setLawyers] = useState([]);
   const [filteredLawyers, setFilteredLawyers] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [loading, setLoading] = useState(true);
   const [selectedLawyer, setSelectedLawyer] = useState(null);
+  
+  // Track data loading state from your backend
+  const [dataLoading, setDataLoading] = useState(true);
 
-  // FETCH LAWYERS
+  const navigate = useNavigate();
+  // 'loading' here comes from your Auth Context
+  const { user, loading } = useAuth();
+
+  // // // 1. REDIRECT LOGIC (Safe at top level)
+  // // useEffect(() => {
+  // //   if (!loading && !user) {
+  // //     toast.info("Please log in to continue.");
+  // //     navigate('/login');
+  // //   }
+  // }, [user, loading, navigate]);
+
+  // 2. FETCH LAWYERS FROM BACKEND
   useEffect(() => {
     const fetchLawyers = async () => {
+      // Don't fetch if auth is still processing or if no user exists
+      if (loading || !user) return;
+
       try {
-        setLoading(true);
-
+        setDataLoading(true);
         const data = await getLawyers();
-
         const safeData = Array.isArray(data) ? data : [];
-
         setLawyers(safeData);
         setFilteredLawyers(safeData);
-
       } catch (error) {
         console.error("Failed to load lawyers:", error);
-
         setLawyers([]);
         setFilteredLawyers([]);
       } finally {
-        setLoading(false);
+        setDataLoading(false);
       }
     };
 
     fetchLawyers();
-  }, []);
+  }, [user, loading]); // Re-run fetch when user authentication completes
 
-  // FILTER LOGIC
+  // 3. FILTER LOGIC
   useEffect(() => {
     let result = [...lawyers];
 
@@ -57,32 +72,35 @@ const LawyerMarketplace = () => {
     setFilteredLawyers(result);
   }, [search, selectedCategory, lawyers]);
 
+
+  // 4. POSITION REAL Loading Screen Here (After all hooks)
+  // This blocks the UI until Auth is complete and backend data is fully loaded
+  if (loading || dataLoading || !user) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+        <img src={Legalease} alt="Loading..." className="w-24 h-24 object-contain animate-pulse mb-4" />
+        <p className="text-gray-500 font-medium animate-pulse">
+          {loading ? "Verifying session..." : "Loading lawyers from marketplace..."}
+        </p>
+      </div>
+    );
+  }
+  if (!user) return
+
+
+  // 5. RENDER MAIN UI (Only runs if user is validated AND data is ready)
   return (
     <section className="min-h-screen bg-gray-50 px-6 py-12">
-
       <div className="max-w-6xl mx-auto">
-
         
-<div className="mb-10 flex flex-col items-center text-center">
-  
-  <img
-    src={Legalease}
-    alt="LegalEase Logo"
-className="w-40 h-40 object-contain mb-4"  />
-
-          <h1 className="text-primary text-4xl font-bold">
-            Find Verified Lawyers
-          </h1>
-
-          <p className="text-on-surface-variant mt-2 text-lg">
-            Browse trusted legal professionals across Kenya
-          </p>
-
+        <div className="mb-10 flex flex-col items-center text-center">
+          <img src={Legalease} alt="LegalEase Logo" className="w-40 h-40 object-contain mb-4" />
+          <h1 className="text-primary text-4xl font-bold">Find Verified Lawyers</h1>
+          <p className="text-on-surface-variant mt-2 text-lg">Browse trusted legal professionals across Kenya</p>
         </div>
 
         {/* FILTERS */}
         <div className="flex flex-col md:flex-row gap-4 mb-10">
-
           <input
             type="text"
             placeholder="Search lawyer..."
@@ -101,33 +119,23 @@ className="w-40 h-40 object-contain mb-4"  />
             <option value="Criminal Law">Criminal Law</option>
             <option value="Land Law">Land Law</option>
           </select>
-
         </div>
 
-        {/* LOADING */}
-        {loading && (
-          <p className="text-gray-500">Loading lawyers...</p>
-        )}
-
         {/* EMPTY STATE */}
-        {!loading && filteredLawyers.length === 0 && (
-          <p className="text-gray-500">
-            No lawyers found.
-          </p>
+        {filteredLawyers.length === 0 && (
+          <p className="text-gray-500 text-center py-10">No lawyers found matching your criteria.</p>
         )}
 
         {/* GRID */}
-        {!loading && filteredLawyers.length > 0 && (
+        {filteredLawyers.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
             {filteredLawyers.map((lawyer) => (
               <LawyerCard
                 key={lawyer.id}
                 lawyer={lawyer}
-                onView={() => setSelectedLawyer(lawyer)}
+                
               />
             ))}
-
           </div>
         )}
 
