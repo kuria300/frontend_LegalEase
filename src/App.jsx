@@ -2,6 +2,12 @@ import { Route, Routes } from "react-router-dom"
 import HomePage from "./pages/home/HomePage"
 import RegisterPage from "./pages/register/RegisterPage"
 import LoginPage from "./pages/login/LoginPage"
+import { Icon } from "lucide-react"
+import LawyerApplication from "./pages/lawyerForm/LawyerApplication"
+import ApplicationPending from "./pages/application/ApplicationPending"
+import AdminDashboard from "./pages/admin/AdminDashboard"
+
+function App() {
 import FloatingChatButton from "./components/ui/Chat/FloatingChatButton"
 import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
@@ -23,6 +29,9 @@ function App() {
         <Route path="/email-otp" element={<Emailotp />} />
         <Route path="/marketplace" element={<LawyerMarketplace/>}/>
         <Route path='/lawyer-modal/:id' element={<LawyerProfileModal/>}/>
+        <Route path='/apply' element={<LawyerApplication />}/>
+        <Route path='/application-pending' element={<ApplicationPending />}/>
+        <Route path='/admin' element={<AdminDashboard />}/>
 
         {/* Chat routes temporarily disabled */}
       </Routes>

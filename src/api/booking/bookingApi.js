@@ -1,7 +1,8 @@
 import axios from "axios";
 
+// create axios instance
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
 });
 
 // attach JWT token to every request
@@ -39,5 +40,13 @@ export const createBooking = async ({
         parseDate,
     });
 
+    return data.data;
+}
+
+// POST /api/checkout/:booking_id
+// sends phone number, triggers STK push
+//-> return checkout_req_id for polling
+export const initiateStkPush = async (bookingId, phoneNumber) => {
+    const { data } = await api.post(`/checkout/${bookingId}`,{ phoneNumber });
     return data.data;
 }
