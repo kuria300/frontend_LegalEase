@@ -4,48 +4,51 @@ class ChatService {
   async sendMessage(message, category, subcategory, file = null) {
     const token = localStorage.getItem('token');
 
-    // If there's a file, just store it in localStorage - don't upload yet
-    if (file) {
+    // If there's a file AND user is NOT logged in, store it in localStorage for later
+    if (file && !token) {
       const base64 = await this.fileToBase64(file);
       localStorage.setItem('pending_document', JSON.stringify({
         name: file.name,
         type: file.type,
         data: base64
       }));
+      
+      // Return early with a message that document will be analyzed after login
+      return { 
+        reply: `📎 "${file.name}" has been saved. You have ${2 - this.getFreePromptCount()} free messages remaining. After logging in, this document will be analyzed automatically.` 
+      };
     }
 
-    // Always use public endpoint if no token
-    if (!token) {
-      const response = await fetch(`${API_BASE_URL}/chat/message/public`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message, category, subcategory }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to send message');
-      }
-
-      return await response.json();
+    // If there's a file AND user IS logged in, upload it first
+    if (file && token) {
+      const uploadResult = await this.uploadDocument(file, token);
+      return uploadResult;
     }
 
-    // User is logged in - check for pending document and upload it
+    // Check for pending document after login
     const pendingDoc = localStorage.getItem('pending_document');
-    if (pendingDoc) {
+    if (pendingDoc && token) {
       const docData = JSON.parse(pendingDoc);
-      const result = await this.uploadDocument(docData, token);
+      const result = await this.uploadDocumentFromBase64(docData, token);
       localStorage.removeItem('pending_document');
       return result;
     }
 
-    // Logged in, no file - use authenticated endpoint
-    const response = await fetch(`${API_BASE_URL}/chat/message`, {
+    // No file - just send message
+    // Use public endpoint if no token, authenticated endpoint if token exists
+    const endpoint = !token ? `${API_BASE_URL}/chat/message/public` : `${API_BASE_URL}/chat/message`;
+    
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(endpoint, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
+      headers,
       body: JSON.stringify({ message, category, subcategory }),
     });
 
@@ -57,6 +60,12 @@ class ChatService {
     return await response.json();
   }
 
+  // Helper to get current free prompt count
+  getFreePromptCount() {
+    const count = localStorage.getItem('freePromptCount');
+    return count ? parseInt(count) : 0;
+  }
+
   async fileToBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -66,26 +75,33 @@ class ChatService {
     });
   }
 
-  async uploadDocument(docData, token) {
-    const response = await fetch(docData.data);
-    const blob = await response.blob();
-    const file = new File([blob], docData.name, { type: docData.type });
-
+  // Upload document directly (when user is logged in and uploading immediately)
+  async uploadDocument(file, token) {
     const formData = new FormData();
     formData.append('document', file);
 
-    const uploadResponse = await fetch(`${API_BASE_URL}/chat/upload-document`, {
+    const response = await fetch(`${API_BASE_URL}/chat/upload-document`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}` },
       body: formData,
     });
 
-    if (!uploadResponse.ok) {
-      const error = await uploadResponse.json();
+    if (!response.ok) {
+      const error = await response.json();
       throw new Error(error.message || 'Failed to upload document');
     }
 
-    return await uploadResponse.json();
+    return await response.json();
+  }
+
+  // Upload document from base64 (for pending documents after login)
+  async uploadDocumentFromBase64(docData, token) {
+    // Convert base64 to blob
+    const base64Response = await fetch(docData.data);
+    const blob = await base64Response.blob();
+    const file = new File([blob], docData.name, { type: docData.type });
+    
+    return this.uploadDocument(file, token);
   }
 
   async getChatHistory(userId) {

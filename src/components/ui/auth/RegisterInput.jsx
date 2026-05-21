@@ -19,12 +19,15 @@ const RegisterInput = ({
 
       <div className='relative'>
         
-        <div className='absolute inset-y-0 left-0 pl-3 flex items-center text-outline'>
-          {icon}
-        </div>
+        {icon && (
+          <div className='absolute inset-y-0 left-0 pl-3 flex items-center text-outline'>
+            {icon}
+          </div>
+        )}
+
         <input
           type={type}
-          className={`input pl-10 ${className}`}
+          className={`input ${icon ? 'pl-10' : ''} ${className}`}
           id={id}
           name={name}
           placeholder={placeholder}

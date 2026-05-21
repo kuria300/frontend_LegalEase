@@ -17,7 +17,20 @@ const AuthProvider = ({children}) => {
     const checkAuth= async()=>{
         setLoading(true)
       try {
-        const response= await axios.get(`${url}/auth/session/me`, {withCredentials: true})
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setUser(null)
+          setRole(null)
+          setLoading(false)
+          return
+        }
+        const response= await axios.get(`${url}/auth/session/me`,
+          {
+            headers:{
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
 
        console.log(response.data)
 
@@ -44,7 +57,7 @@ const AuthProvider = ({children}) => {
         {
           email,
          password
-        }, { withCredentials: true}
+        }
     )
 
      console.log(response)
@@ -67,16 +80,31 @@ const AuthProvider = ({children}) => {
     }
 
     const Logout= async()=>{
+      try{
 
-        await axios.post(`${url}/auth/logout`, 
-            {}, 
-            {withCredentials: true})
+        const token = localStorage.getItem("token");
+        const data=await axios.post(
+            `${url}/auth/logout`,
+             {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
 
+        localStorage.removeItem("token");
 
-        setUser(null)
-        setRole(null)
-        toast.success('Logged out successfully')
-        navigate('/login')
+        setUser(null);
+        setRole(null);
+
+        toast.success( data?.message || "Logged out successfully");
+        navigate("/login");
+
+      }catch(error){
+        console.log(error)
+        toast.error("Logout failed. Please try again")
+      }
     }
 
   return (

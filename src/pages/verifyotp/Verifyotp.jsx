@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Legalease from '../../assets/images/Legalease.png'
 import Button from '../../components/ui/auth/Button'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { LoaderCircle } from 'lucide-react'
 import { toast } from 'react-toastify'
@@ -16,10 +16,26 @@ const Verifyotp = () => {
 
    const navigate= useNavigate()
     const inputRef = useRef([])
+    const location = useLocation()
+
 
   //get email from localstorage to verify-otp
    const user= JSON.parse(localStorage.getItem('pendingUser'))
    const emailData= user?.email
+
+   //protect route
+   useEffect(() => {
+        const token = localStorage.getItem('token')
+
+        if (token) {
+          navigate('/dashboard', { replace: true })
+          return
+        }
+        if (!emailData) {
+          navigate('/login', { replace: true })
+        }
+      }, [])
+   
   // for verifying otp
    const submitOtp = async(otpString) => {
     setLoading(true)
@@ -30,14 +46,18 @@ const Verifyotp = () => {
         {
          email: emailData,
          otp: otpString
-        },
-        {withCredentials: true}
+        }
       )
+
+      console.log(response.data)
 
       const data = response.data
 
-      navigate('/dashboard') 
+      setLoading(false)
+ 
+      navigate('/dashboard', { replace: true })
       localStorage.removeItem('pendingUser')
+      localStorage.setItem("token", data.token)
       toast.success('Login successful')
       
     } catch (err) {
@@ -63,8 +83,7 @@ const Verifyotp = () => {
       const response=await axios.post(`${url}/auth/send-otp`, 
         {
          email: emailData,
-        },
-        {withCredentials: true}
+        }
       )
       toast.success(response.data.message || 'Verification code resent successfully. Kindly check your email')
     } catch (err) {
@@ -159,7 +178,7 @@ const Verifyotp = () => {
             </div>
 
             <form onSubmit={handleOtp} className='w-full flex flex-col gap-6'>
-              <div className='flex justify-center gap-6 sm:gap-3 mb-8'>
+              <div className='flex justify-center gap-6 sm:gap-3 mb-6'>
                 {otp.map((Digit, index)=>(
                  <input 
                   key={index}

@@ -6,16 +6,18 @@ const LoginInput = ({type="text",name, placeholder, icon, className="", ...props
   return (
     <>
      <div className='relative'>
-        {/* dynamic icon */}
-        <div className='absolute inset-y-0 left-0 pl-3 flex items-center text-outline'>
-          {icon}
-        </div>
+
+        {icon && (
+          <div className='absolute inset-y-0 left-0 pl-3 flex items-center text-outline'>
+            {icon}
+          </div>
+        )}
 
         <input 
           type={type}
           name={name}
           placeholder={placeholder}
-          className={`input ${className}`}
+          className={`input ${icon ? 'pl-10' : ''} ${className}`}
           {...props}
 
         />

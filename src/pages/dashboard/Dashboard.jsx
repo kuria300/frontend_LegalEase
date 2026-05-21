@@ -46,7 +46,7 @@ const Dashboard = () => {
   }
 
   // 3. Admin Layout View
-  if (user.role === 'ADMIN') {
+  if (user.role === 'LAWYER') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-purple-50">
         <div className="p-8 bg-white rounded-xl shadow-lg border-2 border-purple-400 text-center">

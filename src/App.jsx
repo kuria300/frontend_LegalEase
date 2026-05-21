@@ -7,16 +7,21 @@ import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
 import Dashboard from "./pages/dashboard/Dashboard"
 
+import Emailotp from "./pages/forgot-password/Emailotp"
+
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/verifyotp" element={<Verifyotp />} />
-        <Route path="/find-lawyers" element={<LawyerMarketplace />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path='/signup' element={<RegisterPage />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/verifyOtp' element={<Verifyotp />} />
+        <Route path="/find-lawyers" element = {<LawyerMarketplace/>}/>
+        <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/email-otp" element={<Emailotp />} />
+
+        {/* Chat routes temporarily disabled */}
       </Routes>
       <FloatingChatButton />
     </>
