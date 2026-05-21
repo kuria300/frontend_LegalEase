@@ -5,19 +5,19 @@ import Legalease from "../../assets/images/Legalease.png";
 import LawyerProfileModal from "../../pages/marketplace/LawyerProfileModal";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { toast } from "react-toastify";
 
 const LawyerMarketplace = () => {
   const [lawyers, setLawyers] = useState([]);
   const [filteredLawyers, setFilteredLawyers] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedLawyer, setSelectedLawyer] = useState(null);
   
+  // Holds the lawyer object that was clicked — drives the modal
+  const [selectedLawyer, setSelectedLawyer] = useState(null);
   // Track data loading state from your backend
   const [dataLoading, setDataLoading] = useState(true);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // 'loading' here comes from your Auth Context
   const { user, loading } = useAuth();
 
@@ -63,9 +63,16 @@ const LawyerMarketplace = () => {
       );
     }
 
+    // if (search.trim() !== "") {
+    //   result = result.filter((lawyer) =>
+    //     lawyer?.name?.toLowerCase().includes(search.toLowerCase())
+    //   );
+    // }
     if (search.trim() !== "") {
       result = result.filter((lawyer) =>
-        lawyer?.name?.toLowerCase().includes(search.toLowerCase())
+        lawyer?.lawyer_applications?.users?.first_name
+          ?.toLowerCase()
+          .includes(search.toLowerCase())
       );
     }
 
@@ -133,7 +140,7 @@ const LawyerMarketplace = () => {
               <LawyerCard
                 key={lawyer.id}
                 lawyer={lawyer}
-                
+                onViewProfile = {(lawyer)=> setSelectedLawyer(lawyer)}
               />
             ))}
           </div>

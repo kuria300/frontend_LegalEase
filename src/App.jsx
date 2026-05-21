@@ -12,6 +12,7 @@ import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
 import Dashboard from "./pages/dashboard/Dashboard"
 import BookingPage from "./pages/booking/BookingPage"
+import LawyerProfileModal from "./pages/marketplace/LawyerProfileModal"
 
 import Emailotp from "./pages/forgot-password/Emailotp"
 

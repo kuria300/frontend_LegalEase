@@ -1,23 +1,23 @@
 import React from "react";
 import { Verified } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
-export const LawyerCard = ({lawyer}) => {
+export const LawyerCard = ({lawyer, onViewProfile}) => {
   const firstName =
     lawyer.lawyer_applications?.users?.first_name || "";
 
   const secondName =
     lawyer.lawyer_applications?.users?.second_name || "";
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     
-  const onViewProfile =()=>{
-      if (lawyer?.id) {
-      // Navigate using only the clean URL path param
-      navigate(`/lawyer-modal/${lawyer.id}`);
-    } else {
-      console.error("Lawyer profile missing a valid ID string.");
-    }
-  };
+  // const onViewProfile =()=>{
+  //     if (lawyer?.id) {
+  //     // Navigate using only the clean URL path param
+  //     navigate(`/lawyer-modal/${lawyer.id}`);
+  //   } else {
+  //     console.error("Lawyer profile missing a valid ID string.");
+  //   }
+  // };
 
 
   return (
@@ -64,8 +64,8 @@ export const LawyerCard = ({lawyer}) => {
 
         {/* BUTTON */}
         <button
-          onClick={onViewProfile}
-          className="w-full bg-gray-900 hover:bg-black text-white py-3 rounded-2xl font-semibold transition-all"
+          onClick={()=>onViewProfile(lawyer)}
+          className="w-full bg-gray-900 cursor-pointer hover:bg-[#735c00] text-white py-3 rounded-2xl font-semibold transition-all"
         >
           View Profile
         </button>
