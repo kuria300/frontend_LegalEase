@@ -51,7 +51,7 @@ const LoginPage = () => {
       console.log('Success')
     }catch(error){
      console.error('Login Error', error)
-     setErrors(error.response?.data?.message || "something went Wrong.please try again")
+     setErrors(error.response?.data?.message || "Something went Wrong. Please try again")
     }finally{
       setLaoding(false)
     }
