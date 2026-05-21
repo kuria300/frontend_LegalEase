@@ -6,7 +6,13 @@ import { Icon } from "lucide-react"
 import LawyerApplication from "./pages/lawyerForm/LawyerApplication"
 import ApplicationPending from "./pages/application/ApplicationPending"
 import AdminDashboard from "./pages/admin/AdminDashboard"
-
+import LawyerDashboardLayout from "./components/layout/LawyerDashboardLayout"
+import LawyerHomepage from "./pages/lawyer/LawyerHomepage"
+import ConsultationList from "./pages/lawyer/ConsultationList"
+import LawyerProfile from "./pages/lawyer/LawyerProfile"
+import LawyerCalendarPage from "./pages/lawyer/LawyerCalendarPage"
+import LawyerSettingsPage from "./pages/lawyer/LawyerSettingsPage"
+import LawyerSupportPage from "./pages/lawyer/LawyerSupportPage"
 import FloatingChatButton from "./components/ui/Chat/FloatingChatButton"
 import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
@@ -31,7 +37,14 @@ function App() {
         <Route path='/apply' element={<LawyerApplication />}/>
         <Route path='/application-pending' element={<ApplicationPending />}/>
         <Route path='/admin' element={<AdminDashboard />}/>
-        <Route path="/booking/checkout" element={<BookingPage />} />
+        <Route path="/lawyer" element={<LawyerDashboardLayout />}>
+          <Route index element={<LawyerHomepage />} />
+          <Route path="consultations" element={<ConsultationList />} />
+          <Route path="profile" element={<LawyerProfile />} />
+          <Route path="calendar" element={<LawyerCalendarPage />} />
+          <Route path="settings" element={<LawyerSettingsPage />} />
+          <Route path="support" element={<LawyerSupportPage />} />
+          <Route path="/booking/checkout" element={<BookingPage />} />
 
         {/* Chat routes temporarily disabled */}
       </Routes>
