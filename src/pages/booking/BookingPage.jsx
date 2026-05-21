@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MpesaCheckout from "../../components/ui/booking/MpesaCheckout";
+import PaymentStatusScreen from "../../components/ui/booking/PaymentStatusScreen";
+
 
 // declare valid step constants
 const VALID_STEPS = {
@@ -41,6 +43,16 @@ const BookingPage = () => {
     setCheckoutReqId(reqId);
     setStep(VALID_STEPS.POLLING)
   }
+
+  // callbacks to confirm payment success
+  const handlePaymentSuccess = () => {
+    setStep(VALID_STEPS.SUCCESS);
+  };
+
+  // called by paymentstatus screen when the payment Fails or polling timeout
+  const handlePaymentFailed = () => {
+    setStep(VALID_STEPS.FAILED)
+  }
   return (
     <div className="booking-page-wrapper">
 
@@ -56,7 +68,18 @@ const BookingPage = () => {
           onStkSuccess={handleStkSuccess}
         />
       )}
- 
+
+      {/* polling / loading screen */}
+      {step === VALID_STEPS.POLLING && (
+          <PaymentStatusScreen
+            checkoutReqId={checkoutReqId}
+            amount={amount}
+            // Called when polling confirms SUCCESS — moves to Branch 5
+            onSuccess={handlePaymentSuccess}
+            // Called when payment FAILS or times out — returns to Branch 2
+            onFailed={handlePaymentFailed}
+          />
+        )}
     </div>
   )
 };
