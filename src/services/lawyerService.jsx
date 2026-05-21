@@ -52,3 +52,87 @@ export const getLawyers = async () => {
     return dummyLawyers; 
   }
 };
+
+
+// ─────────────────────────────────────────
+// Lawyer Dashboard Services
+// ─────────────────────────────────────────
+
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const authHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("legalease_token")}`,
+});
+
+const getLawyerId = () =>
+  localStorage.getItem("legalease_lawyer_id") || "e4d02eba-f313-421a-85b0-1ed07298ef9c";
+
+export const getLawyerDashboardSummary = async () => {
+  const lawyerId = getLawyerId();
+  const res = await fetch(
+    `${BASE_URL}/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
+    { headers: authHeaders() }
+  );
+  if (!res.ok) throw new Error("Failed to fetch dashboard summary");
+  const json = await res.json();
+  return json.data; // { upcoming_bookings, recent_completed_bookings, lawyer_profile }
+};
+
+// // Used by ConsultationList + CalendarPage — returns raw json so each page can destructure
+// export const getAllBookings = async (lawyerId) => {
+//   const res = await fetch(
+//     `${BASE_URL}/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
+//     { headers: authHeaders() }
+//   );
+//   if (!res.ok) throw new Error("Failed to fetch bookings");
+//   return res.json(); // { success, data: { upcoming_bookings, recent_completed_bookings } }
+// };
+export const getAllBookings = async () => {
+  const lawyerId = getLawyerId();
+  const res = await fetch(`${BASE_URL}/api/bookings/lawyer?lawyer_id`, {
+    headers: authHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to fetch bookings");
+  return res.json(); // { success, data: [...bookings] }
+};
+// // GET /api/bookings/lawyer
+//router.get("/lawyer", authenticate, authorise("LAWYER"), getLawyerBookings);
+
+export const getLawyerProfile = async () => {
+  const lawyerId = getLawyerId();
+  const res = await fetch(
+    `${BASE_URL}/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
+    { headers: authHeaders() }
+  );
+  if (!res.ok) throw new Error("Failed to fetch profile");
+  const json = await res.json();
+  return { data: json.data.lawyer_profile };
+};
+
+export const updateLawyerProfile = async (data) => {
+  const res = await fetch(`${BASE_URL}/api/lawyer-profile/update`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify({ lawyer_id: getLawyerId(), ...data }),
+  });
+  if (!res.ok) throw new Error("Failed to update profile");
+  const json = await res.json();
+  return json.data || json;
+};
+
+
+export const getLawyerByIdDirect = async (lawyerId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/lawyer?id=${lawyerId}`, {
+      headers: authHeaders(),
+    });
+    
+    if (!res.ok) throw new Error("Failed to pull data from backend Prisma");
+    
+    return await res.json();
+  } catch (err) {
+    console.error("Frontend fetch error in service:", err);
+    throw err;
+  }
+};
