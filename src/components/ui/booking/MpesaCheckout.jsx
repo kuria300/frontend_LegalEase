@@ -6,6 +6,7 @@ import PhoneInput from "./PhoneInput";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { formatTime } from "../../../utils/formatTime";
 import { formatDisplayDate } from "../../../utils/date.utils";
+import { initiateStkPush } from "../../../api/booking/bookingApi";
 
 
 // function to render a single meta item e.g. Date, Time, Consultation Type
@@ -54,7 +55,7 @@ const MpesaCheckout = ({
   // Loading state while STK push request is in flight
   const [loading, setLoading] = useState(false);
 
-  // Show toast when user is returned here after a failed payment
+  // Show toast when user is returned after a failed payment
   useEffect(() => {
     if (paymentFailed) {
       toast.error("Payment was not completed. Please try again.");
@@ -70,8 +71,44 @@ const MpesaCheckout = ({
     return `${formatTime(time24)} - ${formatTime(endTime)}`;
   };
 
-  // STK push handler
-  const handlePay = async () => {};
+  // STK Push API integration
+  const handlePay = async () => {
+    if (!phone || phone.trim().length < 9){
+      toast.warn("Please enter a valid number.")
+      return
+    }
+
+    setLoading(true);
+
+    try{
+      const fullPhone = `+254${phone.trim()}`;
+
+      // show loading toast while STK push request is in flight
+      const toastId = toast.loading("Sending payment request to your phone...");
+
+      // initiateStkPush
+      const checkoutReqId = await initiateStkPush(bookingId, fullPhone);
+
+      // dismiss loading toast and show success
+      toast.update(toastId, {
+        render: "STK push sent! Check your phone to enter your M-pesa Pin",
+        type: "success",
+        isLoading: false,
+        autoClose: 4000,
+      });
+
+      // notif BookingPage to advance to PaymentStatusScreen
+      onStkSuccess(checkoutReqId);
+    }
+    catch(err){
+      //show specific backend error or fallback message
+      toast.error(
+        err.response?.data?.message || "Failed to initiate payment. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   return (

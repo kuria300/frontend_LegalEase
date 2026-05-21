@@ -70,6 +70,7 @@ const AuthProvider = ({children}) => {
      setRole(userData.role)
      // to be reused in verify-otp
      localStorage.setItem("pendingUser", JSON.stringify(userData));
+     localStorage.setItem("token", userData.token)
 
      navigate('/verifyOtp')
 

@@ -1,55 +1,45 @@
-// Temporary mock data for Task 4 testing
-const dummyLawyers = [
-  {
-    id: 1,
-    name: "Clara Amondi",
-    category: "Family Law",
-    experience: "5 years",
-    location: "Nairobi",
-  },
-  {
-    id: 2,
-    name: "Mwangi Kamau",
-    category: "Land Law",
-    experience: "8 years",
-    location: "Mombasa",
-  },
-  {
-    id: 3,
-    name: "Arnold Ochieng",
-    category: "Criminal Law",
-    experience: "12 years",
-    location: "Kisumu",
-  },
-  {
-    id: 4,
-    name: "Faith Chepkwony",
-    category: "Family Law",
-    experience: "4 years",
-    location: "Nakuru",
-  }
-];
-
+/**
+ * Fetches all verified legal practitioners from the LegalEase backend API.
+ * Safely extracts the JWT token string from local storage fallbacks.
+ * @returns {Promise<Array>} Array of lawyer data objects.
+ */
 export const getLawyers = async () => {
-  const token = localStorage.getItem("token");
+  // 1. Check standard localStorage keys
+  let token = localStorage.getItem("token");
+
+  // 2. Fallback Safety Check: If the token was saved as part of a stringified object
+  if (!token || token === "undefined" || token === "null") {
+    const pendingUser = localStorage.getItem("pendingUser");
+    if (pendingUser) {
+      try {
+        const parsed = JSON.parse(pendingUser);
+        token = parsed?.token || parsed?.accessToken || parsed?.data?.token;
+      } catch (e) {
+        console.error("Failed to parse pendingUser object:", e);
+      }
+    }
+  }
 
   try {
     const response = await fetch("http://localhost:3000/api/lawyers", {
+      method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        // Send the extracted token cleanly
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch live data");
+      throw new Error(`HTTP Error: ${response.status} - Failed to fetch live data`);
     }
 
-    return await response.json();
-  } catch (error) {
-    console.warn("Backend unavailable, falling back to local mock data:", error.message);
+    const data = await response.json();
+    return Array.isArray(data) ? data : (data.data || []);
     
-    // RETURN MOCK DATA INSTEAD OF CRASHING
-    return dummyLawyers; 
+  } catch (error) {
+    console.error("Database Service Layer Exception:", error.message);
+    throw error;
   }
 };
 

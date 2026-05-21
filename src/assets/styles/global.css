@@ -67,104 +67,102 @@
 @layer base {
   /* homepage navbar */
   .home-navbar {
-    @apply bg-white w-full h-20 px-6 flex items-center
+    @apply bg-white w-full h-20 px-6 flex items-center;
   }
   .btn-sign {
-    @apply bg-primary-container rounded-lg text-on-primary px-4 py-2 hover:bg-primary-container transition-all
+    @apply bg-primary-container rounded-lg text-on-primary px-4 py-2 hover:bg-primary-container transition-all;
   }
   .btn-login {
-    @apply hover:text-secondary transition-colors px-2 font-semibold
+    @apply hover:text-secondary transition-colors px-2 font-semibold;
   }
-  
+
   /* footer page */
   .footer-container {
-    @apply bg-primary text-on-primary py-24 border-t border-on-primary/10
+    @apply bg-primary text-on-primary py-24 border-t border-on-primary/10;
   }
   .footer-position {
-    @apply max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-6
+    @apply max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-6;
   }
   .footer-year_section {
-    @apply max-w-7xl mx-auto px-3 mt-4 pt-4 border-t border-on-primary/20 flex flex-col md:flex-row justify-center items-center gap-7
+    @apply max-w-7xl mx-auto px-3 mt-4 pt-4 border-t border-on-primary/20 flex flex-col md:flex-row justify-center items-center gap-7;
   }
   .footer-links {
-    @apply hover:text-secondary transition-colors
+    @apply hover:text-secondary transition-colors;
   }
 }
 
 @layer components {
   /* homepage hero section */
   .Hero-container {
-    @apply max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center pt-24 gap-12 px-16 py-20
+    @apply max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center pt-24 gap-12 px-16 py-20;
   }
-  
+
   /* left */
   .left-hero_section {
-    @apply flex flex-col gap-4 mt-12
+    @apply flex flex-col gap-4 mt-12;
   }
   .home-btn_collection {
-    @apply flex flex-row max-sm:flex-col gap-2 flex-wrap max-sm:w-72
+    @apply flex flex-row max-sm:flex-col gap-2 flex-wrap max-sm:w-72;
   }
   .btn-AI {
-    @apply bg-primary px-8 py-4 rounded-xl text-on-primary hover:bg-primary-container transition-all
+    @apply bg-primary px-8 py-4 rounded-xl text-on-primary hover:bg-primary-container transition-all;
   }
   .btn-lawyers {
-    @apply border-2 border-primary rounded-xl px-8 py-4 hover:bg-primary hover:text-on-primary
+    @apply border-2 border-primary rounded-xl px-8 py-4 hover:bg-primary hover:text-on-primary;
   }
-  
+
   /* right - MOVED TO RIGHT SIDE */
   .right-hero_section {
     @apply relative w-full max-w-2xl mx-auto pt-24 mt-12;
     display: flex;
     justify-content: flex-end;
   }
-  .input-chatbot{
-    @apply flex-1 bg-surface-container-low border-none rounded-lg px-4 py-2 focus:ring-1 focus:ring-primary placeholder:text-outline
+  .input-chatbot {
+    @apply flex-1 bg-surface-container-low border-none rounded-lg px-4 py-2 focus:ring-1 focus:ring-primary placeholder:text-outline;
   }
-  .btn-chatbot{
-    @apply bg-primary text-on-primary w-10 h-10 rounded-lg flex items-center justify-center hover:bg-primary-container transition-colors
+  .btn-chatbot {
+    @apply bg-primary text-on-primary w-10 h-10 rounded-lg flex items-center justify-center hover:bg-primary-container transition-colors;
   }
 
   /* section 2 */
-  .legal-container{
+  .legal-container {
     @apply min-h-[65vh] bg-surface-container text-center;
   }
-  .legal-container_section{
+  .legal-container_section {
     @apply flex gap-2 flex-col text-center mb-12;
   }
-  .box-card{
+  .box-card {
     @apply bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all border 
-           border-outline-variant flex flex-col items-start gap-2 text-left
+           border-outline-variant flex flex-col items-start gap-2 text-left;
   }
-  .box-content{
-    @apply w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center mb-6 transition-transform duration-300
+  .box-content {
+    @apply w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center mb-6 transition-transform duration-300;
   }
   /* section 3 */
-  .box-card_section{
-    @apply p-4 rounded-xl border border-outline-variant hover:border-primary transition-all hover:-translate-y-1 shadow-xl
+  .box-card_section {
+    @apply p-4 rounded-xl border border-outline-variant hover:border-primary transition-all hover:-translate-y-1 shadow-xl;
   }
-
 
   /* Login page */
-  .login-container{
-    @apply flex flex-col items-center justify-center min-h-screen bg-white p-8 md:p-12
+  .login-container {
+    @apply flex flex-col items-center justify-center min-h-screen bg-white p-8 md:p-12;
   }
-   .input{
+  .input {
     @apply w-full pr-4 py-3 bg-white border-[1.5px] border-outline-variant/60 rounded-xl text-on-surface
-          placeholder:text-outline/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200
-   }
+          placeholder:text-outline/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200;
+  }
 
-   /* register page */
-   .lawyer-btn{
-    @apply flex-1 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all duration-300 active:bg-primary-container
-   }
-   .client-btn{
-    @apply flex-1 py-2 rounded-lg bg-primary-container text-on-primary shadow-sm transition-all duration-300
-   }
-   /* otp input */
-   .otp-input{
-    @apply w-10 h-14 sm:w-14 sm:h-16 text-center font-bold border-2 border-outline-variant bg-surface-container-lowest rounded-lg
-   }
-   
+  /* register page */
+  .lawyer-btn {
+    @apply flex-1 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all duration-300 active:bg-primary-container;
+  }
+  .client-btn {
+    @apply flex-1 py-2 rounded-lg bg-primary-container text-on-primary shadow-sm transition-all duration-300;
+  }
+  /* otp input */
+  .otp-input {
+    @apply w-10 h-14 sm:w-14 sm:h-16 text-center font-bold border-2 border-outline-variant bg-surface-container-lowest rounded-lg;
+  }
 
   .chatbot-section {
     @apply bg-surface-container-lowest rounded-2xl shadow-lg border border-outline-variant flex flex-col h-[400px];
@@ -384,8 +382,7 @@
     }
   }
 
-
-/* Booking Modal */ 
+  /* Booking Modal */
   .booking-modal-card {
     @apply bg-surface-container-lowest rounded-2xl w-full max-w-2xl shadow-xl mx-auto;
   }
@@ -480,13 +477,12 @@
     @apply flex items-start gap-2 bg-error-container border border-error/20
            rounded-lg px-3 py-2.5 text-sm text-on-error-container;
   }
-  
+
   /* CHECKOUT PAGE*/
 
   .booking-page-wrapper {
     @apply min-h-screen bg-surface flex items-start justify-center py-10 px-4;
   }
-
 
   .checkout-page-wrapper {
     @apply w-full max-w-sm flex flex-col gap-6;
@@ -515,12 +511,10 @@
     @apply text-base font-semibold text-on-surface;
   }
 
-
   .checkout-card {
     @apply bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant
            flex flex-col gap-3;
   }
-
 
   .checkout-lawyer-row {
     @apply flex items-start justify-between gap-3;
@@ -542,7 +536,6 @@
            text-xs font-semibold flex items-center justify-center shrink-0;
   }
 
-
   .checkout-meta-row {
     @apply grid grid-cols-2 gap-3;
   }
@@ -555,7 +548,6 @@
   .checkout-meta-value {
     @apply text-xs font-medium text-on-surface block;
   }
-
 
   .checkout-divider {
     @apply border-t border-outline-variant;
@@ -570,7 +562,6 @@
   .checkout-fee-amount {
     @apply text-sm font-bold text-on-surface;
   }
-
 
   .checkout-payment-card {
     @apply bg-surface-container-low;
@@ -592,7 +583,6 @@
   .checkout-mpesa-subtitle {
     @apply text-xs text-on-surface-variant mt-0.5;
   }
-
 
   .checkout-input-label {
     @apply block text-xs font-medium text-on-surface mb-2;
@@ -617,7 +607,6 @@
            cursor-not-allowed;
   }
 
-
   .phone-input-wrapper {
     @apply flex items-center border border-outline-variant rounded-xl
            bg-surface-container-lowest overflow-hidden
@@ -633,10 +622,52 @@
            focus:outline-none placeholder:text-outline;
   }
 
-
   .booking-error {
     @apply flex items-start gap-2 bg-error-container border border-error/20
            rounded-lg px-3 py-2.5 text-sm text-on-error-container;
+  }
+  .status-screen-wrapper {
+    @apply min-h-screen bg-surface flex items-center justify-center px-4;
+  }
+
+  .status-screen-card {
+    @apply bg-surface-container-lowest rounded-2xl p-8 w-full max-w-sm
+           border border-outline-variant flex flex-col items-center
+           gap-4 text-center;
+  }
+
+  .status-spinner-ring {
+    @apply w-20 h-20 rounded-full border-4 border-surface-container
+           flex items-center justify-center;
+  }
+
+  .status-title {
+    @apply text-base font-semibold text-on-surface;
+  }
+
+  .status-subtitle {
+    @apply text-sm text-on-surface-variant leading-relaxed;
+  }
+
+  .status-attempts {
+    @apply text-xs text-outline;
+  }
+
+  .status-pulse-bar {
+    @apply w-full h-1.5 bg-surface-container rounded-full overflow-hidden;
+  }
+
+  .status-pulse-fill {
+    @apply h-full bg-secondary rounded-full animate-pulse w-3/4;
+  }
+
+  .status-hint {
+    @apply text-xs text-outline;
+  }
+
+  .status-error-icon {
+    @apply w-20 h-20 rounded-full bg-error-container flex items-center
+           justify-center;
   }
 
   .chatbox-container {
@@ -829,5 +860,4 @@
   .animate-slide-up {
     animation: slideUp 0.3s ease-out;
   }
-
 }

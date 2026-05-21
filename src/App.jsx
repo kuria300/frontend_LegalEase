@@ -17,6 +17,8 @@ import FloatingChatButton from "./components/ui/Chat/FloatingChatButton"
 import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
 import Dashboard from "./pages/dashboard/Dashboard"
+import BookingPage from "./pages/booking/BookingPage"
+
 import Emailotp from "./pages/forgot-password/Emailotp"
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
         <Route path="/find-lawyers" element = {<LawyerMarketplace/>}/>
         <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/email-otp" element={<Emailotp />} />
+        <Route path="/marketplace" element={<LawyerMarketplace/>}/>
+        <Route path='/lawyer-modal/:id' element={<LawyerProfileModal/>}/>
         <Route path='/apply' element={<LawyerApplication />}/>
         <Route path='/application-pending' element={<ApplicationPending />}/>
         <Route path='/admin' element={<AdminDashboard />}/>
@@ -40,7 +44,7 @@ function App() {
           <Route path="calendar" element={<LawyerCalendarPage />} />
           <Route path="settings" element={<LawyerSettingsPage />} />
           <Route path="support" element={<LawyerSupportPage />} />
-        </Route>
+          <Route path="/booking/checkout" element={<BookingPage />} />
 
         {/* Chat routes temporarily disabled */}
       </Routes>
