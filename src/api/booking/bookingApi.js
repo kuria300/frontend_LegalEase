@@ -50,3 +50,11 @@ export const initiateStkPush = async (bookingId, phoneNumber) => {
     const { data } = await api.post(`/checkout/${bookingId}`,{ phoneNumber });
     return data.data;
 }
+// payment status polling
+// GET /api/pay-status/:checkout_req_id
+// will return success, status: "SUCCESS"/"PENDING"/"FAILED", message }
+
+export const getPaymentStatus = async(checkoutReqId) => {
+    const { data } = await api.get(`/pay-status/${checkoutReqId}`);
+    return data;
+}
