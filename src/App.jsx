@@ -21,6 +21,7 @@ import BookingPage from "./pages/booking/BookingPage"
 
 import Emailotp from "./pages/forgot-password/Emailotp"
 
+
 function App() {
   return (
     <>
