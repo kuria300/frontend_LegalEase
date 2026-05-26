@@ -36,26 +36,24 @@ export default function RegisterPage() {
 
     try {
       let profile_picture_url = null
-      const picData = new FormData()
-       const profilePhotoFile = data.profilePhoto && data.profilePhoto.length > 0 
-        ? data.profilePhoto[0] 
-        : null;
+      const hasProfilePhoto = data.profilePhoto && data.profilePhoto.length > 0
 
-      if (!profilePhotoFile) {
-        throw new Error("Please select a profile photo.");
-      }
-      picData.append("document", data.profilePhoto)
-      const picRes = await fetch("/api/documents/upload-file", { method: "POST", body: picData })
-   
-      const picResult = await picRes.json()
-      if (!picRes.ok) throw new Error("Failed to upload profile photo")
+      if (hasProfilePhoto) {
+        const picData = new FormData()
+        // Extract the explicit raw File instance at index 0
+        picData.append("document", data.profilePhoto[0])
+        
+        const picRes = await fetch("/api/documents/upload-file", { method: "POST", body: picData })
+        
+        // Intercept network failures before parsing JSON to avoid JSON parse crashes
+        if (!picRes.ok) {
+          const errorMsg = await picRes.text()
+          throw new Error(`Profile photo upload failed: ${errorMsg || picRes.statusText}`)
+        }
+        
+        const picResult = await picRes.json()
         profile_picture_url = picResult.fileUrl
-
-      console.log("Original value:", data.profilePhoto);
-console.log("Is it a File instance?:", data.profilePhoto instanceof File);
-console.log("Is it a FileList instance?:", data.profilePhoto instanceof FileList);
-
-
+      }
 
 
       // upload certificate
@@ -65,6 +63,18 @@ console.log("Is it a FileList instance?:", data.profilePhoto instanceof FileList
       const certResult = await certRes.json()
       if (!certRes.ok) throw new Error("Failed to upload certificate")
 
+      console.log(typeof(data.phone_number))
+
+      const rawPhone = data.phone_number?.trim().replace(/\s+/g, "") || ""
+      let phone_number = rawPhone
+      if (rawPhone.startsWith("+254"))      phone_number = rawPhone.slice(1)        
+      else if (rawPhone.startsWith("254"))  phone_number = rawPhone                
+      else if (rawPhone.startsWith("0"))    phone_number = "254" + rawPhone.slice(1) 
+      else if (rawPhone.startsWith("7") || rawPhone.startsWith("1"))
+                                            phone_number = "254" + rawPhone     
+
+          console.log(phone_number) 
+  
       // submit application
       const appRes = await fetch("/api/lawyer", {
         method: "POST",
@@ -75,7 +85,7 @@ console.log("Is it a FileList instance?:", data.profilePhoto instanceof FileList
           consultation_fee: parseInt(data.consultation_fee),
           experience: parseInt(data.experience),
           description: data.description,
-          phone_number: data.phone_number,
+          phone_number,
           profile_picture_url,
           file_url: certResult.fileUrl,
           user_id: localStorage.getItem("pendingUser"),
@@ -85,7 +95,7 @@ console.log("Is it a FileList instance?:", data.profilePhoto instanceof FileList
       localStorage.removeItem("pendingUser")
 
       const appResult = await appRes.json()
-      if (!appRes.ok) throw new Error("Failed to submit application")
+      if (!appRes.ok) throw new Error( appResult.message ||"Failed to submit application")
 
       navigate("/application-pending")
     } catch (err) {

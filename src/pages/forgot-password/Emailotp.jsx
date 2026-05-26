@@ -82,7 +82,6 @@ const Emailotp = () => {
             navigate('/login')
         } catch (error) {
             console.error('Reset password failure:', error)
-            // setErrors(error.response?.data?.error || 'Verification failed. The code may be incorrect or expired.')
             toast.error(error.response?.data?.error || 'Verification failed. The code may be incorrect or expired.')
         } finally {
             setSubmittingReset(false)

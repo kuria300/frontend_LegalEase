@@ -4,16 +4,12 @@ import { CalendarCheck, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import DatePicker from "./DatePicker";
 import TimeSlotPicker from "./TimeSlotPicker";
-import {
-  getAvailableSlots,
-  createBooking,
-} from "../../../api/booking/bookingApi";
+import {getAvailableSlots,createBooking} from "../../../api/booking/bookingApi";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { toDateString, createParsedDate } from "../../../utils/date.utils";
 
 const MEETING_TYPES = ["Video Call (Google Meet)", "Phone Call", "In-Person"];
 
-// Maps display label → backend accepted value
 const MEETING_TYPE_MAP = {
   "Video Call (Google Meet)": "Google Meet",
   "Phone Call": "Phone Call",
@@ -27,20 +23,15 @@ const BookingCard = ({ lawyer }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
 
-  // meeting type -> defaults to Google meet
   const [meetingType, setMeetingType] = useState(MEETING_TYPES[0]);
-  // Notes -> optional details the client wants the lawyer to know before the session
   const [notes, setNotes] = useState("");
 
-  // slots fetched from backend after a date is picked
-  // GET api/bookings/slots
+
   const [slots, setSlots] = useState([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
 
-  // booking creation state for POST /api/bookings
   const [bookingLoading, setBookingLoading] = useState(false);
 
-  // Fetch available slots whenever the selected date changes
   useEffect(() => {
     if (!selectedDate || !lawyer?.id){
       return;
@@ -61,7 +52,7 @@ const BookingCard = ({ lawyer }) => {
           toast.info("No available slots for this date");
         }
       } catch (err) {
-        toast.error(err.response?.data?.message || "Failed to load available slots");
+        toast.error(err.response?.data?.error || "Failed to load available slots");
         setSlots([]);
       } finally {
         setSlotsLoading(false);
@@ -77,6 +68,8 @@ const BookingCard = ({ lawyer }) => {
       toast.warn("Please select both a date and a time slot.");
       return;
     }
+
+    console.log(lawyer)
 
     setBookingLoading(true);
     try {
@@ -112,8 +105,9 @@ const BookingCard = ({ lawyer }) => {
       setNotes("");
 
     } catch (err) {
+      console.log('error booking', err)
       toast.error(
-        err.response?.data?.message ||
+        err.response?.data?.error ||
           "Failed to create a booking. Please try again.",
       );
     } finally {
@@ -132,8 +126,6 @@ const BookingCard = ({ lawyer }) => {
           <h2 className="text-on-primary text-base font-medium mb-1">
             Book a Consultation
           </h2>
-
-          {/* pull consultation fee from lawyer object*/}
           {lawyer?.consultation_fee && (
             <p className="text-on-primary text-2xl font-semibold">
               {formatCurrency(lawyer.consultation_fee)}
@@ -147,7 +139,6 @@ const BookingCard = ({ lawyer }) => {
 
         {/*Body */}
         <div className="booking-modal-body">
-          {/* Date Picker */}
           <div>
             <label className="booking-section-label">Select Date</label>
             <DatePicker
@@ -156,7 +147,6 @@ const BookingCard = ({ lawyer }) => {
             />
           </div>
 
-          {/* Time Slot Picker — will render only after a date is selected */}
           {selectedDate && (
             <div>
               <label className="booking-section-label">
@@ -171,7 +161,7 @@ const BookingCard = ({ lawyer }) => {
             </div>
           )}
 
-          {/* Meeting Type -> drop down */}
+          {/* Meeting Type */}
           <div>
             <label className="booking-section-label">Meeting Type</label>
             <select
@@ -200,7 +190,6 @@ const BookingCard = ({ lawyer }) => {
               maxLength={500}
               className="booking-notes-input"
             />
-            {/* Character counter to help user stay within the 500 char limit */}
             <p className="text-xs text-outline text-right mt-1">
               {notes.length}/500
             </p>

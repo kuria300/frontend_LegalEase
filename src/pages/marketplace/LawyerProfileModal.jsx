@@ -9,7 +9,7 @@ const LawyerProfileModal = ({ lawyer, onClose }) => {
   }
   const [showBooking, setShowBooking] = useState(false);
 
-  // Safe extraction matching your Prisma DB relations precisely
+  // extraction matching your DB relation
   const firstName = lawyer.lawyer_applications?.users?.first_name || "";
   const secondName = lawyer.lawyer_applications?.users?.second_name || "";
   const category = lawyer.category || "Legal Practitioner";
@@ -18,8 +18,10 @@ const LawyerProfileModal = ({ lawyer, onClose }) => {
   const description = lawyer.description || "No description provided.";
   const isVerified = lawyer.is_active;
 
+  console.log(lawyer)
+
   const bookingLawyer = {
-    id: lawyer.id,
+    id: lawyer.lawyer_applications.user_id,
     first_name: firstName,
     last_name: secondName,
     consultation_fee: Number(consultationFee),
@@ -28,9 +30,9 @@ const LawyerProfileModal = ({ lawyer, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4 transition-all duration-200">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4 transition-all duration-200">
       <div className="bg-surface w-full max-w-2xl rounded-3xl relative border border-outline-variant shadow-2xl animate-fadeIn overflow-y-auto max-h-[90vh]">
-        {/* Close button — always visible in both views */}
+        {/* Close button */}
         <button
           onClick={onClose}
           className={`absolute top-5 right-5 z-10 p-1.5 rounded-full transition-colors
@@ -44,7 +46,7 @@ const LawyerProfileModal = ({ lawyer, onClose }) => {
           <X className="w-5 h-5" />
         </button>
 
-        {/* Lawyer Profile — visible when showBooking is false */}
+        {/* Lawyer Profile */}
         {!showBooking && (
           <div className="p-8">
             {/* Profile header */}
@@ -80,7 +82,7 @@ const LawyerProfileModal = ({ lawyer, onClose }) => {
               <h4 className="text-sm font-semibold tracking-wide text-primary uppercase opacity-60">
                 About
               </h4>
-              <p className="text-on-surface-variant text-sm mt-1.5 leading-relaxed bg-surface-container-low p-4 rounded-xl border border-outline-variant/30">
+              <p className="text-on-surface-variant text-sm mt-1.5 leading-relaxed bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 wrap-break-word">
                 {description}
               </p>
             </div>
@@ -106,7 +108,7 @@ const LawyerProfileModal = ({ lawyer, onClose }) => {
               </div>
             </div>
 
-            {/* CTA — switches to booking card view */}
+            {/*switches to booking card view */}
             <button
               onClick={() => setShowBooking(true)}
               className="mt-8 w-full bg-primary cursor-pointer hover:bg-[#735c00] text-white text-sm font-bold py-3.5 rounded-xl shadow-md active:scale-[0.99] transition-all"
@@ -116,10 +118,10 @@ const LawyerProfileModal = ({ lawyer, onClose }) => {
           </div>
         )}
 
-        {/* Booking Card — visible when showBooking is true*/}
+        {/* Booking Card*/}
         {showBooking && (
           <div>
-            {/* Back button — returns to profile without closing modal */}
+            {/* Back button*/}
             <div className="flex items-center gap-3 px-5 py-4 border-b border-outline-variant bg-surface-container-low rounded-t-3xl sticky top-0 z-10">
             <button
               onClick={() => setShowBooking(false)}
@@ -145,7 +147,6 @@ const LawyerProfileModal = ({ lawyer, onClose }) => {
               </button>
             </div> */}
 
-            {/* BookingCard receives the correctly mapped lawyer object */}
             <BookingCard lawyer={bookingLawyer} />
           </div>
         )}

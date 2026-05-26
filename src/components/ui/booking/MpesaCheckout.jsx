@@ -81,13 +81,15 @@ const MpesaCheckout = ({
     setLoading(true);
 
     try{
-      const fullPhone = `+254${phone.trim()}`;
+      const fullPhone = `254${phone.trim()}`;
 
       // show loading toast while STK push request is in flight
       const toastId = toast.loading("Sending payment request to your phone...");
 
       // initiateStkPush
       const checkoutReqId = await initiateStkPush(bookingId, fullPhone);
+
+      console.log(checkoutReqId)
 
       // dismiss loading toast and show success
       toast.update(toastId, {
@@ -102,9 +104,7 @@ const MpesaCheckout = ({
     }
     catch(err){
       //show specific backend error or fallback message
-      toast.error(
-        err.response?.data?.message || "Failed to initiate payment. Please try again."
-      );
+      toast.error(err.message || "Failed to initiate payment.Please try again");
     } finally {
       setLoading(false);
     }

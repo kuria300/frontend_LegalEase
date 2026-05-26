@@ -10,16 +10,21 @@ export function FileUpload({ label, hint, icon, required, onChange, value, error
     const file = e.dataTransfer.files[0]
     if (file) onChange(file)
   }
+  const handleClear = (e) => {
+    e.stopPropagation() 
+    onChange(null)
+    if (ref.current) ref.current.value = ""
+  }
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 relative group">
       <div
         onClick={() => ref.current.click()}
         onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
         onDragLeave={() => setDragOver(false)}
         onDrop={handleDrop}
         className={`flex flex-col items-center justify-center gap-3 p-8 rounded-2xl border-2 border-dashed
-          cursor-pointer transition-all duration-200 select-none
+          cursor-pointer transition-all duration-200 select-none relative
           ${dragOver
             ? "border-primary-container bg-primary-container/10"
             : value
@@ -27,6 +32,20 @@ export function FileUpload({ label, hint, icon, required, onChange, value, error
             : "border-outline-variant bg-surface-container hover:border-primary-container hover:bg-surface-container-high"
           }`}
       >
+        {/* Clear Button */}
+        {value && (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="absolute top-3 right-3 p-1.5 rounded-xl bg-surface hover:bg-error-container text-on-surface-variant hover:text-on-error-container border border-outline-variant/50 transition-colors shadow-sm"
+            title="Remove file"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+
         <input
           ref={ref}
           type="file"
@@ -47,8 +66,8 @@ export function FileUpload({ label, hint, icon, required, onChange, value, error
           }
         </div>
 
-        <div className="text-center">
-          <p className={`font-semibold text-sm ${value ? "text-secondary" : "text-on-surface"}`}>
+        <div className="text-center max-w-[85%]">
+          <p className={`font-semibold text-sm truncate ${value ? "text-secondary" : "text-on-surface"}`}>
             {value ? value.name : label}
             {required && !value && <span className="text-error ml-0.5">*</span>}
           </p>
@@ -60,7 +79,7 @@ export function FileUpload({ label, hint, icon, required, onChange, value, error
 
       {error && (
         <span className="text-xs text-error flex items-center gap-1">
-          <svg className="w-3 h-3 flex-shrink-0" viewBox="0 0 16 16" fill="currentColor">
+          <svg className="w-3 h-3 shrink-0" viewBox="0 0 16 16" fill="currentColor">
             <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 10.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zM7.25 5.75a.75.75 0 0 1 1.5 0v3a.75.75 0 0 1-1.5 0v-3z" />
           </svg>
           {error}

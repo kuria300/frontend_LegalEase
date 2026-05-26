@@ -1,5 +1,8 @@
+// src/components/ui/Payment/PaymentStatusScreen.jsx
 import { useEffect } from "react";
-import { Loader2, XCircle } from "lucide-react";
+import { Loader2, XCircle, CheckCircle2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import usePaymentPolling from "../../../hooks/usePaymentPolling";
 import { formatCurrency } from "../../../utils/formatCurrency";
 
@@ -9,24 +12,37 @@ const PaymentStatusScreen = ({
   onSuccess,
   onFailed,
 }) => {
-  // Start polling as soon as this component mounts with enabled = true
+  const navigate = useNavigate();
   const { status, error, attempts } = usePaymentPolling(checkoutReqId, true);
 
-  // React to status changes and trigger the correct BookingPage callback
+  // On SUCCESS show toast and redirect to consultations
   useEffect(() => {
-    if (status === "SUCCESS") onSuccess();
-    if (status === "FAILED") onFailed();
+    if (status === "SUCCESS") {
+      toast.success("Payment confirmed! Your booking is now active.");
+      // Small delay so the success UI is briefly visible before redirect
+      const timer = setTimeout(() => {
+        navigate("/client/consult?tab=upcoming");
+        onSuccess?.();
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
   }, [status]);
 
-  // Trigger onFailed if polling hook sets an error (timeout or network failure)
+  // On FAILED let BookingPage handle
   useEffect(() => {
-    if (error) onFailed();
+    if (status === "FAILED") onFailed?.();
+  }, [status]);
+
+  // On polling error
+  useEffect(() => {
+    if (error) onFailed?.();
   }, [error]);
 
   return (
     <div className="status-screen-wrapper">
       <div className="status-screen-card">
-        {/* Waiting state — shown while payment status is still PENDING */}
+
+        {/*PENDING*/}
         {status === "PENDING" && !error && (
           <>
             <div className="status-spinner-ring">
@@ -35,30 +51,39 @@ const PaymentStatusScreen = ({
 
             <h2 className="status-title">Waiting for Payment</h2>
 
-            {/* Prompt user to act on the STK push notification on their phone */}
             <p className="status-subtitle">
               Check your phone and enter your M-Pesa PIN to confirm{" "}
               <strong>{formatCurrency(amount)}</strong>.
             </p>
 
-            {/* Attempt counter shows user the system is actively checking */}
             <p className="status-attempts">
               Checking payment status... (attempt {attempts} of 20)
             </p>
 
-            {/* Animated pulse bar — visual indicator of active polling */}
             <div className="status-pulse-bar">
               <div className="status-pulse-fill" />
             </div>
 
-            {/* Warning not to close the page during the polling window */}
             <p className="status-hint">
               Do not close this page. This may take up to 60 seconds.
             </p>
           </>
         )}
 
-        {/* FAILED state — brief UI shown before BookingPage redirects back */}
+        {/* brief screen before redirect*/}
+        {status === "SUCCESS" && (
+          <>
+            <div className="status-success-icon">
+              <CheckCircle2 size={36} className="text-green-500" />
+            </div>
+            <h2 className="status-title">Payment Confirmed!</h2>
+            <p className="status-subtitle">
+              Your booking is active. Taking you to your consultations...
+            </p>
+          </>
+        )}
+
+        {/*FAILED */}
         {status === "FAILED" && !error && (
           <>
             <div className="status-error-icon">
@@ -71,7 +96,7 @@ const PaymentStatusScreen = ({
           </>
         )}
 
-        {/* Error state — shown on timeout or network failure */}
+        {/*ERROR*/}
         {error && (
           <>
             <div className="status-error-icon">
@@ -81,6 +106,7 @@ const PaymentStatusScreen = ({
             <p className="status-subtitle">{error}</p>
           </>
         )}
+
       </div>
     </div>
   );

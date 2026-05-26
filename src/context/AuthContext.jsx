@@ -8,6 +8,7 @@ export const AuthContext = createContext(null)
 const AuthProvider = ({children}) => {
     const [user, setUser]=useState(null)
     const [role, setRole]=useState(null)
+    const [processed, setProcessed]=useState(false)
     const [loading, setLoading]=useState(false)
 
     const navigate=useNavigate()
@@ -37,6 +38,7 @@ const AuthProvider = ({children}) => {
         setUser(response.data.user)
         setRole(response.data.user.role)
 
+
       }catch(error){
         setUser(null)
         // console.log('Not authenticated')
@@ -44,6 +46,7 @@ const AuthProvider = ({children}) => {
         //  navigate('/login')
       }finally{
         setLoading(false)
+        setProcessed(true)
       }
     }
 
@@ -94,6 +97,9 @@ const AuthProvider = ({children}) => {
             }
         );
 
+         sessionStorage.setItem("logged_out", "true");
+ 
+
         localStorage.removeItem("token");
 
         setUser(null);
@@ -109,7 +115,7 @@ const AuthProvider = ({children}) => {
     }
 
   return (
-     <AuthContext.Provider value={{ user, role, Logout, Login, loading}}>
+     <AuthContext.Provider value={{ user, role, Logout, Login, loading, processed}}>
       {children}
     </AuthContext.Provider>
   )

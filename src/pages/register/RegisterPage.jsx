@@ -47,8 +47,8 @@ const RegisterPage = () => {
         return
       }
 
-      if(password.length < 2){
-        setErrors('Password must be atleast 2 characters long!')
+      if(password.length < 8){
+        setErrors('Password must be atleast 8 characters long!')
         return
       }
 
@@ -68,7 +68,7 @@ const RegisterPage = () => {
         }
     )
      console.log(response)
-     localStorage.setItem('pendingUser', JSON.stringify(response.data.userId))
+     localStorage.setItem('pendingUser', response.data.userId)
      setEmail('')
      setPassword('')
      setConfirmPassword('')

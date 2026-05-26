@@ -7,23 +7,24 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import Footer from "../../components/layout/Footer";
 import { User } from "lucide-react"
+import ClientNavbar from "../../components/layout/client/ClientNavbar";
+import { SPECIALIZATIONS } from "../lawyerForm/Constants";
+
 
 const LawyerMarketplace = () => {
   const [lawyers, setLawyers] = useState([]);
   const [filteredLawyers, setFilteredLawyers] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const navigate = useNavigate();
   
-  // Holds the lawyer object that was clicked — drives the modal
+
   const [selectedLawyer, setSelectedLawyer] = useState(null);
-  // Track data loading state from your backend
   const [dataLoading, setDataLoading] = useState(true);
 
-  // const navigate = useNavigate();
-  // 'loading' here comes from your Auth Context
   const { user, loading } = useAuth();
 
-  // // // 1. REDIRECT LOGIC (Safe at top level)
   // // useEffect(() => {
   // //   if (!loading && !user) {
   // //     toast.info("Please log in to continue.");
@@ -34,7 +35,6 @@ const LawyerMarketplace = () => {
   // 2. FETCH LAWYERS FROM BACKEND
   useEffect(() => {
     const fetchLawyers = async () => {
-      // Don't fetch if auth is still processing or if no user exists
       if (loading || !user) return;
 
       try {
@@ -53,7 +53,7 @@ const LawyerMarketplace = () => {
     };
 
     fetchLawyers();
-  }, [user, loading]); // Re-run fetch when user authentication completes
+  }, [user, loading]);
 
   // 3. FILTER LOGIC
   useEffect(() => {
@@ -81,107 +81,86 @@ const LawyerMarketplace = () => {
     setFilteredLawyers(result);
   }, [search, selectedCategory, lawyers]);
 
+  // if (loading || dataLoading || !user) {
+  //   return (
+  //     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+  //       <img src={Legalease} alt="Loading..." className="w-24 h-24 object-contain animate-pulse mb-4" />
+  //       <p className="text-gray-500 font-medium animate-pulse">
+  //         {loading ? "Verifying session..." : "Loading lawyers from marketplace..."}
+  //       </p>
+  //     </div>
+  //   );
+  // }
+  // if (!user) return
 
-  // 4. POSITION REAL Loading Screen Here (After all hooks)
-  // This blocks the UI until Auth is complete and backend data is fully loaded
-  if (loading || dataLoading || !user) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-        <img src={Legalease} alt="Loading..." className="w-24 h-24 object-contain animate-pulse mb-4" />
-        <p className="text-gray-500 font-medium animate-pulse">
-          {loading ? "Verifying session..." : "Loading lawyers from marketplace..."}
-        </p>
-      </div>
-    );
-  }
-  if (!user) return
+  const isActive = (path) => location.pathname === path;
 
   const isActive = (path) => location.pathname === path;
 
 
-  // 5. RENDER MAIN UI (Only runs if user is validated AND data is ready)
+  // ui
   return (
     <>
-    <nav className="w-full bg-white h-20 border-b border-gray-200 shadow-sm z-10 sticky top-0 flex justify-center">
-        {/* Inner container to keep nav items aligned with the dashboard content */}
-        <div className="w-full max-w-[1300px] px-8 flex items-center justify-between h-full">
+      <ClientNavbar />
+
+        <section className="min-h-screen bg-gray-100 px-6 py-4">
+          <div className="max-w-6xl mx-auto px-6">
           
-          {/* Logo Section */}
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/client-dashboard')}>
-            <img src={Legalease} alt='Logo' className='w-28 h-28 object-contain' />
+          <div className="mb-6 flex flex-col items-center text-center">
+            <img src={Legalease} alt="LegalEase Logo" className="w-40 h-40 object-contain" />
+            <h1 className="text-primary text-4xl font-bold">Find Verified Lawyers</h1>
+            <p className="text-on-surface-variant mt-2 text-lg">Browse trusted legal professionals across Kenya</p>
           </div>
-
-          {/* Nav Links */}
-          <div className="hidden md:flex gap-8 items-center h-full">
-            {[
-              { name: 'Home', path: '/client-dashboard' },
-              { name: 'Chat', path: '/ask-legal-questions' },
-              { name: 'Lawyers', path: '/find-lawyers' }, 
-              { name: 'Profile', path: '/profile' }
-            ].map((tab) => (
-              <button
-                key={tab.name}
-                onClick={() => navigate(tab.path)}
-                className={`h-full px-2 text-sm font-medium transition-colors relative flex items-center ${
-                  isActive(tab.path) ? 'text-[#111c2c]' : 'text-[#44474f] hover:text-[#111c2c]'
-                }`}
-              >
-                {tab.name}
-                {isActive(tab.path) && (
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-[#fed65b] rounded-t-md" />
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* User Profile */}
-          <div 
-            onClick={() => navigate('/profile')}
-            className="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 bg-gray-50 text-gray-600 cursor-pointer hover:bg-gray-100"
-          >
-            <User size={18} />
-          </div>
-
-        </div>
-      </nav>
-          <section className="min-h-screen bg-gray-50 px-6 py-12">
-      <div className="max-w-6xl mx-auto">
-        
-        <div className="mb-10 flex flex-col items-center text-center">
-          <img src={Legalease} alt="LegalEase Logo" className="w-40 h-40 object-contain mb-4" />
-          <h1 className="text-primary text-4xl font-bold">Find Verified Lawyers</h1>
-          <p className="text-on-surface-variant mt-2 text-lg">Browse trusted legal professionals across Kenya</p>
-        </div>
 
         {/* FILTERS */}
-        <div className="flex flex-col md:flex-row gap-4 mb-10">
+        <div className="flex flex-col md:flex-row gap-3 mb-8">
           <input
             type="text"
             placeholder="Search lawyer..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+            className="px-4 py-3 rounded-xl border-2 border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="All">All Categories</option>
-            <option value="Family Law">Family Law</option>
-            <option value="Criminal Law">Criminal Law</option>
-            <option value="Land Law">Land Law</option>
+
+            {SPECIALIZATIONS.map((spec) => (
+              <option key={spec} value={spec}>
+                {spec}
+              </option>
+            ))}
           </select>
         </div>
+        {/* LOADING */}
+        {(loading || dataLoading) && (
+            <div className="flex flex-col gap-3 items-center justify-center py-20 w-full">
 
-        {/* EMPTY STATE */}
-        {filteredLawyers.length === 0 && (
-          <p className="text-gray-500 text-center py-10">No lawyers found matching your criteria.</p>
-        )}
+              <div className="w-8 h-8 border-4 border-[#3b5bdb] border-t-transparent rounded-full animate-spin" />
+
+              <span className="text-gray-500">
+                {loading
+                  ? "Verifying session..."
+                  : "Fetching lawyers..."}
+              </span>
+            </div>
+          )}
+
+          {/* EMPTY STATE */}
+          {!loading &&
+            !dataLoading &&
+            filteredLawyers.length === 0 && (
+              <p className="text-gray-500 text-center py-10">
+                No lawyers found matching your criteria.
+              </p>
+            )}
 
         {/* GRID */}
-        {filteredLawyers.length > 0 && (
+        { !loading && !dataLoading && filteredLawyers.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredLawyers.map((lawyer) => (
               <LawyerCard
@@ -210,3 +189,24 @@ const LawyerMarketplace = () => {
 };
 
 export default LawyerMarketplace;
+
+
+
+
+
+
+
+
+/*
+if (loading || dataLoading || !user) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+        <img src={Legalease} alt="Loading..." className="w-24 h-24 object-contain animate-pulse mb-4" />
+        <p className="text-gray-500 font-medium animate-pulse">
+          {loading ? "Verifying session..." : "Loading lawyers from marketplace..."}
+        </p>
+      </div>
+    );
+  }
+  if (!user) return
+*/ 

@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
-import {
-  LayoutDashboard,
-  CalendarDays,
-  Calendar,
-  User,
-  Settings,
-  HelpCircle,
-  LogOut,
-  Loader2,
-} from "lucide-react";
+import {LayoutDashboard,CalendarDays,Calendar,User,Settings,HelpCircle,LogOut,Loader2} from "lucide-react";
 import { getLawyerDashboardSummary } from "../../services/lawyerService.jsx";
 
 const TOP_NAV = [
@@ -41,7 +32,7 @@ export default function LawyerDashboardLayout() {
         setUser(data.lawyer_profile);
       } catch (err) {
         console.error("Dashboard identity load failure:", err);
-        setUser({ name: "Advocate Maina" }); // fallback for dev
+        setUser({ name: "Advocate Maina" });
       } finally {
         setLoading(false);
       }

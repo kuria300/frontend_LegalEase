@@ -1,6 +1,6 @@
 import React from "react";
 import { Verified } from "lucide-react";
-// import { useNavigate } from "react-router-dom";
+import { MapPin, BriefcaseBusiness } from "lucide-react";
 
 export const LawyerCard = ({lawyer, onViewProfile}) => {
   const firstName =
@@ -53,11 +53,13 @@ export const LawyerCard = ({lawyer, onViewProfile}) => {
         <div className="flex flex-wrap gap-2 mt-5 mb-6">
 
           <span className="bg-gray-100 px-3 py-2 rounded-xl text-sm">
-            💼 {lawyer.experience} Years Experience
+            <BriefcaseBusiness className="w-4 h-4 inline mr-1" />
+            {lawyer.experience} Years Experience
           </span>
 
           <span className="bg-gray-100 px-3 py-2 rounded-xl text-sm">
-            📍 Nairobi, Kenya
+            <MapPin className="w-4 h-4 inline mr-1" />
+            Kenya
           </span>
 
         </div>

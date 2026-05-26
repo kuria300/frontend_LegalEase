@@ -10,17 +10,16 @@ import LawyerDashboardLayout from "./components/layout/LawyerDashboardLayout"
 import LawyerHomepage from "./pages/lawyer/LawyerHomepage"
 import ConsultationList from "./pages/lawyer/ConsultationList"
 import LawyerProfile from "./pages/lawyer/LawyerProfile"
-import LawyerCalendarPage from "./pages/lawyer/LawyerCalendarPage"
-import LawyerSettingsPage from "./pages/lawyer/LawyerSettingsPage"
-import LawyerSupportPage from "./pages/lawyer/LawyerSupportPage"
-import FloatingChatButton from "./components/ui/Chat/FloatingChatButton"
 import LawyerMarketplace from "./pages/marketplace/LawyerMarketplace"
 import Verifyotp from "./pages/verifyotp/Verifyotp"
-import Dashboard from "./pages/dashboard/Dashboard"
 import BookingPage from "./pages/booking/BookingPage"
 import ClientDashboard from "./pages/client/ClientDashboard"
 import LawyerProfileModal from "./pages/marketplace/LawyerProfileModal"
 import Emailotp from "./pages/forgot-password/Emailotp"
+import ClientProfile from "./pages/client/ClientProfile"
+import ProtectedRoute from "./ProtectedRoute"
+import ClientChat from "./pages/chat/ClientChat"
+import ClientConsult from "./pages/client/ClientConsult"
 
 
 function App() {
@@ -31,27 +30,35 @@ function App() {
         <Route path='/signup' element={<RegisterPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/verifyOtp' element={<Verifyotp />} />
-        <Route path="/find-lawyers" element = {<LawyerMarketplace/>}/>
-        <Route path="/dashboard" element={<Dashboard />}/>
-        <Route path="/email-otp" element={<Emailotp />} />
-        <Route path="/marketplace" element={<LawyerMarketplace/>}/>
-        <Route path='/lawyer-modal/:id' element={<LawyerProfileModal/>}/>
-        <Route path='/apply' element={<LawyerApplication />}/>
-        <Route path='/client-dashboard' element={<ClientDashboard />}/>
         <Route path='/application-pending' element={<ApplicationPending />}/>
-        <Route path='/admin' element={<AdminDashboard />}/>
-        <Route path="/lawyer" element={<LawyerDashboardLayout />}/>
-        <Route path="lawyer/dashboard"element={<LawyerHomepage />} />
-        <Route path="consultations" element={<ConsultationList />} />
-        <Route path="profile" element={<LawyerProfile />} />
-        <Route path="calendar" element={<LawyerCalendarPage />} />
-        <Route path="settings" element={<LawyerSettingsPage />} />
-        <Route path="support" element={<LawyerSupportPage />} />
-        <Route path="/booking/checkout" element={<BookingPage />} />
+        <Route path="/email-otp" element={<Emailotp />} />
+        <Route path='/apply' element={<LawyerApplication />}/>
+     
+    
+        <Route element={<ProtectedRoute allRoles={['CLIENT']} />}>
+           <Route path='/client-dashboard' element={<ClientDashboard />}/>
+           <Route path="/client/profile" element={<ClientProfile />} />
+           <Route path="/chat" element={<ClientChat />} />
+           <Route path="/find-lawyers" element ={<LawyerMarketplace/>}/>
+           <Route path='/lawyer-modal/:id' element={<LawyerProfileModal/>}/>
+           <Route path="/booking/checkout" element={<BookingPage />} />
+           <Route path="/client/consult" element={<ClientConsult />} />
+        </Route>
+        <Route element={<ProtectedRoute allRoles={['LAWYER']} />}>
+          <Route path="/lawyer" element={<LawyerDashboardLayout />}/>
+          <Route path="/lawyer/dashboard"element={<LawyerHomepage />} />
+          <Route path="/lawyer/profile" element={<LawyerProfile />} />
+          <Route path="/lawyer/bookings" element={<ConsultationList />} />
+        </Route>
+       <Route element={<ProtectedRoute allRoles={['ADMIN', 'SUPERADMIN']} />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+      </Route>
 
-        {/* Chat routes temporarily disabled */}
+      
+
+      
       </Routes>
-      <FloatingChatButton />
+
     </>
   )
 }

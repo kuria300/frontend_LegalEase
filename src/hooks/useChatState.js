@@ -50,14 +50,15 @@ export const useChatState = () => {
   const getCategoryLabel = () => {
     const categories = {
       employment: "Employment Issues",
-      property: "Property & Land",
-      family: "Family Law",
-      business: "Business & Contracts",
-      criminal: "Criminal Matters",
-      other: "Other Legal Issues"
+      property:   "Property & Land",
+      family:     "Family Law",
+      business:   "Business & Contracts",
+      criminal:   "Criminal Matters",
+      other:      "Other Legal Issues"
     };
     return categories[selectedCategory] || selectedCategory;
   };
+
 
   const sendMessage = async (message, file = null) => {
     if (!message.trim() && !file) return;
@@ -68,7 +69,7 @@ export const useChatState = () => {
     setInputMessage('');
     setError(null);
 
-    // If file is attached and user is not logged in, just store it and show message
+    // Unauthenticated file upload — store locally and stop
     if (file && !isAuthenticated) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -76,26 +77,24 @@ export const useChatState = () => {
         localStorage.setItem('pending_document', JSON.stringify({
           name: file.name,
           type: file.type,
-          data: reader.result
+          data: reader.result,
         }));
       };
       setMessages(prev => [...prev, {
         text: `📎 ${file.name} saved. It will be analyzed after you login.`,
-        isUser: false
+        isUser: false,
       }]);
-      return; // stop here, don't send to API
+      return;
     }
 
+    // Track free prompt count for guests
     if (!isAuthenticated) {
       const newCount = freePromptCount + 1;
       setFreePromptCount(newCount);
       localStorage.setItem('freePromptCount', newCount.toString());
     }
 
-    setMessages(prev => [...prev, {
-      text: msgToSend,
-      isUser: true
-    }]);
+    setMessages(prev => [...prev, { text: msgToSend, isUser: true }]);
     setIsLoading(true);
 
     try {
@@ -107,9 +106,13 @@ export const useChatState = () => {
       );
 
       const aiReply = response.reply || response.message || response.analysis || 'No response from AI';
+
       setMessages(prev => [...prev, { text: aiReply, isUser: false }]);
+
+      // Chat is saved by handleChatMessage on the backend
+
     } catch (err) {
-      console.error('Error:', err);
+      console.error('Chat error:', err);
       if (err.message === 'You have reached your message limit. Please register.') {
         setError('You have reached the message limit. Please register to continue.');
       } else if (err.message === 'Too many requests. Please try again later.') {
@@ -141,6 +144,6 @@ export const useChatState = () => {
     handleBackToSubcategories,
     getCategoryLabel,
     sendMessage,
-    setError
+    setError,
   };
 };
