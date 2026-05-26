@@ -35,7 +35,7 @@ class ChatService {
     }
 
     // Use public endpoint if no token, authenticated endpoint if token exists
-    const endpoint = !token ? `${API_BASE_URL}/chat/message/public` : `${API_BASE_URL}/chat/message`;
+    const endpoint = !token ? `https://legaleaseafrica.org/__api__/api/chat/message/public` : `https://legaleaseafrica.org/__api__/api/chat/message`;
     
     const headers = {
       'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ class ChatService {
     const formData = new FormData();
     formData.append('document', file);
 
-    const response = await fetch(`${API_BASE_URL}/chat/upload-document`, {
+    const response = await fetch(`https://legaleaseafrica.org/__api__/api/chat/upload-document`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}` },
       body: formData,
@@ -106,7 +106,7 @@ class ChatService {
   async getChatHistory(userId) {
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`${API_BASE_URL}/chat/history/${userId}`, {
+    const response = await fetch(`https://legaleaseafrica.org/__api__/api/chat/history/${userId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

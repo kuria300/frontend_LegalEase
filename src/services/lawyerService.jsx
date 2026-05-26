@@ -15,7 +15,7 @@ export const getLawyers = async () => {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/api/lawyers", {
+    const response = await fetch("https://legaleaseafrica.org/__api__/api/lawyers", {
       method: "GET",
       headers: {
         // Send the extracted token cleanly
@@ -51,7 +51,7 @@ const getLawyerId = () =>
 export const getLawyerDashboardSummary = async () => {
   const lawyerId = getLawyerId();
   const res = await fetch(
-    `${BASE_URL}/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
+    `https://legaleaseafrica.org/__api__/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
     { headers: authHeaders() }
   );
   if (!res.ok) throw new Error("Failed to fetch dashboard summary");
@@ -69,7 +69,7 @@ export const getLawyerDashboardSummary = async () => {
 // };
 export const getAllBookings = async () => {
   const lawyerId = getLawyerId();
-  const res = await fetch(`${BASE_URL}/api/bookings/lawyer?lawyer_id`, {
+  const res = await fetch(`https://legaleaseafrica.org/__api__/api/bookings/lawyer?lawyer_id`, {
     headers: authHeaders(),
   });
   if (!res.ok) throw new Error("Failed to fetch bookings");
@@ -80,7 +80,7 @@ export const getAllBookings = async () => {
 export const getLawyerProfile = async () => {
   const lawyerId = getLawyerId();
   const res = await fetch(
-    `${BASE_URL}/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
+    `https://legaleaseafrica.org/__api__/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
     { headers: authHeaders() }
   );
   if (!res.ok) throw new Error("Failed to fetch profile");
@@ -89,7 +89,7 @@ export const getLawyerProfile = async () => {
 };
 
 export const updateLawyerProfile = async (data) => {
-  const res = await fetch(`${BASE_URL}/api/lawyer-profile/update`, {
+  const res = await fetch(`https://legaleaseafrica.org/__api__/api/lawyer-profile/update`, {
     method: "PUT",
     headers: authHeaders(),
     body: JSON.stringify({ lawyer_id: getLawyerId(), ...data }),
@@ -102,7 +102,7 @@ export const updateLawyerProfile = async (data) => {
 
 export const getLawyerByIdDirect = async (lawyerId) => {
   try {
-    const res = await fetch(`${BASE_URL}/api/lawyer?id=${lawyerId}`, {
+    const res = await fetch(`https://legaleaseafrica.org/__api__/api/api/lawyer?id=${lawyerId}`, {
       headers: authHeaders(),
     });
     

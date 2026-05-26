@@ -232,7 +232,7 @@ export default function LawyerProfile() {
 
         if (!user?.id) throw new Error("User not authenticated");
 
-        const res = await axios.get(`/api/lawyers/fetch/profile`, {
+        const res = await axios.get(`https://legaleaseafrica.org/__api__/api/lawyers/fetch/profile`, {
           headers: authHeader(),
         });
 

@@ -123,7 +123,7 @@ export default function ConsultationList() {
       try {
         setLoading(true);
 
-        const response = await axios.get("/api/bookings/lawyer", {
+        const response = await axios.get("https://legaleaseafrica.org/__api__/api/bookings/lawyer", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

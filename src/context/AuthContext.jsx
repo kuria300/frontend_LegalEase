@@ -25,7 +25,7 @@ const AuthProvider = ({children}) => {
           setLoading(false)
           return
         }
-        const response= await axios.get(`${url}/auth/session/me`,
+        const response= await axios.get('https://legaleaseafrica.org/__api__/api/auth/session/me',
           {
             headers:{
               Authorization: `Bearer ${token}`
@@ -56,7 +56,7 @@ const AuthProvider = ({children}) => {
 
     const Login= async(email, password)=>{
     try{
-     const response= await axios.post(`${url}/auth/login`,
+     const response= await axios.post('https://legaleaseafrica.org/__api__/api/auth/login',
         {
           email,
          password
@@ -88,7 +88,7 @@ const AuthProvider = ({children}) => {
 
         const token = localStorage.getItem("token");
         const data=await axios.post(
-            `${url}/auth/logout`,
+            'https://legaleaseafrica.org/__api__/api/auth/logout',
              {},
             {
                 headers: {

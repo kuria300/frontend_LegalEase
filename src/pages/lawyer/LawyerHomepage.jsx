@@ -171,7 +171,7 @@ export default function LawyerHomepage() {
         setDashboardLoading(true);
         setError(null);
 
-        const response = await axios.get("/api/bookings/lawyer", {
+        const response = await axios.get("https://legaleaseafrica.org/__api__/api/bookings/lawyer", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -275,7 +275,7 @@ export default function LawyerHomepage() {
   const handleBookingUpdate = async (updatedData) => {
     try {
       await axios.put(
-        `/api/bookings/lawyer/reschedule/${selectedBooking.id}`,
+        `https://legaleaseafrica.org/__api__/api/bookings/lawyer/reschedule/${selectedBooking.id}`,
         {
           new_booking_date: updatedData.bookingDate,
           new_booking_time: updatedData.bookingTime,
