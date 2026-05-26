@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import LawyerSidebar from "../../components/layout/lawyers/LawyerSidebar.jsx";
-import { formatTime } from "../../utils/formatTime";
+import { formatTime } from "../../utils/displayTime.js";
 
 //Helper functions
 
@@ -85,7 +85,7 @@ function AppointmentCard({ appt, tab }) {
         </span>
       </div>
 
-      {/* Meta */}
+      {/* Meta data */}
       <div className="flex items-center gap-4 text-xs text-gray-500">
         <span>{formatDate(appt.booking_date)}</span>
         <span>{formatTime(appt.booking_time)}</span>

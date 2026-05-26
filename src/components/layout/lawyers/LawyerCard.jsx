@@ -8,16 +8,6 @@ export const LawyerCard = ({lawyer, onViewProfile}) => {
 
   const secondName =
     lawyer.lawyer_applications?.users?.second_name || "";
-    // const navigate = useNavigate()
-    
-  // const onViewProfile =()=>{
-  //     if (lawyer?.id) {
-  //     // Navigate using only the clean URL path param
-  //     navigate(`/lawyer-modal/${lawyer.id}`);
-  //   } else {
-  //     console.error("Lawyer profile missing a valid ID string.");
-  //   }
-  // };
 
 
   return (

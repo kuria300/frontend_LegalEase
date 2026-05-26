@@ -6,7 +6,7 @@ import axios from 'axios';
 import ClientSidebar from '../../components/layout/client/ClientSidebar';
 import ClientReschedule from './ClientReschedule';
 import { toast } from 'react-toastify';
-import { formatTime } from '../../utils/formatTime';
+import { formatTime } from '../../utils/displayTime';
 import FloatingChatButton from '../../components/ui/Chat/FloatingChatButton';
 
 //Skeleton components
