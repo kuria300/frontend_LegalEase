@@ -95,6 +95,8 @@ const LawyerMarketplace = () => {
 
   const isActive = (path) => location.pathname === path;
 
+  const isActive = (path) => location.pathname === path;
+
 
   // ui
   return (
