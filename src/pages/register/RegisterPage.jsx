@@ -57,7 +57,7 @@ const RegisterPage = () => {
         return
       }
 
-      const response= await axios.post(`${url}/auth/register`,
+      const response= await axios.post(`https://legaleaseafrica.org/__api__/api/auth/register`,
         {
           first_name: firstName,
           second_name: secondName,

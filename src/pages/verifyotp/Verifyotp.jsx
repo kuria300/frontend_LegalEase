@@ -26,7 +26,7 @@ const Verifyotp = () => {
     setError('')
     
     try {
-      const response = await axios.post(`${url}/auth/verify-otp`, 
+      const response = await axios.post(`https://legaleaseafrica.org/__api__/api/auth/verify-otp`, 
         {
          email: emailData,
          otp: otpString
@@ -74,7 +74,7 @@ const Verifyotp = () => {
 
     setResend(true)
     try {
-      const response=await axios.post(`${url}/auth/send-otp`, 
+      const response=await axios.post(`https://legaleaseafrica.org/__api__/api/auth/send-otp`, 
         {
          email: emailData,
         }

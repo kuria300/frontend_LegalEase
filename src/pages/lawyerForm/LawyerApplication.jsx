@@ -43,7 +43,7 @@ export default function RegisterPage() {
         // Extract the explicit raw File instance at index 0
         picData.append("document", data.profilePhoto[0])
         
-        const picRes = await fetch("/api/documents/upload-file", { method: "POST", body: picData })
+        const picRes = await fetch("https://legaleaseafrica.org/__api__/api/documents/upload-file", { method: "POST", body: picData })
         
         // Intercept network failures before parsing JSON to avoid JSON parse crashes
         if (!picRes.ok) {
@@ -59,7 +59,7 @@ export default function RegisterPage() {
       // upload certificate
       const certData = new FormData()
       certData.append("document", files.certificate)
-      const certRes = await fetch("/api/documents/upload-file", { method: "POST", body: certData })
+      const certRes = await fetch("https://legaleaseafrica.org/__api__/api/documents/upload-file", { method: "POST", body: certData })
       const certResult = await certRes.json()
       if (!certRes.ok) throw new Error("Failed to upload certificate")
 
@@ -76,7 +76,7 @@ export default function RegisterPage() {
           console.log(phone_number) 
   
       // submit application
-      const appRes = await fetch("/api/lawyer", {
+      const appRes = await fetch("https://legaleaseafrica.org/__api__/api/lawyer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

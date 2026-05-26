@@ -2,7 +2,7 @@ import axios from "axios";
 
 // create axios instance
 const api = axios.create({
-    baseURL: 'http://localhost:3000' || import.meta.env.VITE_SERVER_URL_NO_API
+    baseURL: 'https://legaleaseafrica.org/__api__'
 });
 
 // attach JWT token to every request

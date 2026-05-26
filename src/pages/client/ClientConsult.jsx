@@ -153,7 +153,7 @@ const ClientConsult = () => {
     const fetchAppointments = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/bookings/user", {
+        const response = await axios.get("https://legaleaseafrica.org/__api__/api/bookings/user", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setAppointments(response.data.data || []);
@@ -183,7 +183,7 @@ const ClientConsult = () => {
     setModalOpen(true);
   };
 
-  // ✅ new
+
   const handleOpenDetails = (appt) => {
     setSelectedDetails(appt);
     setDetailsModalOpen(true);
@@ -192,7 +192,7 @@ const ClientConsult = () => {
   const handleBookingUpdate = async (updatedData) => {
     try {
       await axios.put(
-        `/api/bookings/user/reschedule/${selectedBooking.id}`,
+        `https://legaleaseafrica.org/__api__/api/bookings/user/reschedule/${selectedBooking.id}`,
         { new_booking_date: updatedData.bookingDate, new_booking_time: updatedData.bookingTime },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );

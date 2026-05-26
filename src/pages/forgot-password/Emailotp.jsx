@@ -41,7 +41,7 @@ const Emailotp = () => {
 
         try {
             // when if (email && !otp && !newPassword)
-            const response = await axios.post(`${url}/auth/forgot-password`, { email })
+            const response = await axios.post(`https://legaleaseafrica.org/__api__/api/auth/forgot-password`, { email })
             //help track if we are resending code or sending for first time
             setCodeSent(true)
             toast.success(response.data.message || 'OTP code sent! Please check your email.')
@@ -71,7 +71,7 @@ const Emailotp = () => {
 
         try {
             // Hits backend block: if (email && otp && newPassword)
-            const response = await axios.post(`${url}/auth/forgot-password`, {
+            const response = await axios.post(`https://legaleaseafrica.org/__api__/api/auth/forgot-password`, {
                 email: email.trim(),
                 otp: otp.trim(),
                 newPassword,
