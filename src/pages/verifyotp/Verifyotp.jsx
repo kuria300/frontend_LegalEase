@@ -36,14 +36,23 @@ const Verifyotp = () => {
 
       const data = response.data
 
-      navigate('/dashboard') 
+      if(data.role === 'CLIENT'){
+        navigate('/client-dashboard', { replace: true }) 
+         toast.success('Login successful')
+      }
+      if(data.role === 'LAWYER'){
+        navigate('/lawyer/dashboard', { replace: true })
+        toast.success('Login successful')
+      }
+      if(data.role === 'ADMIN' || data.role === 'SUPERADMIN'){
+        navigate('/admin', { replace: true })
+        toast.success('Login successful')
+      }
+
+      
       localStorage.removeItem('pendingUser')
-
-
-localStorage.setItem("token", data.token)
-
-
-      toast.success('Login successful')
+      localStorage.setItem("token", data.token)
+      // localStorage.setItem("user", data.name)
       
     } catch (err) {
       console.log(err.response.data.error)
@@ -183,7 +192,7 @@ localStorage.setItem("token", data.token)
                 ))}
               </div>
 
-              <Button type="submit" disabled={loading || resend} className='w-96 mx-auto'>
+              <Button type="submit" disabled={loading || resend} className='w-96 mx-auto rounded-lg'>
                 {loading ? <LoaderCircle className='animate-spin mx-auto'/>: "Verify & Continue"}
               </Button>
 

@@ -1,4 +1,3 @@
-// src/pages/lawyer/EditProfileModal.jsx
 import { useState, useEffect } from "react";
 import { X, DollarSign, FileText, User, Mail, Phone, Save } from "lucide-react";
 import { updateLawyerProfile, getLawyerProfile } from "../../services/lawyerService.jsx";
@@ -79,21 +78,21 @@ export default function EditProfileModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 z-[200] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-white rounded-[16px] w-full max-w-lg shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-white rounded-md w-full max-w-lg shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#e4e7ec]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-on-surface-variant/15">
           <div>
-            <h2 className="text-base font-bold text-[#101828]">Edit Profile</h2>
-            <p className="text-xs text-[#667085] mt-0.5">Update your bio, fees and contact info</p>
+            <h2 className="text-base font-bold text-on-surface">Edit Profile</h2>
+            <p className="text-xs text-on-surface-variant mt-0.5">Update your bio, fees and contact info</p>
           </div>
-          <button onClick={onClose} className="w-8 h-8 rounded-md flex items-center justify-center text-[#667085] hover:bg-[#f0f2f5] transition-colors border-none bg-transparent cursor-pointer">
+          <button onClick={onClose} className="w-8 h-8 rounded-md flex items-center justify-center text-on-surface-variant hover:bg-on-surface-variant/10 transition-colors border-none bg-transparent cursor-pointer">
             <X size={18} />
           </button>
         </div>
 
         {/* Body */}
-        <div className="px-6 py-5 flex flex-col gap-4 max-h-[70vh] overflow-y-auto">
+        <div className="px-6 py-5 flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <div className="w-8 h-8 border-4 border-[#3b5bdb] border-t-transparent rounded-full animate-spin" />
@@ -103,7 +102,7 @@ export default function EditProfileModal({ isOpen, onClose }) {
               <p className="text-sm text-red-500">{error}</p>
               <button
                 onClick={() => { setError(null); setLoading(true); }}
-                className="text-xs text-[#3b5bdb] underline cursor-pointer bg-transparent border-none"
+                className="text-xs text-blue-500 underline cursor-pointer bg-transparent border-none"
               >
                 Retry
               </button>

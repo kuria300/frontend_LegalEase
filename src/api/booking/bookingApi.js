@@ -2,7 +2,7 @@ import axios from "axios";
 
 // create axios instance
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
+    baseURL: 'http://localhost:3000' || import.meta.env.VITE_SERVER_URL_NO_API
 });
 
 // attach JWT token to every request
@@ -16,7 +16,7 @@ api.interceptors.request.use((config)=>{
 
 // GET /api/bookings/slots?lawyer_id=&booking_date=
 export const getAvailableSlots = async (lawyerId, bookingDate) => {
-    const { data } = await api.get("/bookings/slots", {
+    const { data } = await api.get("/api/bookings/slots", {
         params: { lawyer_id: lawyerId, booking_date: bookingDate },
     });
     return data.data
@@ -31,30 +31,42 @@ export const createBooking = async ({
     notes,
     parsedDate
 }) => {
-    const { data } = await api.post("/bookings", {
+    const { data } = await api.post("/api/bookings", {
         lawyer_id: lawyerId,
         booking_date: bookingDate,
         booking_time: bookingTime,
         meeting_type: meetingType,
         notes: notes || "",
-        parseDate,
+        parsedDate,
     });
 
     return data.data;
 }
 
-// POST /api/checkout/:booking_id
 // sends phone number, triggers STK push
-//-> return checkout_req_id for polling
 export const initiateStkPush = async (bookingId, phoneNumber) => {
-    const { data } = await api.post(`/checkout/${bookingId}`,{ phoneNumber });
-    return data.data;
-}
-// payment status polling
-// GET /api/pay-status/:checkout_req_id
-// will return success, status: "SUCCESS"/"PENDING"/"FAILED", message }
+  try {
+    const { data } = await api.post(`/checkout/${bookingId}`, {
+      phoneNumber,
+    });
 
-export const getPaymentStatus = async(checkoutReqId) => {
-    const { data } = await api.get(`/pay-status/${checkoutReqId}`);
+    return data.data;
+  } catch (error) {
+    console.error("STK Push failed:", error);
+
+     throw new Error(error?.response?.data?.error || "Failed to initiate STK Push");
+  }
+};
+// payment status polling
+
+export const getPaymentStatus = async (checkoutReqId) => {
+  try {
+    const { data } = await api.get( `/check-status/${checkoutReqId}`);
+
     return data;
-}
+  } catch (error) {
+    console.error("Payment status error:", error);
+
+    throw new Error( error?.response?.data?.error || "Failed to fetch payment status");
+  }
+};

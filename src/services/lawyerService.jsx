@@ -1,13 +1,7 @@
-/**
- * Fetches all verified legal practitioners from the LegalEase backend API.
- * Safely extracts the JWT token string from local storage fallbacks.
- * @returns {Promise<Array>} Array of lawyer data objects.
- */
+
 export const getLawyers = async () => {
-  // 1. Check standard localStorage keys
   let token = localStorage.getItem("token");
 
-  // 2. Fallback Safety Check: If the token was saved as part of a stringified object
   if (!token || token === "undefined" || token === "null") {
     const pendingUser = localStorage.getItem("pendingUser");
     if (pendingUser) {
@@ -44,10 +38,6 @@ export const getLawyers = async () => {
 };
 
 
-// ─────────────────────────────────────────
-// Lawyer Dashboard Services
-// ─────────────────────────────────────────
-
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const authHeaders = () => ({
@@ -66,10 +56,9 @@ export const getLawyerDashboardSummary = async () => {
   );
   if (!res.ok) throw new Error("Failed to fetch dashboard summary");
   const json = await res.json();
-  return json.data; // { upcoming_bookings, recent_completed_bookings, lawyer_profile }
+  return json.data; 
 };
 
-// // Used by ConsultationList + CalendarPage — returns raw json so each page can destructure
 // export const getAllBookings = async (lawyerId) => {
 //   const res = await fetch(
 //     `${BASE_URL}/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
@@ -84,10 +73,9 @@ export const getAllBookings = async () => {
     headers: authHeaders(),
   });
   if (!res.ok) throw new Error("Failed to fetch bookings");
-  return res.json(); // { success, data: [...bookings] }
+  return res.json();
 };
-// // GET /api/bookings/lawyer
-//router.get("/lawyer", authenticate, authorise("LAWYER"), getLawyerBookings);
+
 
 export const getLawyerProfile = async () => {
   const lawyerId = getLawyerId();

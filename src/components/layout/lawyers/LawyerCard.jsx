@@ -1,23 +1,23 @@
 import React from "react";
 import { Verified } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { MapPin, BriefcaseBusiness } from "lucide-react";
 
-export const LawyerCard = ({lawyer}) => {
+export const LawyerCard = ({lawyer, onViewProfile}) => {
   const firstName =
     lawyer.lawyer_applications?.users?.first_name || "";
 
   const secondName =
     lawyer.lawyer_applications?.users?.second_name || "";
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     
-  const onViewProfile =()=>{
-      if (lawyer?.id) {
-      // Navigate using only the clean URL path param
-      navigate(`/lawyer-modal/${lawyer.id}`);
-    } else {
-      console.error("Lawyer profile missing a valid ID string.");
-    }
-  };
+  // const onViewProfile =()=>{
+  //     if (lawyer?.id) {
+  //     // Navigate using only the clean URL path param
+  //     navigate(`/lawyer-modal/${lawyer.id}`);
+  //   } else {
+  //     console.error("Lawyer profile missing a valid ID string.");
+  //   }
+  // };
 
 
   return (
@@ -53,19 +53,21 @@ export const LawyerCard = ({lawyer}) => {
         <div className="flex flex-wrap gap-2 mt-5 mb-6">
 
           <span className="bg-gray-100 px-3 py-2 rounded-xl text-sm">
-            💼 {lawyer.experience} Years Experience
+            <BriefcaseBusiness className="w-4 h-4 inline mr-1" />
+            {lawyer.experience} Years Experience
           </span>
 
           <span className="bg-gray-100 px-3 py-2 rounded-xl text-sm">
-            📍 Nairobi, Kenya
+            <MapPin className="w-4 h-4 inline mr-1" />
+            Kenya
           </span>
 
         </div>
 
         {/* BUTTON */}
         <button
-          onClick={onViewProfile}
-          className="w-full bg-gray-900 hover:bg-black text-white py-3 rounded-2xl font-semibold transition-all"
+          onClick={()=>onViewProfile(lawyer)}
+          className="w-full bg-gray-900 cursor-pointer hover:bg-[#735c00] text-white py-3 rounded-2xl font-semibold transition-all"
         >
           View Profile
         </button>

@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import MpesaCheckout from "../../components/ui/booking/MpesaCheckout";
 import PaymentStatusScreen from "../../components/ui/booking/PaymentStatusScreen";
 
-
 // declare valid step constants
 const VALID_STEPS = {
   CHECKOUT: "CHECKOUT",
@@ -26,20 +25,19 @@ const BookingPage = () => {
     !state?.amount
   ) {
     toast.error("Booking information is missing. Please retry again.");
-    return <Navigate to="/marketplace" replace />;
+    return <Navigate to="/find-lawyers" replace />;
   }
 
   const { bookingId, lawyer, selectedDate, selectedTime, meetingType, amount } =
     state;
 
-  // set active step -> to control which branch component renders
   const [step, setStep] = useState(VALID_STEPS.CHECKOUT);
 
   // checkuot_req_id returned by STK push
   const [checkoutReqId, setCheckoutReqId] = useState(null);
 
   // Callback by MpesaCheckout after initiateStkPush succeeds
-  const handleStkSuccess = (redId)=>{
+  const handleStkSuccess = (reqId)=>{
     setCheckoutReqId(reqId);
     setStep(VALID_STEPS.POLLING)
   }
@@ -69,14 +67,14 @@ const BookingPage = () => {
         />
       )}
 
-      {/* polling / loading screen */}
+      {/* loading screen */}
       {step === VALID_STEPS.POLLING && (
           <PaymentStatusScreen
             checkoutReqId={checkoutReqId}
             amount={amount}
-            // Called when polling confirms SUCCESS — moves to Branch 5
+            // Called when polling confirms SUCCESS
             onSuccess={handlePaymentSuccess}
-            // Called when payment FAILS or times out — returns to Branch 2
+            // Called when payment FAILS or times out 
             onFailed={handlePaymentFailed}
           />
         )}

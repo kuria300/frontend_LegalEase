@@ -1,16 +1,6 @@
 import React from "react";
 import { Briefcase, Landmark, FileText, Scale, CircleHelp } from "lucide-react";
 
-/**
- * CategorySelection Component
- * 
- * Purpose: Displays a list of legal categories that users can choose from.
- * This helps users classify their legal issue before proceeding further.
- * 
- * @param {Function} onSelectCategory - Callback function triggered when a user clicks a category
- *        The selected category key (e.g., "employment", "property") is passed as an argument
- */
-
 
 const CategorySelection = ({ onSelectCategory }) => {
     // Array of legal categories available for selection

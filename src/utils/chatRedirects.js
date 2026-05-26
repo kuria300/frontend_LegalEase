@@ -13,7 +13,7 @@ export const useChatRedirects = () => {
   };
 
   const redirectToLawyers = () => {
-    navigate('/marketplace');
+    navigate('/find-lawyers');
   };
 
   return {

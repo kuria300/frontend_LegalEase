@@ -1,83 +1,80 @@
-
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
-import { getPaymentStatus } from '../api/booking/bookingApi';
+import { getPaymentStatus } from "../api/booking/bookingApi";
 
-// polls GET /api/pay-status/:checkout_req_id every 3 seconds
-// stops automatically on SUCCESS, FAILED, or after MAX_ATTEMPTS (60s timeout)
+const usePaymentPolling = (checkoutReqId, enabled) => {
+  const [status, setStatus] = useState("PENDING");
+  const [error, setError] = useState(null);
+  const [attempts, setAttempts] = useState(0);
 
-const usePaymentPolling = (checkoutReqId, enabled)=>{
-    // latest payment status from the backend starts as PENDING
-    const [status, setStatus] = useState("PENDING");
+  const intervalRef = useRef(null);
+  const inFlightRef = useRef(false); 
 
-    // Error message if polling fails or times out
-    const [error, setError] = useState(null);
+  const MAX_ATTEMPTS = 20;
 
-    // count of the no. of attempts that have been fired
-    const [attempts, setAttempts] = useState(0);
+  useEffect(() => {
+    if (!enabled || !checkoutReqId) return;
 
-    // Ref holds the interval ID so we can clear it from inside the async callback
-    const intervalRef = useRef(null);
+    const stopPolling = (msg) => {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      setError(msg || null);
+    };
 
-    // 20 attempts × 3 seconds = 60 second maximum wait time
-    const MAX_ATTEMPTS = 20;
+    const poll = async () => {
+      if (inFlightRef.current) return; 
 
-    useEffect(() => {
-        // do not start polling if disabled or checkout ID is not yet available
-        if (!enabled || !checkoutReqId) {
-            return;
+      inFlightRef.current = true;
+
+      try {
+        const data = await getPaymentStatus(checkoutReqId);
+
+        setAttempts((prev) => {
+          const next = prev + 1;
+
+          if (next >= MAX_ATTEMPTS) {
+            stopPolling("Payment confirmation timed out. Please try again.");
+            toast.error("Payment confirmation timed out.");
+          }
+
+          return next;
+        });
+
+        const currentStatus = data?.status;
+
+        if (!currentStatus) return;
+
+        setStatus(currentStatus);
+
+        // TERMINAL STATES
+        if (currentStatus === "SUCCESS") {
+          stopPolling();
+          toast.success("Payment confirmed successfully!");
         }
-    
-        const poll = async () => {
-        try {
-            const data = await getPaymentStatus(checkoutReqId);
-    
-            // Increment attempt counter and check if max has been reached
-            setAttempts((prev) => {
-            const next = prev + 1;
 
-            if (next >= MAX_ATTEMPTS) {
-                clearInterval(intervalRef.current);
-
-                // Notify user that the confirmation window has expired
-                const msg = "Payment confirmation timed out. Please contact support.";
-                toast.error(msg);
-                setError(msg);
-            }
-            return next;
-            });
-    
-            // Update the status with the latest value returned by the backend
-            setStatus(data.status);
-    
-            // Stop polling and show toast as soon as a terminal status is received
-            if (data.status === "SUCCESS") {
-            clearInterval(intervalRef.current);
-            toast.success("Payment confirmed successfully!");
-            }
-    
-            if (data.status === "FAILED") {
-            clearInterval(intervalRef.current);
-            toast.error("Payment failed. Please try again.");
-            }
-        } catch (err) {
-            // Stop polling on network or unexpected server error
-            clearInterval(intervalRef.current);
-            const msg = err.response?.data?.message || err.message;
-            toast.error(msg);
-            setError(msg);
+        if (currentStatus === "FAILED") {
+          stopPolling();
+          toast.error("Payment failed. Please try again.");
         }
-        };
-    
-        // Fire first poll immediately then repeat every 3 seconds
-        poll();
-        intervalRef.current = setInterval(poll, 3000);
-    
-        // Clear interval on unmount or when dependencies change
-        return () => clearInterval(intervalRef.current);
-    }, [checkoutReqId, enabled]);
 
-    return { status, error, attempts };
+        if (currentStatus === "ERROR") {
+          stopPolling("Payment error occurred.");
+        }
+      } catch (err) {
+        stopPolling(err.message || "Polling failed");
+        toast.error("Payment status check failed.");
+      } finally {
+        inFlightRef.current = false;
+      }
+    };
+
+    poll();
+    intervalRef.current = setInterval(poll, 3000);
+
+    return () => clearInterval(intervalRef.current);
+  }, [checkoutReqId, enabled]);
+
+  return { status, error, attempts };
 };
 
 export default usePaymentPolling;

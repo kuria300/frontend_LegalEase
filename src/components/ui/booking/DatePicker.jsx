@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// day column headers
+
 const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
-// month names for the navigation label
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December",
 ];
 
 const DatePicker = ({ selectedDate, onDateSelect }) => {
-  // reset today to midnight -> ensure date comparisom are day accurate
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -42,7 +40,6 @@ const DatePicker = ({ selectedDate, onDateSelect }) => {
   // create the 7 column calendar grid
   const buildCalendarDays = () => {
     const firstDay = new Date(viewYear, viewMonth, 1);
-    // Monday-based week: Sunday(0) → 6, Monday(1) → 0
     const startOffset = (firstDay.getDay() + 6) % 7;
     const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
     const daysInPrevMonth = new Date(viewYear, viewMonth, 0).getDate();
@@ -87,7 +84,7 @@ const DatePicker = ({ selectedDate, onDateSelect }) => {
     );
   };
 
-  // check if a day falls before today -> past dates are unselectable
+  // check if a day falls before today
   const isPast = (day) => {
     const cellDate = new Date(viewYear, viewMonth, day);
     cellDate.setHours(0, 0, 0, 0);
@@ -119,7 +116,7 @@ const DatePicker = ({ selectedDate, onDateSelect }) => {
   return (
     <div className="w-full">
 
-      {/* Month navigation -> prev/next arrows */}
+      {/* Month navigation*/}
       <div className="flex items-center justify-between mb-3">
         <button
           onClick={goToPrevMonth}
@@ -143,7 +140,7 @@ const DatePicker = ({ selectedDate, onDateSelect }) => {
         </button>
       </div>
 
-      {/* Day headers — Sa and Su visually dimmed */}
+      {/* Day headers*/}
       <div className="grid grid-cols-7 mb-1">
         {DAYS.map((d) => (
           <div

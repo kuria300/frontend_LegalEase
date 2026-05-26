@@ -34,7 +34,6 @@ class ChatService {
       return result;
     }
 
-    // No file - just send message
     // Use public endpoint if no token, authenticated endpoint if token exists
     const endpoint = !token ? `${API_BASE_URL}/chat/message/public` : `${API_BASE_URL}/chat/message`;
     
@@ -75,7 +74,7 @@ class ChatService {
     });
   }
 
-  // Upload document directly (when user is logged in and uploading immediately)
+  // Upload document directly
   async uploadDocument(file, token) {
     const formData = new FormData();
     formData.append('document', file);
@@ -94,7 +93,7 @@ class ChatService {
     return await response.json();
   }
 
-  // Upload document from base64 (for pending documents after login)
+  // Upload document from base64
   async uploadDocumentFromBase64(docData, token) {
     // Convert base64 to blob
     const base64Response = await fetch(docData.data);
