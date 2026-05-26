@@ -12,7 +12,7 @@ import {
 import LawyerSidebar from "../../components/layout/lawyers/LawyerSidebar.jsx";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
-import { formatTime } from "../../utils/formatTime";
+import { formatTime } from "../../utils/displayTime.js";
 import Legalease from "../../assets/images/Legalease.png";
 import { toast } from "react-toastify";
 
