@@ -78,9 +78,9 @@ const AuthProvider = ({children}) => {
      navigate('/verifyOtp')
 
     }catch(error){
-        console.log(error.response.data.error)
-       toast.error(error.response?.data?.error || "Login failed.Please try again")
-       throw error
+         console.log(error.response?.data?.error)
+        toast.error(error.response?.data?.error || "Login failed. Please try again")
+        throw error
      }
     }
 
