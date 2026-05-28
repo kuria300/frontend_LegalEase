@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import LawyerSidebar from "../../components/layout/lawyers/LawyerSidebar.jsx";
-import { formatTime } from "../../utils/displayTime.js";
 import { baseUrl } from "../../config/Baseurl.js";
 
 //Helper functions
@@ -49,9 +48,113 @@ function SkeletonCard() {
   );
 }
 
+// Booking Details Modal
+
+function BookingModal({ appt, onClose }) {
+  if (!appt) return null;
+
+  const client =
+    appt.users_bookings_user_idTousers ||
+    appt.users_bookings_client_idTousers;
+
+  const firstName = client?.first_name || "";
+  const lastName  = client?.second_name || client?.last_name || "";
+  const fullName  = firstName || lastName
+    ? `${firstName} ${lastName}`.trim()
+    : "Client";
+  const email     = client?.email || "—";
+  const phone     = client?.phone || client?.phone_number || "—";
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 p-6 flex flex-col gap-5"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Modal header */}
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-bold text-gray-900">Booking Details</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors text-xl leading-none"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Client info */}
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-semibold text-base shrink-0">
+            {getInitials(firstName, lastName)}
+          </div>
+          <div>
+            <p className="font-semibold text-gray-900">{fullName}</p>
+            <p className="text-sm text-gray-500">{email}</p>
+          </div>
+        </div>
+
+        <hr className="border-gray-100" />
+
+        {/* Details grid */}
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Status</p>
+            <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+              STATUS_BADGE[appt.booking_status] || "bg-gray-100 text-gray-600"
+            }`}>
+              {appt.booking_status}
+            </span>
+          </div>
+
+          <div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Meeting Type</p>
+            <p className="text-gray-800 capitalize">
+              {appt.meeting_type?.replace(/_/g, " ") || "—"}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Date</p>
+            <p className="text-gray-800">{formatDate(appt.booking_date)}</p>
+          </div>
+
+          <div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Time</p>
+            <p className="text-gray-800">{appt.booking_time}</p>
+          </div>
+
+          {phone !== "—" && (
+            <div className="col-span-2">
+              <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Phone</p>
+              <p className="text-gray-800">{phone}</p>
+            </div>
+          )}
+
+          {appt.notes && (
+            <div className="col-span-2">
+              <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Notes</p>
+              <p className="text-gray-700 text-sm">{appt.notes}</p>
+            </div>
+          )}
+        </div>
+
+        <button
+          onClick={onClose}
+          className="mt-1 w-full py-2 rounded-lg bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition-colors"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+}
+
 //Appointment Card
 
-function AppointmentCard({ appt, tab }) {
+function AppointmentCard({ appt, tab, onViewDetails }) {
   // The client who booked is under users_bookings_user_idTousers
   const client =
     appt.users_bookings_user_idTousers ||
@@ -62,6 +165,8 @@ function AppointmentCard({ appt, tab }) {
   const fullName  = firstName || lastName
     ? `${firstName} ${lastName}`.trim()
     : "Client";
+
+    console.log("booking_date:", appt.booking_date, "booking_time:", appt.booking_time);
 
   return (
     <div className="bg-white border-2 border-gray-200 rounded-xl p-4 flex flex-col gap-3">
@@ -85,23 +190,23 @@ function AppointmentCard({ appt, tab }) {
           {appt.booking_status}
         </span>
       </div>
+      
 
       {/* Meta data */}
       <div className="flex items-center gap-4 text-xs text-gray-500">
         <span>{formatDate(appt.booking_date)}</span>
-        <span>{formatTime(appt.booking_time)}</span>
+        <span>{appt.booking_time}</span>
       </div>
 
       <hr className="border-gray-100" />
 
       {/* Actions */}
       <div className="flex gap-2">
-        {tab === "upcoming" ? (
-          <button className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
-            Reschedule
-          </button>
-        ) : (
-          <button className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
+        {tab === "past" && (
+          <button
+            onClick={() => onViewDetails(appt)}
+            className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+          >
             View Details
           </button>
         )}
@@ -114,10 +219,11 @@ export default function ConsultationList() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialTab = searchParams.get("tab") || "upcoming";
-  const [activeTab, setActiveTab]     = useState(initialTab);
+  const [activeTab, setActiveTab]       = useState(initialTab);
   const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading]         = useState(true);
-  const [error, setError]             = useState(null);
+  const [loading, setLoading]           = useState(true);
+  const [error, setError]               = useState(null);
+  const [selectedAppt, setSelectedAppt] = useState(null);
 
   const {url}=baseUrl()
 
@@ -218,7 +324,12 @@ export default function ConsultationList() {
                 ))
               ) : filtered.length > 0 ? (
                 filtered.map((appt) => (
-                  <AppointmentCard key={appt.id} appt={appt} tab={activeTab} />
+                  <AppointmentCard
+                    key={appt.id}
+                    appt={appt}
+                    tab={activeTab}
+                    onViewDetails={setSelectedAppt}
+                  />
                 ))
               ) : (
                 <p className="text-gray-400 text-sm col-span-3 py-12 text-center">
@@ -230,6 +341,14 @@ export default function ConsultationList() {
 
         </section>
       </main>
+
+      {/* Booking details modal */}
+      {selectedAppt && (
+        <BookingModal
+          appt={selectedAppt}
+          onClose={() => setSelectedAppt(null)}
+        />
+      )}
     </div>
   );
 }

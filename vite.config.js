@@ -12,7 +12,7 @@ export default defineConfig({
     proxy: {
      //reverse proxy
       '/api': {
-        target: 'http://localhost:3000', 
+        target: 'https://legaleaseafrica.org/__api__', 
         changeOrigin: true,
         secure: false,
       }

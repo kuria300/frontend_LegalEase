@@ -6,7 +6,6 @@ import axios from 'axios';
 import ClientSidebar from '../../components/layout/client/ClientSidebar';
 import ClientReschedule from './ClientReschedule';
 import { toast } from 'react-toastify';
-import { formatTime } from '../../utils/displayTime';
 import FloatingChatButton from '../../components/ui/Chat/FloatingChatButton';
 import { baseUrl } from '../../config/Baseurl';
 
@@ -65,9 +64,10 @@ const ClientDashboard = () => {
   const [modalOpen, setModalOpen]                         = useState(false);
   const [selectedBooking, setSelectedBooking]             = useState(null);
   const [error, setError]                                 = useState(null);
+  const [reschedulingId, setReschedulingId]               = useState(null);
 
   const [page]  = useState(1);
-  const [limit] = useState(6);
+  const [limit] = useState(10);
 
   const [sessionUser, setSessionUser] = useState(null);
 
@@ -117,19 +117,13 @@ const ClientDashboard = () => {
           
             const bookingDateTime = new Date(b.booking_date);
 
-            if (b.booking_time) {
-              const t = new Date(b.booking_time);
-              bookingDateTime.setHours(t.getUTCHours(), t.getUTCMinutes(), 0, 0);
-            }
 
             return bookingDateTime >= now;
           })
         );
 
         setConsultationHistory(
-          allBookings.filter(
-            (b) => b.booking_status === 'COMPLETED' && b.payment_status === 'PAID'
-          )
+          allBookings.filter((b) => b.booking_status === 'COMPLETED' && b.payment_status === 'PAID')
         );
       } catch (err) {
         console.error(err);
@@ -200,6 +194,7 @@ const ClientDashboard = () => {
 
   const handleBookingUpdate = async (updatedData) => {
     try {
+      setReschedulingId(selectedBooking.id);
       await axios.put(
         `${url}/api/bookings/user/reschedule/${selectedBooking.id}`,
         {
@@ -221,6 +216,8 @@ const ClientDashboard = () => {
       setModalOpen(false);
     } catch (err) {
       toast.error(err.response?.data?.error || 'Failed to update booking. Please try again.');
+    } finally {
+      setReschedulingId(null);
     }
   };
 
@@ -334,6 +331,7 @@ const ClientDashboard = () => {
                       const initials = `${lawyer?.first_name?.[0] || ''}${lawyer?.second_name?.[0] || ''}`;
                       const lawyerName = `${lawyer?.first_name || ''} ${lawyer?.second_name || ''}`.trim();
                       const statusStyle = bookingStatusColors[consult.booking_status] || 'bg-gray-100 text-gray-600 border-gray-200';
+                      const isRescheduling = reschedulingId === consult.id;
 
                       return (
                         <div
@@ -351,7 +349,7 @@ const ClientDashboard = () => {
                               </p>
                               <div className="flex items-center gap-1 mt-1 text-[11px] text-on-surface-variant/80 font-medium">
                                 <Clock size={12} className="text-primary" />
-                                <span>{formatDate(consult.booking_date)} at {formatTime(consult.booking_time)}</span>
+                                <span>{formatDate(consult.booking_date)} at {consult.booking_time}</span>
                               </div>
                             </div>
                           </div>
@@ -361,9 +359,17 @@ const ClientDashboard = () => {
                             </span>
                             <button
                               onClick={() => handleOpenReschedule(consult)}
-                              className="text-xs border border-outline px-3 py-1.5 rounded-full font-medium hover:bg-surface-variant/20 transition-colors"
+                              disabled={isRescheduling}
+                              className="text-xs border border-outline px-3 py-1.5 rounded-full font-medium hover:bg-surface-variant/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-1.5"
                             >
-                              Reschedule
+                              {isRescheduling ? (
+                                <>
+                                  <span className="w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+                                  Rescheduling...
+                                </>
+                              ) : (
+                                "Reschedule"
+                              )}
                             </button>
                           </div>
                         </div>
