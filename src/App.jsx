@@ -20,6 +20,7 @@ import ClientProfile from "./pages/client/ClientProfile"
 import ProtectedRoute from "./ProtectedRoute"
 import ClientChat from "./pages/chat/ClientChat"
 import ClientConsult from "./pages/client/ClientConsult"
+import AboutPage from "./pages/about/About"
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path='/application-pending' element={<ApplicationPending />}/>
         <Route path="/email-otp" element={<Emailotp />} />
         <Route path='/apply' element={<LawyerApplication />}/>
+        <Route path='/about' element={<AboutPage />}/>
      
     
         <Route element={<ProtectedRoute allRoles={['CLIENT']} />}>
