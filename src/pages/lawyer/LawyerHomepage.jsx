@@ -15,6 +15,7 @@ import axios from "axios";
 import { formatTime } from "../../utils/displayTime.js";
 import Legalease from "../../assets/images/Legalease.png";
 import { toast } from "react-toastify";
+import { baseUrl } from "../../config/Baseurl.js";
 
 
 const VALID_SLOTS = [
@@ -163,6 +164,8 @@ export default function LawyerHomepage() {
   const [page] = useState(1);
   const [limit] = useState(50);
 
+  const { url }=baseUrl()
+
   useEffect(() => {
     if (authLoading) return;
 
@@ -171,7 +174,7 @@ export default function LawyerHomepage() {
         setDashboardLoading(true);
         setError(null);
 
-        const response = await axios.get("https://legaleaseafrica.org/__api__/api/bookings/lawyer", {
+        const response = await axios.get(`${url}/api/bookings/lawyer`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -275,7 +278,7 @@ export default function LawyerHomepage() {
   const handleBookingUpdate = async (updatedData) => {
     try {
       await axios.put(
-        `https://legaleaseafrica.org/__api__/api/bookings/lawyer/reschedule/${selectedBooking.id}`,
+        `${url}/api/bookings/lawyer/reschedule/${selectedBooking.id}`,
         {
           new_booking_date: updatedData.bookingDate,
           new_booking_time: updatedData.bookingTime,

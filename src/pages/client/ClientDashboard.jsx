@@ -8,6 +8,7 @@ import ClientReschedule from './ClientReschedule';
 import { toast } from 'react-toastify';
 import { formatTime } from '../../utils/displayTime';
 import FloatingChatButton from '../../components/ui/Chat/FloatingChatButton';
+import { baseUrl } from '../../config/Baseurl';
 
 //Skeleton components
 function ConsultationSkeleton() {
@@ -70,13 +71,15 @@ const ClientDashboard = () => {
 
   const [sessionUser, setSessionUser] = useState(null);
 
+  const { url }=baseUrl()
+
   useEffect(() => {
     const refreshSession = async () => {
       try {
         const token = localStorage.getItem('token');
         if (!token) return;
         const url = import.meta.env.VITE_SERVER_URL;
-        const res = await axios.get(`https://legaleaseafrica.org/__api__/api/auth/session/me`, {
+        const res = await axios.get(`${url}/api/auth/session/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSessionUser(res.data.user);
@@ -97,7 +100,7 @@ const ClientDashboard = () => {
       try {
         setDashboardLoading(true);
 
-        const response = await axios.get('https://legaleaseafrica.org/__api__/api/bookings/user', {
+        const response = await axios.get(`${url}/api/bookings/user`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           params: { page, limit },
         });
@@ -147,7 +150,7 @@ const ClientDashboard = () => {
       try {
         setChatsLoading(true);
 
-        const res = await axios.get('https://legaleaseafrica.org/__api__/api/chat/history', {
+        const res = await axios.get(`${url}/api/chat/history`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           params: { limit: 3 },
         });
@@ -198,7 +201,7 @@ const ClientDashboard = () => {
   const handleBookingUpdate = async (updatedData) => {
     try {
       await axios.put(
-        `/api/bookings/user/reschedule/${selectedBooking.id}`,
+        `${url}/api/bookings/user/reschedule/${selectedBooking.id}`,
         {
           new_booking_date: updatedData.bookingDate,
           new_booking_time: updatedData.bookingTime,

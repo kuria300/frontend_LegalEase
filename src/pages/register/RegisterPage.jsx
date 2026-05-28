@@ -7,6 +7,7 @@ import RegisterInput from '../../components/layout/auth/RegisterInput'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { baseUrl } from '../../config/Baseurl'
 
 const RegisterPage = () => {
   const [email, setEmail]=useState("")
@@ -19,7 +20,9 @@ const RegisterPage = () => {
   const [role, setRole]=useState("CLIENT")
   const [loading, setLoading]=useState(false)
 
-  const url=import.meta.env.VITE_SERVER_URL
+  const {url}=baseUrl()
+
+  // const url=import.meta.env.VITE_SERVER_URL
 
   const navigate= useNavigate()
 
@@ -57,7 +60,7 @@ const RegisterPage = () => {
         return
       }
 
-      const response= await axios.post(`https://legaleaseafrica.org/__api__/api/auth/register`,
+      const response= await axios.post(`${url}/api/auth/register`,
         {
           first_name: firstName,
           second_name: secondName,

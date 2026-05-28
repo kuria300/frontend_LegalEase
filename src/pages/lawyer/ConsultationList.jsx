@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import LawyerSidebar from "../../components/layout/lawyers/LawyerSidebar.jsx";
 import { formatTime } from "../../utils/displayTime.js";
+import { baseUrl } from "../../config/Baseurl.js";
 
 //Helper functions
 
@@ -118,12 +119,14 @@ export default function ConsultationList() {
   const [loading, setLoading]         = useState(true);
   const [error, setError]             = useState(null);
 
+  const {url}=baseUrl()
+
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         setLoading(true);
 
-        const response = await axios.get("https://legaleaseafrica.org/__api__/api/bookings/lawyer", {
+        const response = await axios.get(`${url}/api/bookings/lawyer`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

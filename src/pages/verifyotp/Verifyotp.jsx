@@ -6,13 +6,16 @@ import axios from 'axios'
 import { LoaderCircle } from 'lucide-react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { baseUrl } from '../../config/Baseurl'
 
 const Verifyotp = () => {
    const [loading, setLoading]=useState(false)
    const [error, setError]=useState('')
    const [resend, setResend]=useState(false)
 
-   const url =import.meta.env.VITE_SERVER_URL
+   const { url }=baseUrl()
+
+  //  const url =import.meta.env.VITE_SERVER_URL
 
    const navigate= useNavigate()
     const inputRef = useRef([])
@@ -26,7 +29,7 @@ const Verifyotp = () => {
     setError('')
     
     try {
-      const response = await axios.post(`https://legaleaseafrica.org/__api__/api/auth/verify-otp`, 
+      const response = await axios.post(`${url}/api/auth/verify-otp`, 
         {
          email: emailData,
          otp: otpString
@@ -74,7 +77,7 @@ const Verifyotp = () => {
 
     setResend(true)
     try {
-      const response=await axios.post(`https://legaleaseafrica.org/__api__/api/auth/send-otp`, 
+      const response=await axios.post(`${url}/api/auth/send-otp`, 
         {
          email: emailData,
         }

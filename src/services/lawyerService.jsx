@@ -1,6 +1,11 @@
+import { baseUrl } from "../config/Baseurl";
+
+const { url } = baseUrl();
+const BASE_URL = url;
 
 export const getLawyers = async () => {
   let token = localStorage.getItem("token");
+
 
   if (!token || token === "undefined" || token === "null") {
     const pendingUser = localStorage.getItem("pendingUser");
@@ -15,7 +20,7 @@ export const getLawyers = async () => {
   }
 
   try {
-    const response = await fetch("https://legaleaseafrica.org/__api__/api/lawyers", {
+    const response = await fetch(`${BASE_URL}/api/lawyers`, {
       method: "GET",
       headers: {
         // Send the extracted token cleanly
@@ -38,7 +43,6 @@ export const getLawyers = async () => {
 };
 
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const authHeaders = () => ({
   "Content-Type": "application/json",
@@ -51,7 +55,7 @@ const getLawyerId = () =>
 export const getLawyerDashboardSummary = async () => {
   const lawyerId = getLawyerId();
   const res = await fetch(
-    `https://legaleaseafrica.org/__api__/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
+    `${BASE_URL}/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
     { headers: authHeaders() }
   );
   if (!res.ok) throw new Error("Failed to fetch dashboard summary");
@@ -69,7 +73,7 @@ export const getLawyerDashboardSummary = async () => {
 // };
 export const getAllBookings = async () => {
   const lawyerId = getLawyerId();
-  const res = await fetch(`https://legaleaseafrica.org/__api__/api/bookings/lawyer?lawyer_id`, {
+  const res = await fetch(`${BASE_URL}/api/bookings/lawyer?lawyer_id`, {
     headers: authHeaders(),
   });
   if (!res.ok) throw new Error("Failed to fetch bookings");
@@ -80,7 +84,7 @@ export const getAllBookings = async () => {
 export const getLawyerProfile = async () => {
   const lawyerId = getLawyerId();
   const res = await fetch(
-    `https://legaleaseafrica.org/__api__/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
+    `${BASE_URL}/api/lawyer-dashboard/summary?lawyer_id=${lawyerId}`,
     { headers: authHeaders() }
   );
   if (!res.ok) throw new Error("Failed to fetch profile");
@@ -89,7 +93,7 @@ export const getLawyerProfile = async () => {
 };
 
 export const updateLawyerProfile = async (data) => {
-  const res = await fetch(`https://legaleaseafrica.org/__api__/api/lawyer-profile/update`, {
+  const res = await fetch(`${BASE_URL}/api/lawyer-profile/update`, {
     method: "PUT",
     headers: authHeaders(),
     body: JSON.stringify({ lawyer_id: getLawyerId(), ...data }),
@@ -102,7 +106,7 @@ export const updateLawyerProfile = async (data) => {
 
 export const getLawyerByIdDirect = async (lawyerId) => {
   try {
-    const res = await fetch(`https://legaleaseafrica.org/__api__/api/api/lawyer?id=${lawyerId}`, {
+    const res = await fetch(`${BASE_URL}/api/api/lawyer?id=${lawyerId}`, {
       headers: authHeaders(),
     });
     

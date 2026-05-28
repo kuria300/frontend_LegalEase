@@ -5,10 +5,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ClientSidebar from "../../components/layout/client/ClientSidebar.jsx";
 import { useAuth } from "../../hooks/useAuth";
+import { baseUrl } from "../../config/Baseurl.js";
 
 function authHeader() {
   return { Authorization: `Bearer ${localStorage.getItem("token")}` };
 }
+
+  const {url}=baseUrl()
 
 //Skeleton
 function ProfileSkeleton() {
@@ -62,6 +65,8 @@ function EditProfileModal({ isOpen, onClose, currentClient, onSave }) {
   });
   const [saving, setSaving] = useState(false);
 
+
+
   useEffect(() => {
     if (currentClient) {
       setForm({
@@ -89,7 +94,7 @@ function EditProfileModal({ isOpen, onClose, currentClient, onSave }) {
     setSaving(true);
     try {
       const res = await axios.put(
-        '/api/user/update',
+        `${url}/api/user/update`,
         {
           first_name:  form.first_name,
           second_name: form.second_name,
@@ -240,7 +245,7 @@ const ClientProfile = () => {
         setLoading(true);
 
         if (!user?.id) throw new Error("Not authenticated");
-        const res = await axios.get('/api/user/get', {
+        const res = await axios.get(`${url}/api/user/get`, {
           headers: authHeader(),
         });
 
@@ -272,7 +277,7 @@ const ClientProfile = () => {
   const handleDeleteAccount = async () => {
     setDeleting(true);
     try {
-      await axios.delete('/api/user/delete', {
+      await axios.delete(`${url}/api/user/delete`, {
         headers: authHeader(),
       });
 
