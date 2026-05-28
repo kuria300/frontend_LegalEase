@@ -6,6 +6,7 @@ import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { baseUrl } from '../../config/Baseurl'
 
 const Emailotp = () => {
     const [email, setEmail] = useState('')
@@ -18,7 +19,9 @@ const Emailotp = () => {
     const [submittingReset, setSubmittingReset] = useState(false)
     const [codeSent, setCodeSent] = useState(false)
 
-    const url = import.meta.env.VITE_SERVER_URL
+    const {url}=baseUrl()
+
+    // const url = import.meta.env.VITE_SERVER_URL
     const navigate = useNavigate()
 
     const validateEmail = (emailStr) => {
@@ -41,7 +44,7 @@ const Emailotp = () => {
 
         try {
             // when if (email && !otp && !newPassword)
-            const response = await axios.post(`https://legaleaseafrica.org/__api__/api/auth/forgot-password`, { email })
+            const response = await axios.post(`${url}/api/auth/forgot-password`, { email })
             //help track if we are resending code or sending for first time
             setCodeSent(true)
             toast.success(response.data.message || 'OTP code sent! Please check your email.')
@@ -71,7 +74,7 @@ const Emailotp = () => {
 
         try {
             // Hits backend block: if (email && otp && newPassword)
-            const response = await axios.post(`https://legaleaseafrica.org/__api__/api/auth/forgot-password`, {
+            const response = await axios.post(`${url}/api/auth/forgot-password`, {
                 email: email.trim(),
                 otp: otp.trim(),
                 newPassword,

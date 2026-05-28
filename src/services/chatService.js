@@ -1,4 +1,7 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+import { baseUrl } from "../config/Baseurl";
+
+const { url }=baseUrl()
+const API_BASE_URL = url
 
 class ChatService {
   async sendMessage(message, category, subcategory, file = null) {
@@ -35,7 +38,7 @@ class ChatService {
     }
 
     // Use public endpoint if no token, authenticated endpoint if token exists
-    const endpoint = !token ? `https://legaleaseafrica.org/__api__/api/chat/message/public` : `https://legaleaseafrica.org/__api__/api/chat/message`;
+    const endpoint = !token ? `${API_BASE_URL}/api/chat/message/public` : `${API_BASE_URL}/api/chat/message`;
     
     const headers = {
       'Content-Type': 'application/json',
@@ -79,7 +82,7 @@ class ChatService {
     const formData = new FormData();
     formData.append('document', file);
 
-    const response = await fetch(`https://legaleaseafrica.org/__api__/api/chat/upload-document`, {
+    const response = await fetch(`${API_BASE_URL}/api/chat/upload-document`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}` },
       body: formData,
@@ -106,7 +109,7 @@ class ChatService {
   async getChatHistory(userId) {
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`https://legaleaseafrica.org/__api__/api/chat/history/${userId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/chat/history/${userId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

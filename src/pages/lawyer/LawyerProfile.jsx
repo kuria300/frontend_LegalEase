@@ -13,6 +13,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import LawyerSidebar from "../../components/layout/lawyers/LawyerSidebar.jsx";
 import { useAuth } from "../../hooks/useAuth";
+import { baseUrl } from "../../config/Baseurl.js";
 
 function authHeader() {
   return { Authorization: `Bearer ${localStorage.getItem("token")}` };
@@ -81,6 +82,7 @@ function EditProfileModal({ isOpen, onClose, currentProfile, profileId, onUpdate
     consultation_fee: "",
   });
   const [saving, setSaving] = useState(false);
+  const {url}=baseUrl()
 
   // Sync form when modal opens
   useEffect(() => {
@@ -110,7 +112,7 @@ function EditProfileModal({ isOpen, onClose, currentProfile, profileId, onUpdate
     setSaving(true);
     try {
       const res = await axios.patch(
-        `/api/lawyerProfile/${profileId}`,
+        `${url}/api/lawyerProfile/${profileId}`,
         {
           category:         form.category,
           phone_number:     form.phone_number,
@@ -232,7 +234,7 @@ export default function LawyerProfile() {
 
         if (!user?.id) throw new Error("User not authenticated");
 
-        const res = await axios.get(`https://legaleaseafrica.org/__api__/api/lawyers/fetch/profile`, {
+        const res = await axios.get(`${url}/api/lawyers/fetch/profile`, {
           headers: authHeader(),
         });
 

@@ -130,7 +130,7 @@ export function Step2({ form }) {
         </Select>
       </Field>
 
-      <Field label="Consultation Fee (KES/hr)" required error={errors.consultation_fee?.message}>
+      <Field label="Consultation Fee (KES/30min)" required error={errors.consultation_fee?.message}>
         <div className="relative">
           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm font-semibold pointer-events-none">
             KSh

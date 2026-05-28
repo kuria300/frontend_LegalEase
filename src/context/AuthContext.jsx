@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from '../config/Baseurl';
 
 export const AuthContext = createContext(null)
 const AuthProvider = ({children}) => {
@@ -11,8 +12,10 @@ const AuthProvider = ({children}) => {
     const [processed, setProcessed]=useState(false)
     const [loading, setLoading]=useState(false)
 
+    const { url }=baseUrl()
+
     const navigate=useNavigate()
-    const url=import.meta.env.VITE_SERVER_URL
+    // const url=import.meta.env.VITE_SERVER_URL
    // populate user afyter refresh and check if he's logged in
    useEffect(()=>{
     const checkAuth= async()=>{
@@ -25,7 +28,7 @@ const AuthProvider = ({children}) => {
           setLoading(false)
           return
         }
-        const response= await axios.get('https://legaleaseafrica.org/__api__/api/auth/session/me',
+        const response= await axios.get(`${url}/api/auth/session/me`,
           {
             headers:{
               Authorization: `Bearer ${token}`
@@ -56,7 +59,7 @@ const AuthProvider = ({children}) => {
 
     const Login= async(email, password)=>{
     try{
-     const response= await axios.post('https://legaleaseafrica.org/__api__/api/auth/login',
+     const response= await axios.post(`${url}/api/auth/login`,
         {
           email,
          password
@@ -89,7 +92,7 @@ const AuthProvider = ({children}) => {
 
         const token = localStorage.getItem("token");
         const data=await axios.post(
-            'https://legaleaseafrica.org/__api__/api/auth/logout',
+            `${url}/api/auth/logout`,
              {},
             {
                 headers: {

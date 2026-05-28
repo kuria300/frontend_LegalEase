@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Home, User, LogOut, X } from "lucide-react"
 import Legalease from '../../assets/images/Legalease.png'
 import { useAuth} from'../../hooks/useAuth'
+import { baseUrl } from "../../config/Baseurl"
 
 export default function AdminDashboard() {
   const navigate = useNavigate()
@@ -28,6 +29,8 @@ export default function AdminDashboard() {
   const [addAdminError, setAddAdminError] = useState(null)
   const [addAdminResult, setAddAdminResult] = useState(null)
 
+  const { url }=baseUrl()
+
   const { Logout }= useAuth()
 
   // PAGINATION STATE
@@ -45,7 +48,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await fetch("https://legaleaseafrica.org/__api__/api/admin/applications", 
+        const res = await fetch(`${url}/api/admin/applications`, 
           {
             headers:{
               Authorization: `${localStorage.getItem('token')}`
@@ -70,7 +73,7 @@ export default function AdminDashboard() {
       const fetchUsers = async () => {
         setIsUsersLoading(true)
         try {
-          const res = await fetch("https://legaleaseafrica.org/__api__/api/admin/users",
+          const res = await fetch(`${url}/api/admin/users`,
              {
             headers:{
               Authorization: `${localStorage.getItem('token')}`
@@ -93,7 +96,7 @@ export default function AdminDashboard() {
   // GET APPLICATION BY ID
   const handleViewApplication = async (appId) => {
     try {
-      const res = await fetch(`https://legaleaseafrica.org/__api__/api/admin/applications/${appId}`,
+      const res = await fetch(`${url}/api/admin/applications/${appId}`,
         {
             headers:{
               Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -114,7 +117,7 @@ export default function AdminDashboard() {
     if (!window.confirm("Are you sure you want to verify this lawyer?")) return
     setIsProcessing(appId)
     try {
-      const res = await fetch(`/api/admin/applications/${appId}/approve`, {
+      const res = await fetch(`${url}/api/admin/applications/${appId}/approve`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -140,7 +143,7 @@ export default function AdminDashboard() {
   setIsProcessing(appId + "-reject")
 
   try {
-    const res = await fetch(`https://legaleaseafrica.org/__api__/api/admin/applications/${appId}/reject`, {
+    const res = await fetch(`${url}/api/admin/applications/${appId}/reject`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -165,7 +168,7 @@ export default function AdminDashboard() {
     if (!window.confirm("Are you sure you want to suspend this lawyer? They will be removed from the public directory.")) return
     setIsProcessing(appId)
     try {
-      const res = await fetch(`https://legaleaseafrica.org/__api__/api/admin/applications/${appId}/revoke`, {
+      const res = await fetch(`${url}/api/admin/applications/${appId}/revoke`, {
         method: "PATCH", 
         headers: { 
           "Content-Type": "application/json",
@@ -192,7 +195,7 @@ export default function AdminDashboard() {
     setAddAdminError(null)
     setAddAdminResult(null)
     try {
-      const res = await fetch("https://legaleaseafrica.org/__api__/api/admin/create-admin", {
+      const res = await fetch(`${url}/api/admin/create-admin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

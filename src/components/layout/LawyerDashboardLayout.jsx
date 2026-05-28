@@ -25,9 +25,7 @@ export default function LawyerDashboardLayout() {
     const fetchUserBlock = async () => {
       try {
         setLoading(true);
-        const lawyerId =
-          localStorage.getItem("legalease_lawyer_id") ||
-          "e4d02eba-f313-421a-85b0-1ed07298ef9c";
+        const lawyerId =localStorage.getItem("legalease_lawyer_id") || "e4d02eba-f313-421a-85b0-1ed07298ef9c";
         const data = await getLawyerDashboardSummary(lawyerId);
         setUser(data.lawyer_profile);
       } catch (err) {

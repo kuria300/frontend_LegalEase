@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { STEPS, STEP_FIELDS } from "./Constants"
 import { Step1, Step2, Step3 } from "../../components/steps/Steps"
 import StepIndicator from "../../components/steps/StepIndicator"
+import { baseUrl } from "../../config/Baseurl"
 
 export default function RegisterPage() {
   const navigate = useNavigate()
@@ -15,7 +16,9 @@ export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [apiError, setApiError] = useState(null)
 
-  const url=import.meta.env.VITE_SERVER_URL
+  const {url}=baseUrl()
+
+  // const url=import.meta.env.VITE_SERVER_URL
 
   const next = async () => {
     const isValid = await form.trigger(STEP_FIELDS[step])
@@ -43,7 +46,7 @@ export default function RegisterPage() {
         // Extract the explicit raw File instance at index 0
         picData.append("document", data.profilePhoto[0])
         
-        const picRes = await fetch("https://legaleaseafrica.org/__api__/api/documents/upload-file", { method: "POST", body: picData })
+        const picRes = await fetch(`${url}/api/documents/upload-file`, { method: "POST", body: picData })
         
         // Intercept network failures before parsing JSON to avoid JSON parse crashes
         if (!picRes.ok) {
@@ -59,7 +62,7 @@ export default function RegisterPage() {
       // upload certificate
       const certData = new FormData()
       certData.append("document", files.certificate)
-      const certRes = await fetch("https://legaleaseafrica.org/__api__/api/documents/upload-file", { method: "POST", body: certData })
+      const certRes = await fetch(`${url}/api/documents/upload-file`, { method: "POST", body: certData })
       const certResult = await certRes.json()
       if (!certRes.ok) throw new Error("Failed to upload certificate")
 
@@ -76,7 +79,7 @@ export default function RegisterPage() {
           console.log(phone_number) 
   
       // submit application
-      const appRes = await fetch("https://legaleaseafrica.org/__api__/api/lawyer", {
+      const appRes = await fetch(`${url}/api/lawyer`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

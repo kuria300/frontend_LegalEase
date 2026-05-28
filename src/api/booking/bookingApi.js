@@ -1,8 +1,12 @@
 import axios from "axios";
+import { baseUrl } from "../../config/Baseurl";
+
+
+const { url } = baseUrl()
 
 // create axios instance
 const api = axios.create({
-    baseURL: 'https://legaleaseafrica.org/__api__'
+    baseURL: url
 });
 
 // attach JWT token to every request

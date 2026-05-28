@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import ClientReschedule from './ClientReschedule';
 import { formatTime } from '../../utils/formatTime';
+import { baseUrl } from '../../config/Baseurl';
+import { toast } from 'react-toastify'; 
 
 const STATUS_BADGE = {
   CONFIRMED: "bg-green-100 text-green-700",
@@ -16,7 +18,6 @@ function getInitials(first, second) {
   return `${first?.[0] || ""}${second?.[0] || ""}`.toUpperCase();
 }
 
-//View Details Modal
 function AppointmentDetailsModal({ appt, onClose }) {
   if (!appt) return null;
   const client = appt.users_bookings_lawyer_idTousers;
@@ -24,14 +25,10 @@ function AppointmentDetailsModal({ appt, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 p-6 flex flex-col gap-4">
-
-        {/* Header */}
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-gray-900">Consultation Details</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl font-bold">✕</button>
         </div>
-
-        {/* Avatar + Name */}
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-semibold text-sm flex-shrink-0">
             {getInitials(client?.first_name, client?.second_name)}
@@ -41,10 +38,7 @@ function AppointmentDetailsModal({ appt, onClose }) {
             <p className="text-xs text-gray-500">{client?.email}</p>
           </div>
         </div>
-
         <hr />
-
-        {/* Details */}
         <div className="flex flex-col gap-3 text-sm text-gray-700">
           <div className="flex justify-between">
             <span className="text-gray-500">Meeting Type</span>
@@ -75,13 +69,11 @@ function AppointmentDetailsModal({ appt, onClose }) {
             </div>
           )}
         </div>
-
         <button
           onClick={onClose}
           className="mt-2 w-full py-2 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-gray-700 transition">
           Close
         </button>
-
       </div>
     </div>
   );
@@ -110,14 +102,11 @@ function AppointmentCard({ appt, tab, onReschedule, onViewDetails }) {
           {appt.booking_status}
         </span>
       </div>
-
       <div className="flex items-center gap-4 text-xs text-gray-500">
         <span>{new Date(appt.booking_date).toLocaleDateString()}</span>
-       <span>{formatTime(appt.booking_time)}</span>
+        <span>{formatTime(appt.booking_time)}</span>
       </div>
-
       <hr className="border-on-surface-variant/10" />
-
       <div className="flex gap-2">
         {tab === "upcoming" ? (
           <button
@@ -127,7 +116,7 @@ function AppointmentCard({ appt, tab, onReschedule, onViewDetails }) {
           </button>
         ) : (
           <button
-            onClick={() => onViewDetails(appt)} 
+            onClick={() => onViewDetails(appt)}
             className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50">
             View Details
           </button>
@@ -145,15 +134,17 @@ const ClientConsult = () => {
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
-  const [detailsModalOpen, setDetailsModalOpen] = useState(false); 
-  const [selectedDetails, setSelectedDetails] = useState(null);      
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [selectedDetails, setSelectedDetails] = useState(null);
   const [error, setError] = useState(null);
+
+  const { url } = baseUrl();
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("https://legaleaseafrica.org/__api__/api/bookings/user", {
+        const response = await axios.get(`${url}/api/bookings/user`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setAppointments(response.data.data || []);
@@ -183,7 +174,6 @@ const ClientConsult = () => {
     setModalOpen(true);
   };
 
-
   const handleOpenDetails = (appt) => {
     setSelectedDetails(appt);
     setDetailsModalOpen(true);
@@ -192,19 +182,17 @@ const ClientConsult = () => {
   const handleBookingUpdate = async (updatedData) => {
     try {
       await axios.put(
-        `https://legaleaseafrica.org/__api__/api/bookings/user/reschedule/${selectedBooking.id}`,
+        `${url}/api/bookings/user/reschedule/${selectedBooking.id}`,
         { new_booking_date: updatedData.bookingDate, new_booking_time: updatedData.bookingTime },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
-
-      setAppointments((prev) => 
+      setAppointments((prev) =>
         prev.map((b) =>
           b.id === selectedBooking.id
             ? { ...b, booking_date: updatedData.bookingDate, booking_time: updatedData.bookingTime }
             : b
         )
       );
-
       toast.success('Booking rescheduled successfully!');
       setModalOpen(false);
     } catch (err) {
@@ -226,14 +214,12 @@ const ClientConsult = () => {
       <ClientSidebar />
       <main className="md:ml-[264px] w-full flex-1 min-h-screen">
         <section className="max-w-7xl mx-auto py-8 px-6 flex flex-col gap-6">
-
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Consultations</h1>
             <p className="text-[20px] text-on-surface-variant mt-1">
               Manage your upcoming and past client consultations.
             </p>
           </div>
-
           <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
             {["upcoming", "past"].map((tab) => (
               <button
@@ -247,9 +233,7 @@ const ClientConsult = () => {
               </button>
             ))}
           </div>
-
           {error && <p className="text-red-500 text-sm py-12 text-center">{error}</p>}
-
           {!loading && !error && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {filtered.length > 0 ? (
@@ -259,7 +243,7 @@ const ClientConsult = () => {
                     appt={appt}
                     tab={activeTab}
                     onReschedule={handleOpenReschedule}
-                    onViewDetails={handleOpenDetails} 
+                    onViewDetails={handleOpenDetails}
                   />
                 ))
               ) : (
@@ -269,20 +253,16 @@ const ClientConsult = () => {
               )}
             </div>
           )}
-
           <ClientReschedule
             isOpen={modalOpen}
             onClose={() => setModalOpen(false)}
             currentBooking={selectedBooking}
             onUpdate={handleBookingUpdate}
           />
-
-          {/* View Details Modal */}
           <AppointmentDetailsModal
             appt={selectedDetails}
             onClose={() => { setDetailsModalOpen(false); setSelectedDetails(null); }}
           />
-
         </section>
       </main>
     </div>
