@@ -12,7 +12,7 @@ import {
 import LawyerSidebar from "../../components/layout/lawyers/LawyerSidebar.jsx";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
-import { formatTime } from "../../utils/displayTime.js";
+
 import Legalease from "../../assets/images/Legalease.png";
 import { toast } from "react-toastify";
 import { baseUrl } from "../../config/Baseurl.js";
@@ -457,7 +457,7 @@ export default function LawyerHomepage() {
                               <Clock size={12} className="text-[#3b5bdb]" />
                               <span>
                                 {formatDate(booking.booking_date)} at{" "}
-                                {formatTime(booking.booking_time)}
+                                {booking.booking_time}
                               </span>
                             </div>
                           </div>
@@ -470,12 +470,12 @@ export default function LawyerHomepage() {
                           >
                             {booking.booking_status}
                           </span>
-                          <button
+                          {/* <button
                             onClick={() => handleOpenReschedule(booking)}
                             className="text-xs border border-outline px-3 py-1.5 rounded-full font-medium hover:bg-surface-variant/20 transition-colors"
                           >
                             Reschedule
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     );

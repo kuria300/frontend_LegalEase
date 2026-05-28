@@ -19,6 +19,8 @@ function authHeader() {
   return { Authorization: `Bearer ${localStorage.getItem("token")}` };
 }
 
+  const {url}=baseUrl()
+
 //Skeleton
 
 function ProfileSkeleton() {
@@ -82,7 +84,7 @@ function EditProfileModal({ isOpen, onClose, currentProfile, profileId, onUpdate
     consultation_fee: "",
   });
   const [saving, setSaving] = useState(false);
-  const {url}=baseUrl()
+
 
   // Sync form when modal opens
   useEffect(() => {
