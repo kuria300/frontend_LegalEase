@@ -168,8 +168,8 @@ const ClientConsult = () => {
   const [error, setError] = useState(null);
   const [reschedulingId, setReschedulingId] = useState(null);
 
-    const [page]  = useState(1);
-    const [limit] = useState(20);
+    // const [page]  = useState(1);
+    // const [limit] = useState(20);
 
   const { url } = baseUrl();
 
@@ -179,7 +179,7 @@ const ClientConsult = () => {
         setLoading(true);
         const response = await axios.get(`${url}/api/bookings/user`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          params: { page, limit },
+   
         });
         setAppointments(response.data.data || []);
         setError(null);
