@@ -67,7 +67,7 @@ const ClientDashboard = () => {
   const [reschedulingId, setReschedulingId]               = useState(null);
 
   const [page]  = useState(1);
-  const [limit] = useState(20);
+  const [limit] = useState(100);
 
   const [sessionUser, setSessionUser] = useState(null);
 
