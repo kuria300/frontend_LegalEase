@@ -8,6 +8,7 @@ import {
   Calendar,
   ChevronRight,
   X,
+  CheckCircle,
 } from "lucide-react";
 import LawyerSidebar from "../../components/layout/lawyers/LawyerSidebar.jsx";
 import { useAuth } from "../../hooks/useAuth";
@@ -66,7 +67,6 @@ function LawyerReschedule({ isOpen, onClose, currentBooking, onUpdate }) {
 
   if (!isOpen || !currentBooking) return null;
 
-  //(no past dates)
   const todayStr = new Date().toISOString().split("T")[0];
 
   const handleSubmit = async () => {
@@ -82,7 +82,6 @@ function LawyerReschedule({ isOpen, onClose, currentBooking, onUpdate }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
-        {/* Close */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
@@ -95,11 +94,8 @@ function LawyerReschedule({ isOpen, onClose, currentBooking, onUpdate }) {
           Select a new date and time for this consultation.
         </p>
 
-        {/* Date */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-on-surface mb-1.5">
-            New Date
-          </label>
+          <label className="block text-sm font-medium text-on-surface mb-1.5">New Date</label>
           <input
             type="date"
             min={todayStr}
@@ -109,11 +105,8 @@ function LawyerReschedule({ isOpen, onClose, currentBooking, onUpdate }) {
           />
         </div>
 
-        {/* Time */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-on-surface mb-1.5">
-            New Time
-          </label>
+          <label className="block text-sm font-medium text-on-surface mb-1.5">New Time</label>
           <select
             value={bookingTime}
             onChange={(e) => setBookingTime(e.target.value)}
@@ -126,7 +119,6 @@ function LawyerReschedule({ isOpen, onClose, currentBooking, onUpdate }) {
           </select>
         </div>
 
-        {/* Actions */}
         <div className="flex gap-3">
           <button
             onClick={onClose}
@@ -156,15 +148,15 @@ export default function LawyerHomepage() {
   const [allBookings, setAllBookings] = useState([]);
   const [dashboardLoading, setDashboardLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [completingId, setCompletingId] = useState(null);
 
-  // Reschedule modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
 
   const [page] = useState(1);
   const [limit] = useState(50);
 
-  const { url }=baseUrl()
+  const { url } = baseUrl();
 
   useEffect(() => {
     if (authLoading) return;
@@ -194,7 +186,6 @@ export default function LawyerHomepage() {
     fetchBookings();
   }, [authLoading, page, limit]);
 
-  // Start of today (midnight) for date comparisons
   const todayMidnight = new Date();
   todayMidnight.setHours(0, 0, 0, 0);
 
@@ -209,15 +200,12 @@ export default function LawyerHomepage() {
     .sort((a, b) => new Date(a.booking_date) - new Date(b.booking_date));
 
   const confirmedPaidBookings = allBookings.filter(
-    (b) =>
-      b.booking_status === "CONFIRMED" &&
-      b.payment_status === "PAID"
+    (b) => b.booking_status === "CONFIRMED" && b.payment_status === "PAID"
   );
 
   const earnings = confirmedPaidBookings.reduce((sum, b) => {
     return sum + Number(b.payments?.amount || 0);
   }, 0);
-
 
   const recentClients = (() => {
     const seen = new Set();
@@ -236,8 +224,6 @@ export default function LawyerHomepage() {
     activeConsults: allBookings.filter((b) => b.booking_status === "CONFIRMED").length,
     earnings,
   };
-
-  //Helper functions
 
   const formatDate = (date) =>
     new Date(date).toLocaleDateString("en-KE", {
@@ -290,15 +276,10 @@ export default function LawyerHomepage() {
         }
       );
 
-      //update local state
       setAllBookings((prev) =>
         prev.map((b) =>
           b.id === selectedBooking.id
-            ? {
-                ...b,
-                booking_date: updatedData.bookingDate,
-                booking_time: updatedData.bookingTime,
-              }
+            ? { ...b, booking_date: updatedData.bookingDate, booking_time: updatedData.bookingTime }
             : b
         )
       );
@@ -307,13 +288,40 @@ export default function LawyerHomepage() {
       setModalOpen(false);
     } catch (err) {
       console.error("Failed to reschedule:", err);
-      toast.error(
-        err.response?.data?.error || "Failed to reschedule. Please try again."
-      );
+      toast.error(err.response?.data?.error || "Failed to reschedule. Please try again.");
     }
   };
 
-  //Loading
+  // Mark booking as completed
+  const handleMarkComplete = async (bookingId) => {
+    try {
+      setCompletingId(bookingId);
+
+      await axios.patch(
+        `${url}/api/bookings/${bookingId}/complete`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Update local state — move it out of upcoming
+      setAllBookings((prev) =>
+        prev.map((b) =>
+          b.id === bookingId ? { ...b, booking_status: "COMPLETED" } : b
+        )
+      );
+
+      toast.success("Booking marked as completed!");
+    } catch (err) {
+      console.error("Failed to complete booking:", err);
+      toast.error(err.response?.data?.error || "Failed to mark as completed.");
+    } finally {
+      setCompletingId(null);
+    }
+  };
 
   if (authLoading || dashboardLoading) {
     return (
@@ -331,8 +339,7 @@ export default function LawyerHomepage() {
   }
 
   const advocateName = user
-    ? `${user.first_name || ""} ${user.second_name || ""}`.trim() ||
-      "Advocate"
+    ? `${user.first_name || ""} ${user.second_name || ""}`.trim() || "Advocate"
     : "Advocate";
 
   return (
@@ -435,6 +442,10 @@ export default function LawyerHomepage() {
                     const statusStyle =
                       bookingStatusColors[booking.booking_status] ||
                       "bg-gray-100 text-gray-600 border-gray-200";
+                    const isConfirmedPaid =
+                      booking.booking_status === "CONFIRMED" &&
+                      booking.payment_status === "PAID";
+                    const isCompleting = completingId === booking.id;
 
                     return (
                       <div
@@ -456,8 +467,7 @@ export default function LawyerHomepage() {
                             <div className="flex items-center gap-1 mt-1 text-[11px] font-medium text-[#667085]">
                               <Clock size={12} className="text-[#3b5bdb]" />
                               <span>
-                                {formatDate(booking.booking_date)} at{" "}
-                                {booking.booking_time}
+                                {formatDate(booking.booking_date)} at {booking.booking_time}
                               </span>
                             </div>
                           </div>
@@ -465,17 +475,30 @@ export default function LawyerHomepage() {
 
                         {/* Right */}
                         <div className="flex flex-col items-end gap-2 shrink-0">
-                          <span
-                            className={`text-[10px] font-bold uppercase tracking-wider border px-2 py-0.5 rounded-full ${statusStyle}`}
-                          >
+                          <span className={`text-[10px] font-bold uppercase tracking-wider border px-2 py-0.5 rounded-full ${statusStyle}`}>
                             {booking.booking_status}
                           </span>
-                          {/* <button
-                            onClick={() => handleOpenReschedule(booking)}
-                            className="text-xs border border-outline px-3 py-1.5 rounded-full font-medium hover:bg-surface-variant/20 transition-colors"
-                          >
-                            Reschedule
-                          </button> */}
+
+                          {/* Mark Complete button — only for CONFIRMED + PAID */}
+                          {isConfirmedPaid && (
+                            <button
+                              onClick={() => handleMarkComplete(booking.id)}
+                              disabled={isCompleting}
+                              className="flex items-center gap-1.5 text-xs border border-emerald-200 text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full font-medium hover:bg-emerald-100 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                            >
+                              {isCompleting ? (
+                                <>
+                                  <span className="w-3 h-3 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
+                                  Completing...
+                                </>
+                              ) : (
+                                <>
+                                  <CheckCircle size={12} />
+                                  Mark Complete
+                                </>
+                              )}
+                            </button>
+                          )}
                         </div>
                       </div>
                     );
